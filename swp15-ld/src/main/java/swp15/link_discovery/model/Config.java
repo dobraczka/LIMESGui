@@ -12,6 +12,7 @@ import de.uni_leipzig.simba.cache.HybridCache;
 import de.uni_leipzig.simba.data.Mapping;
 import de.uni_leipzig.simba.filter.LinearFilter;
 import de.uni_leipzig.simba.io.ConfigReader;
+import de.uni_leipzig.simba.io.KBInfo;
 import de.uni_leipzig.simba.mapper.SetConstraintsMapper;
 import de.uni_leipzig.simba.mapper.SetConstraintsMapperFactory;
 
@@ -64,4 +65,11 @@ public class Config {
 		});
 		return results;
 	}
+	public KBInfo getSourceInfo(){
+		return reader.sourceInfo;
+	}
+	public KBInfo getTargetInfo(){
+		return reader.targetInfo;
+	}
+	
 }

@@ -7,13 +7,18 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import swp15.link_discovery.controller.ResultController;
 import swp15.link_discovery.model.Result;
+import de.uni_leipzig.simba.io.KBInfo;
 
 public class ResultView {
 	private TableView<Result> table;
+	private ResultController controller;
+
 
 	public ResultView() {
 		createWindow();
+		this.controller = new ResultController(this);
 	}
 
 	private void createWindow() {
@@ -45,5 +50,9 @@ public class ResultView {
 
 	public void showResults(ObservableList<Result> results) {
 		table.setItems(results);
+	}
+	public void showResults(ObservableList<Result> results, KBInfo sourceInfo, KBInfo targetInfo) {
+		table.setItems(results);
+		this.controller.setSourceAndTargetInfo(sourceInfo, targetInfo);
 	}
 }
