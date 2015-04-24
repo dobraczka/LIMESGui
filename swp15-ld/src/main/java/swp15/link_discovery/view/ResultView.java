@@ -39,6 +39,9 @@ public class ResultView {
 				"value");
 		columnValue.setCellValueFactory(new PropertyValueFactory<>("value"));
 		table.getColumns().add(columnValue);
+		table.setOnMouseClicked(e ->{
+			controller.showProperties(table.getSelectionModel().getSelectedItem());
+		});
 		root.setCenter(table);
 
 		Scene scene = new Scene(root, 800, 600);
