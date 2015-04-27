@@ -68,7 +68,6 @@ public class MainController {
 			return;
 		}
 		ObservableList<Result> results = currentConfig.doMapping();
-		//resultView.showResults(results);
-		resultView.showResults(results, currentConfig.getSourceInfo(), currentConfig.getTargetInfo());
+		resultView.showResults(results, currentConfig);
 	}
 }

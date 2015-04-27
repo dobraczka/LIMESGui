@@ -8,8 +8,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import swp15.link_discovery.controller.ResultController;
+import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.Result;
-import de.uni_leipzig.simba.io.KBInfo;
 
 public class ResultView {
 	private TableView<Result> table;
@@ -54,8 +54,9 @@ public class ResultView {
 	public void showResults(ObservableList<Result> results) {
 		table.setItems(results);
 	}
-	public void showResults(ObservableList<Result> results, KBInfo sourceInfo, KBInfo targetInfo) {
+	public void showResults(ObservableList<Result> results,Config currentConfig) {
 		table.setItems(results);
-		this.controller.setSourceAndTargetInfo(sourceInfo, targetInfo);
+		//this.controller.setSourceAndTargetInfo(sourceInfo, targetInfo);
+		this.controller.setCurrentConfig(currentConfig);
 	}
 }

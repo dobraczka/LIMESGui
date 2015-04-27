@@ -18,7 +18,9 @@ import de.uni_leipzig.simba.mapper.SetConstraintsMapperFactory;
 
 public class Config {
 	private ConfigReader reader;
-
+	private Cache sourceCache;
+	private Cache targetCache;
+	
 	private Config(ConfigReader reader) {
 		this.reader = reader;
 	}
@@ -45,11 +47,11 @@ public class Config {
 
 	public ObservableList<Result> doMapping() {
 		// Kopiert aus LIMES und angepasst
-		Cache source = HybridCache.getData(reader.getSourceInfo());
-		Cache target = HybridCache.getData(reader.getTargetInfo());
+		sourceCache= HybridCache.getData(reader.getSourceInfo());
+		targetCache = HybridCache.getData(reader.getTargetInfo());
 		SetConstraintsMapper mapper = SetConstraintsMapperFactory.getMapper(
 				reader.executionPlan, reader.sourceInfo, reader.targetInfo,
-				source, target, new LinearFilter(), reader.granularity);
+				sourceCache, targetCache, new LinearFilter(), reader.granularity);
 		Mapping mapping = mapper.getLinks(reader.metricExpression,
 				reader.verificationThreshold);
 		// get Writer ready
@@ -71,5 +73,10 @@ public class Config {
 	public KBInfo getTargetInfo(){
 		return reader.targetInfo;
 	}
-	
+	public Cache getTargetCache(){
+		return targetCache;
+	}
+	public Cache getSourceCache(){
+		return sourceCache;
+	}
 }
