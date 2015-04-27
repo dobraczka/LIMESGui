@@ -1,16 +1,15 @@
 package swp15.link_discovery.controller;
 
-import java.util.Iterator;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import swp15.link_discovery.model.Config;
+import swp15.link_discovery.model.InstanceProperty;
 import swp15.link_discovery.model.Result;
 import swp15.link_discovery.view.ResultView;
-import de.uni_leipzig.simba.io.KBInfo;
+import de.uni_leipzig.simba.data.Instance;
 
 public class ResultController {
 	private ResultView view;
-	private KBInfo sourceInfo;
-	private KBInfo targetInfo;
 	private Config currentConfig;
 	
 	public ResultController(ResultView view){
@@ -19,23 +18,38 @@ public class ResultController {
 	public void setCurrentConfig(Config c){
 		
 		this.currentConfig = c;
-		this.sourceInfo = c.getSourceInfo();
-		this.targetInfo = c.getTargetInfo();
 		
 	}
 	
-	public void setSourceAndTargetInfo( KBInfo sourceInfo, KBInfo targetInfo){
-		this.sourceInfo = sourceInfo;
-		this.targetInfo = targetInfo;
-	}
+
 	public void showProperties(Result item){
 		String sourceURI = item.getSourceURI();
 		String targetURI = item.getTargetURI();
-		Iterator<String> s = sourceInfo.properties.iterator();
-		while(s.hasNext()){
-			System.out.println(s.next());
-			
+		ObservableList<InstanceProperty> sourcePropertyList =FXCollections.observableArrayList();
+		ObservableList<InstanceProperty> targetPropertyList =FXCollections.observableArrayList();
+		
+		Instance i1 = currentConfig.getSourceCache().getInstance(sourceURI);
+		Instance i2 = currentConfig.getTargetCache().getInstance(targetURI);
+		for(String prop : i1.getAllProperties()) {
+			String value = "";
+			for(String s : i1.getProperty(prop)) {
+				value+= s+" ";
+			}
+			sourcePropertyList.add(new InstanceProperty(prop, value));
+			System.out.println(prop + value);
 		}
-		//System.out.println(sourceInfo.properties);
+		view.showSourceInstance(sourcePropertyList);
+		
+		for(String prop : i2.getAllProperties()) {
+			String value = "";
+			for(String s : i2.getProperty(prop)) {
+				value+= s+" ";
+			}
+			targetPropertyList.add(new InstanceProperty(prop, value));
+			System.out.println(prop + value);
+		}
+		view.showTargetInstance(targetPropertyList);
+	
+		
 	}
 }
