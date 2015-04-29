@@ -12,17 +12,46 @@ import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.InstanceProperty;
 import swp15.link_discovery.model.Result;
 
+/**
+ * View to show the Results of the LIMES-query, and their Instances
+ * @author Daniel Obraczka, Sascha Hahne
+ *
+ */
+
 public class ResultView {
+	
+	/**
+	 * Table with the list of InstanceMatches
+	 */
 	private TableView<Result> table;
+	
+	/**
+	 * Corresponding Controller for the Resultview
+	 */
 	private ResultController controller;
+	
+	/**
+	 * Lists the Instance Properties of the clicked source Instance
+	 */
 	private TableView<InstanceProperty> sourceInstanceTable;
+
+	/**
+	 * Lists the Instance Properties of the clicked target Instance
+	 */
 	private TableView<InstanceProperty> targetInstanceTable;
 
+	/**
+	 * Constructor
+	 */
 	public ResultView() {
 		createWindow();
 		this.controller = new ResultController(this);
 	}
 
+	/**
+	 * Creates the Window, with the 3 Tables, which show the matched Instances,
+	 * and the Properties of clicked Soruce and Target
+	 */
 	private void createWindow() {
 		BorderPane root = new BorderPane();
 		BorderPane test = new BorderPane();
@@ -78,16 +107,36 @@ public class ResultView {
 		stage.show();
 	}
 
+	/**
+	 * Puts the Results of a LIMES-query in the Table table
+	 * @param results List of the Limes results following the Model of Results
+	 */
 	public void showResults(ObservableList<Result> results) {
 		table.setItems(results);
 	}
+	
+	/**
+	 * Puts the Results of a LIMES-query in the Table table and transfers the Config to the Controller
+	 * @param results List of the Limes results following the Model of Results
+	 * @param currentConfig Config of current LIMES-query
+	 */
 	public void showResults(ObservableList<Result> results,Config currentConfig) {
 		table.setItems(results);
 		this.controller.setCurrentConfig(currentConfig);
 	}
+	
+	/**
+	 * Show the Items of instanceProperty in sourceInstanceTable
+	 * @param instanceProperty List of Source-InstanceProperties
+	 */
 	public void showSourceInstance(ObservableList<InstanceProperty> instanceProperty){
 		sourceInstanceTable.setItems(instanceProperty);
 	}
+
+	/**
+	 * Show the Items of instanceProperty in targetInstanceTable
+	 * @param instanceProperty List of Target-InstanceProperties
+	 */
 	public void showTargetInstance(ObservableList<InstanceProperty> instanceProperty){
 		targetInstanceTable.setItems(instanceProperty);
 	}

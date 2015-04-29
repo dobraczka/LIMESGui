@@ -7,21 +7,45 @@ import swp15.link_discovery.model.InstanceProperty;
 import swp15.link_discovery.model.Result;
 import swp15.link_discovery.view.ResultView;
 import de.uni_leipzig.simba.data.Instance;
-
+/**
+ * Controller for Resultview
+ * @author Daniel Obraczka, Sascha Hahne
+ *
+ */
 public class ResultController {
+	
+	/**
+	 * ResultView to manipulate
+	 */
 	private ResultView view;
+	
+	/**
+	 * Config to get instance information
+	 */
 	private Config currentConfig;
 	
+	/**
+	 * Constructor
+	 * @param view corresponding view
+	 */
 	public ResultController(ResultView view){
 		this.view = view;
 	}
+	
+	/**
+	 * Sets the Config
+	 * @param c Config of LIMES-query
+	 */
 	public void setCurrentConfig(Config c){
 		
 		this.currentConfig = c;
 		
 	}
 	
-
+	/**
+	 * shows the properties of an instancematch
+	 * @param item the clicked instancematch of the Resultview
+	 */
 	public void showProperties(Result item){
 		String sourceURI = item.getSourceURI();
 		String targetURI = item.getTargetURI();
