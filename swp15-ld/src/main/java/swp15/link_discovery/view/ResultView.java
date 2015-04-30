@@ -6,6 +6,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import swp15.link_discovery.controller.ResultController;
 import swp15.link_discovery.model.Config;
@@ -54,18 +55,21 @@ public class ResultView {
 	 */
 	private void createWindow() {
 		BorderPane root = new BorderPane();
-		BorderPane test = new BorderPane();
+		HBox resultProperties = new HBox();
 		
 		sourceInstanceTable = new TableView<InstanceProperty>();
 		TableColumn<InstanceProperty, String> sourceInstancePropertyColumn = 
 				new TableColumn<InstanceProperty, String>("Property");
 		sourceInstancePropertyColumn.setCellValueFactory(new PropertyValueFactory<>("property"));
+		
 		sourceInstanceTable.getColumns().add(sourceInstancePropertyColumn);
 		TableColumn<InstanceProperty, String> sourceInstanceValueColumn = 
 				new TableColumn<InstanceProperty, String>("Value");
 		sourceInstanceValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+	
 		sourceInstanceTable.getColumns().add(sourceInstanceValueColumn);
-		test.setLeft(sourceInstanceTable);
+		resultProperties.getChildren().add(sourceInstanceTable);
+		
 
 		
 		targetInstanceTable = new TableView<InstanceProperty>();
@@ -77,7 +81,7 @@ public class ResultView {
 				new TableColumn<InstanceProperty, String>("Value");
 		targetInstanceValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 		targetInstanceTable.getColumns().add(targetInstanceValueColumn);
-		test.setRight(targetInstanceTable);
+		resultProperties.getChildren().add(targetInstanceTable);
 		
 		table = new TableView<Result>();
 		TableColumn<Result, String> columnSource = new TableColumn<Result, String>(
@@ -97,10 +101,14 @@ public class ResultView {
 		table.setOnMouseClicked(e ->{
 			controller.showProperties(table.getSelectionModel().getSelectedItem());
 		});
-		root.setTop(test);
+		resultProperties.setMaxHeight(120);
+		root.setTop(resultProperties);
 		root.setCenter(table);
 
 		Scene scene = new Scene(root, 800, 600);
+		sourceInstanceTable.setPrefWidth(scene.getWidth()/2);
+		targetInstanceTable.setPrefWidth(scene.getWidth()/2);
+
 		Stage stage = new Stage();
 		stage.setTitle("LIMES");
 		stage.setScene(scene);
