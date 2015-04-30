@@ -70,6 +70,8 @@ public class ResultView {
 		sourceInstanceTable.getColumns().add(sourceInstanceValueColumn);
 		resultProperties.getChildren().add(sourceInstanceTable);
 		
+		sourceInstancePropertyColumn.prefWidthProperty().bind(sourceInstanceTable.widthProperty().divide(2));
+		sourceInstanceValueColumn.prefWidthProperty().bind(sourceInstanceTable.widthProperty().divide(2)); 
 
 		
 		targetInstanceTable = new TableView<InstanceProperty>();
@@ -82,6 +84,9 @@ public class ResultView {
 		targetInstanceValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 		targetInstanceTable.getColumns().add(targetInstanceValueColumn);
 		resultProperties.getChildren().add(targetInstanceTable);
+		
+		targetInstancePropertyColumn.prefWidthProperty().bind(targetInstanceTable.widthProperty().divide(2));
+		targetInstanceValueColumn.prefWidthProperty().bind(targetInstanceTable.widthProperty().divide(2)); 
 		
 		table = new TableView<Result>();
 		TableColumn<Result, String> columnSource = new TableColumn<Result, String>(
@@ -101,6 +106,11 @@ public class ResultView {
 		table.setOnMouseClicked(e ->{
 			controller.showProperties(table.getSelectionModel().getSelectedItem());
 		});
+		
+		columnSource.prefWidthProperty().bind(table.widthProperty().divide(40).multiply(17));
+		columnTarget.prefWidthProperty().bind(table.widthProperty().divide(40).multiply(17)); 
+		columnValue.prefWidthProperty().bind(table.widthProperty().divide(20).multiply(2)); 
+		
 		resultProperties.setMaxHeight(120);
 		root.setTop(resultProperties);
 		root.setCenter(table);
@@ -108,6 +118,7 @@ public class ResultView {
 		Scene scene = new Scene(root, 800, 600);
 		sourceInstanceTable.setPrefWidth(scene.getWidth()/2);
 		targetInstanceTable.setPrefWidth(scene.getWidth()/2);
+		
 
 		Stage stage = new Stage();
 		stage.setTitle("LIMES");

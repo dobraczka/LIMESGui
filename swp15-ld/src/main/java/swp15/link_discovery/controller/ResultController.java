@@ -49,6 +49,7 @@ public class ResultController {
 	public void showProperties(Result item){
 		String sourceURI = item.getSourceURI();
 		String targetURI = item.getTargetURI();
+
 		ObservableList<InstanceProperty> sourcePropertyList =FXCollections.observableArrayList();
 		ObservableList<InstanceProperty> targetPropertyList =FXCollections.observableArrayList();
 		
@@ -61,7 +62,9 @@ public class ResultController {
 			}
 			sourcePropertyList.add(new InstanceProperty(prop, value));
 			System.out.println(prop + value);
+
 		}
+
 		view.showSourceInstance(sourcePropertyList);
 		
 		for(String prop : i2.getAllProperties()) {
@@ -75,5 +78,6 @@ public class ResultController {
 		view.showTargetInstance(targetPropertyList);
 	
 		
+
 	}
 }
