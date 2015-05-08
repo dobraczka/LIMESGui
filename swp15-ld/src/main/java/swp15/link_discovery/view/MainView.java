@@ -5,6 +5,8 @@ import java.io.File;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -18,6 +20,7 @@ import swp15.link_discovery.controller.MainController;
 public class MainView {
 	private MainController controller;
 	private MenuItem itemSave;
+	private MenuItem itemEditEndpoints;
 	private MenuItem itemMap;
 
 	public MainView(Stage stage) {
@@ -69,16 +72,50 @@ public class MainView {
 		itemExit.setOnAction(e -> controller.exit());
 		menuFile.getItems().add(itemExit);
 
+		Menu menuEdit = new Menu("Edit");
+		itemEditEndpoints = new MenuItem("Edit Endpoints");
+		itemEditEndpoints.setOnAction(e -> {
+			EditEndpointsView editEndpointsView = new EditEndpointsView();
+			controller.editEndpoints(editEndpointsView);
+			showEditWindow(editEndpointsView);
+		});
+		menuEdit.getItems().add(itemEditEndpoints);
+
 		Menu menuRun = new Menu("Run");
 		itemMap = new MenuItem("Start Mapping");
 		itemMap.setOnAction(e -> controller.map(new ResultView()));
 		menuRun.getItems().add(itemMap);
 
-		return new MenuBar(menuFile, menuRun);
+		return new MenuBar(menuFile, menuEdit, menuRun);
+	}
+
+	private void showEditWindow(IEditView editView) {
+		ButtonBar buttonBar = new ButtonBar();
+		Button buttonCancel = new Button("Cancel");
+		buttonBar.getButtons().add(buttonCancel);
+		Button buttonOk = new Button("OK");
+		buttonBar.getButtons().add(buttonOk);
+
+		BorderPane windowRootPane = new BorderPane();
+		windowRootPane.setCenter(editView.getPane());
+		windowRootPane.setBottom(buttonBar);
+
+		Scene scene = new Scene(windowRootPane, 800, 600);
+		Stage stage = new Stage();
+		stage.setTitle("LIMES");
+		stage.setScene(scene);
+		stage.show();
+
+		buttonCancel.setOnAction(e -> stage.close());
+		buttonOk.setOnAction(e -> {
+			editView.save();
+			stage.close();
+		});
 	}
 
 	public void showLoadedConfig(boolean isLoaded) {
 		itemSave.setDisable(!isLoaded);
+		itemEditEndpoints.setDisable(!isLoaded);
 		itemMap.setDisable(!isLoaded);
 	}
 

@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.Result;
+import swp15.link_discovery.view.EditEndpointsView;
 import swp15.link_discovery.view.MainView;
 import swp15.link_discovery.view.ResultView;
 
@@ -61,6 +62,13 @@ public class MainController {
 		// Moment sind Änderungen noch nicht implementiert, also muss auch kein
 		// Dialog angezeigt werden.
 		// view.showDataLossDialog();
+	}
+
+	public void editEndpoints(EditEndpointsView editEndpointsView) {
+		if (currentConfig == null) {
+			return;
+		}
+		new EditEndpointsController(currentConfig, editEndpointsView);
 	}
 
 	public void map(ResultView resultView) {
