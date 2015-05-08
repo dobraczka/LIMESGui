@@ -16,21 +16,49 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import swp15.link_discovery.controller.MainController;
-
+/**
+ * Main View of the Application
+ * @author Manuel Jacob
+ *
+ */
 public class MainView {
+	/**
+	 * Corresponding Controller
+	 */
 	private MainController controller;
+	/**
+	 * MenuItem to do a Save Operation
+	 */
 	private MenuItem itemSave;
+	/**
+	 * MenuItem to EditEndPoints
+	 */
 	private MenuItem itemEditEndpoints;
+	/**
+	 * MenuItem to start Mapping
+	 */
 	private MenuItem itemMap;
 
+	/**
+	 * Constructor
+	 * @param stage Used Stage of the Application
+	 */
 	public MainView(Stage stage) {
 		showWindow(stage);
 	}
 
+	/**
+	 * Sets corresponding Controller
+	 * @param controller Corresponding Controller
+	 */
 	public void setController(MainController controller) {
 		this.controller = controller;
 	}
 
+	/**
+	 * Builds and Shows the Window
+	 * @param stage
+	 */
 	private void showWindow(Stage stage) {
 		BorderPane root = new BorderPane();
 
@@ -43,6 +71,11 @@ public class MainView {
 		stage.show();
 	}
 
+	/** 
+	 * Builds and returns MenuBar for the MainView
+	 * @param stage Used Stage of the Application
+	 * @return MenuBar of the Application
+	 */
 	private MenuBar buildMenuBar(Window stage) {
 		Menu menuFile = new Menu("File");
 		MenuItem itemNew = new MenuItem("New");
@@ -89,6 +122,10 @@ public class MainView {
 		return new MenuBar(menuFile, menuEdit, menuRun);
 	}
 
+	/**
+	 * Shows the EditEndpoints Dialog
+	 * @param editView View of the EditEndPoints Dialog
+	 */
 	private void showEditWindow(IEditView editView) {
 		ButtonBar buttonBar = new ButtonBar();
 		Button buttonCancel = new Button("Cancel");
@@ -112,19 +149,29 @@ public class MainView {
 			stage.close();
 		});
 	}
-
+	/**
+	 * Shows the Loaded Config, if it is Loaded
+	 * @param isLoaded True if Config is Loaded
+	 */
 	public void showLoadedConfig(boolean isLoaded) {
 		itemSave.setDisable(!isLoaded);
 		itemEditEndpoints.setDisable(!isLoaded);
 		itemMap.setDisable(!isLoaded);
 	}
-
+	/**
+	 * Shows an Information Dialog with a messag
+	 * @param message Message To Show
+	 */
 	public void showInformationDialog(String message) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText(message);
 		alert.showAndWait();
 	}
-
+	/**
+	 * Shows if an Error occurred
+	 * @param header Caption of the Error
+	 * @param content Error Message
+	 */
 	public void showErrorDialog(String header, String content) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setHeaderText(header);

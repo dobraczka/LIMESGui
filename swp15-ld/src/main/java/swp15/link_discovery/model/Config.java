@@ -16,15 +16,42 @@ import de.uni_leipzig.simba.io.KBInfo;
 import de.uni_leipzig.simba.mapper.SetConstraintsMapper;
 import de.uni_leipzig.simba.mapper.SetConstraintsMapperFactory;
 
+/**
+ * Contains all important information of the LIMES-Query
+ * @author Manuel Jacob, Sascha Hahne, Daniel Obraczka
+ *
+ */
 public class Config {
+	
+	/**
+	 * Reader to load linkspec
+	 */
 	private ConfigReader reader;
+	
+	/**
+	 * Cache of the source
+	 */
 	private Cache sourceCache;
+	
+	/**
+	 * Cache of the target
+	 */
 	private Cache targetCache;
 
+	/**
+	 * Cnstructor
+	 * @param reader LIMES-Config Reader
+	 */
 	private Config(ConfigReader reader) {
 		this.reader = reader;
 	}
 
+	/**
+	 * loads the linkspec from file
+	 * @param file file that should be loaded
+	 * @return Config Config with loaded file
+	 * @throws Exception FileNotFoundException
+	 */
 	public static Config loadFromFile(File file) throws Exception {
 		ConfigReader reader = new ConfigReader();
 		boolean success;
@@ -38,6 +65,11 @@ public class Config {
 		return new Config(reader);
 	}
 
+	/**
+	 * saves the config to file
+	 * @param file file in which the config should be saved
+	 * @throws Exception FileNotFoundException
+	 */
 	public void save(File file) throws Exception {
 		throw new Exception("Not implemented yet.");
 		// try (OutputStream os = new FileOutputStream(file);
@@ -45,6 +77,10 @@ public class Config {
 		// }
 	}
 
+	/**
+	 * realizes the mapping
+	 * @return results the results of the mapping
+	 */
 	public ObservableList<Result> doMapping() {
 		// Kopiert aus LIMES und angepasst
 		sourceCache = HybridCache.getData(reader.getSourceInfo());
@@ -69,18 +105,34 @@ public class Config {
 		return results;
 	}
 
+	/**
+	 * Returns the SourceInfo
+	 * @return sourceInfo 
+	 */
 	public KBInfo getSourceInfo() {
 		return reader.sourceInfo;
 	}
 
+	/**
+	 * Returns the TargetInfo
+	 * @return targetInfo
+	 */
 	public KBInfo getTargetInfo() {
 		return reader.targetInfo;
 	}
 
+	/**
+	 * Returns the TargetCache
+	 * @return targetCache
+	 */
 	public Cache getTargetCache() {
 		return targetCache;
 	}
 
+	/**
+	 * Returns the SourceCache
+	 * @return sourceCache
+	 */
 	public Cache getSourceCache() {
 		return sourceCache;
 	}

@@ -14,21 +14,46 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import swp15.link_discovery.controller.EditEndpointsController;
-
+/**
+ * View to Edit EndPoints of Limes Query
+ * @author Manuel Jacob, Felix Brei
+ *
+ */
 public class EditEndpointsView implements IEditView {
+	/**
+	 * Corresponding Controller
+	 */
 	private EditEndpointsController controller;
+	/**
+	 * Field to put in the SourceURL
+	 */
 	private TextField[] sourceFields;
+	/**
+	 * Field to put in the SourceURL
+	 */
 	private TextField[] targetFields;
+	/**
+	 * Pane to arrange the Elements of the View
+	 */
 	private ScrollPane rootPane;
 
+	/**
+	 * Constructor
+	 */
 	public EditEndpointsView() {
 		createRootPane();
 	}
 
+	/**
+	 * Sets the Controller of the View
+	 * @param controller Corresponding Controller
+	 */
 	public void setController(EditEndpointsController controller) {
 		this.controller = controller;
 	}
-
+	/**
+	 * Creates a new RootPane with Layout
+	 */
 	private void createRootPane() {
 		HBox hbox = new HBox();
 		Node sourcePanelWithTitle = createEndpointPane(true);
@@ -43,11 +68,19 @@ public class EditEndpointsView implements IEditView {
 		rootPane.setFitToWidth(true);
 	}
 
+	/**
+	 * returns used rootPane
+	 */
 	@Override
 	public Parent getPane() {
 		return rootPane;
 	}
 
+	/**
+	 * Creates Pane with Textfields to Edit the EndPoints
+	 * @param source If True sourcePane else targetPane
+	 * @return Created Pane
+	 */
 	private Node createEndpointPane(boolean source) {
 		GridPane pane = new GridPane();
 		pane.setAlignment(Pos.CENTER);
@@ -88,6 +121,14 @@ public class EditEndpointsView implements IEditView {
 		}
 	}
 
+	/**
+	 * Fills the Textfield with the Information
+	 * @param source if True source else Target
+	 * @param endpoint URL of the Endpoint
+	 * @param idNamespace Namespace of the Endpoint
+	 * @param graph Metrik or Graph of the Endpoint
+	 * @param pageSize Length of the Limes Query
+	 */
 	public void setFields(boolean source, String endpoint, String idNamespace,
 			String graph, String pageSize) {
 		TextField[] textFields = source ? sourceFields : targetFields;
@@ -97,6 +138,9 @@ public class EditEndpointsView implements IEditView {
 		textFields[3].setText(pageSize);
 	}
 
+	/**
+	 * Saves the actual Parameters to the Controller
+	 */
 	@Override
 	public void save() {
 		controller.save(true, sourceFields[0].getText(),
