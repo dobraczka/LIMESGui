@@ -71,11 +71,12 @@ public class Config {
 	 * @throws Exception FileNotFoundException
 	 */
 	public void save(File file) throws Exception {
-		throw new Exception("Not implemented yet.");
+		throw new Exception("Not implemented yet!");
 		// try (OutputStream os = new FileOutputStream(file);
 		// BufferedOutputStream bos = new BufferedOutputStream(os);) {
 		// }
 	}
+	
 
 	/**
 	 * realizes the mapping

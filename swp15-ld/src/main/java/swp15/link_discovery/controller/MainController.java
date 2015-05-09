@@ -9,6 +9,7 @@ import swp15.link_discovery.model.Result;
 import swp15.link_discovery.view.EditEndpointsView;
 import swp15.link_discovery.view.MainView;
 import swp15.link_discovery.view.ResultView;
+import swp15.link_discovery.view.SelfConfigurationView;
 /**
  * Controller of MainView
  * @author Manuel Jacob
@@ -114,5 +115,9 @@ public class MainController {
 		}
 		ObservableList<Result> results = currentConfig.doMapping();
 		resultView.showResults(results, currentConfig);
+	}
+	public void showSelfConfig(){
+		SelfConfigurationView selfConfigView = new SelfConfigurationView();
+		selfConfigView.controller.setCurrentConfig(currentConfig);
 	}
 }

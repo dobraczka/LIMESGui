@@ -38,6 +38,11 @@ public class MainView {
 	 * MenuItem to start Mapping
 	 */
 	private MenuItem itemMap;
+	
+	/**
+	 * MenuItem to start the SelfConfiguration Dialog
+	 */
+	private MenuItem itemSelfConfiguration;
 
 	/**
 	 * Constructor
@@ -118,10 +123,15 @@ public class MainView {
 		itemMap = new MenuItem("Start Mapping");
 		itemMap.setOnAction(e -> controller.map(new ResultView()));
 		menuRun.getItems().add(itemMap);
-
+		
+		itemSelfConfiguration = new MenuItem("Self Configuration");
+		itemSelfConfiguration.setOnAction(e-> {
+			controller.showSelfConfig();
+		}
+		);
+		menuRun.getItems().add(itemSelfConfiguration);
 		return new MenuBar(menuFile, menuEdit, menuRun);
 	}
-
 	/**
 	 * Shows the EditEndpoints Dialog
 	 * @param editView View of the EditEndPoints Dialog
