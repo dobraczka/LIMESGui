@@ -23,6 +23,8 @@ public class SelfConfigurationView {
 	
 	private VBox selfConfigWrapper;
 	
+	private double[] params;
+	
 	public SelfConfigurationView() {
 		createWindow();
 		this.controller = new SelfConfigurationController(this);
@@ -181,9 +183,21 @@ public class SelfConfigurationView {
 		buttonWrapper.getChildren().add(learnButton);
 		buttonWrapper.getChildren().add(mapButton);
 		learnButton.setOnAction(e -> {
+			double[] params_new ={
+				pseudoF.getValue(),
+				crossover.getValue(),
+				generations.getValue(),
+				classifierChooser.getSelectionModel().getSelectedIndex(),
+				mutationRate.getValue(),
+				population.getValue()					
+			};
+			this.params = params_new;
 			controller.learn();
 		});
 		selfConfigWrapper.getChildren().add(buttonWrapper);
+	}
+	public double[] getParams(){
+		return this.params;
 	}
 
 }
