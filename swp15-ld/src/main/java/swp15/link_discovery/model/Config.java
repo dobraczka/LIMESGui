@@ -162,10 +162,22 @@ public class Config {
 		return sourceCache;
 	}
 
+	/**
+	 * Sets the sourceCache
+	 * 
+	 * @param sC
+	 *            cache to set
+	 */
 	public void setSourceCache(Cache sC) {
 		this.sourceCache = sC;
 	}
 
+	/**
+	 * Sets the targetCache
+	 * 
+	 * @param tC
+	 *            cache to set
+	 */
 	public void setTargetCache(Cache tC) {
 		this.targetCache = tC;
 	}
