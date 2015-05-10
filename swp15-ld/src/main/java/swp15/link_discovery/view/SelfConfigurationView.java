@@ -25,6 +25,10 @@ public class SelfConfigurationView {
 	
 	private double[] UIparams;
 	
+	public Button mapButton;
+	
+	public Button learnButton;
+	
 	public SelfConfigurationView() {
 		createWindow();
 		this.controller = new SelfConfigurationController(this);
@@ -178,8 +182,8 @@ public class SelfConfigurationView {
 		selfConfigWrapper.getChildren().add(population);
 		
 		HBox buttonWrapper = new HBox();
-		Button learnButton = new Button("Start Learning");
-		Button mapButton = new Button("Show Mapping");
+		learnButton = new Button("Start Learning");
+		mapButton = new Button("Show Mapping");
 		buttonWrapper.getChildren().add(learnButton);
 		buttonWrapper.getChildren().add(mapButton);
 		learnButton.setOnAction(e -> {
@@ -192,8 +196,11 @@ public class SelfConfigurationView {
 				population.getValue()					
 			};
 			this.UIparams = params_new;
+			learnButton.setDisable(true);
 			controller.learn();
+			
 		});
+		mapButton.setDisable(true);
 		selfConfigWrapper.getChildren().add(buttonWrapper);
 	}
 	public double[] getUIParams(){

@@ -1,8 +1,15 @@
 package swp15.link_discovery.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+
 import org.jgap.InvalidConfigurationException;
 
+
+import swp15.link_discovery.view.ResultView;
 import swp15.link_discovery.view.SelfConfigurationView;
+import de.uni_leipzig.simba.cache.Cache;
 import de.uni_leipzig.simba.cache.HybridCache;
 import de.uni_leipzig.simba.data.Mapping;
 import de.uni_leipzig.simba.genetics.core.Metric;
@@ -53,30 +60,35 @@ public class GeneticSelfConfigurationModel implements SelfConfigurationModelInte
 	 * @param view the corresponding view
 	 */
 	public void learn(Config currentConfig, SelfConfigurationView view) {
+				//check if PropertyMapping was set else set to default
+				if(!currentConfig.propertyMapping.wasSet()){
+					currentConfig.propertyMapping.setDefault(currentConfig.getSourceInfo(),
+							currentConfig.getTargetInfo());
+				}
 				//Get Parameters
 				this.params = new UnSupervisedLearnerParameters(currentConfig.getConfigReader(),
 						currentConfig.propertyMapping);
-//				double[] UIparams = view.getUIParams();
-//				params.setPFMBetaValue(UIparams[0]);
-//				params.setCrossoverRate((float)UIparams[1]);
-//				params.setGenerations((int)UIparams[2]);
-//				PseudoMeasures pseudoMeasure = new PseudoMeasures();
-//				if((int)UIparams[3] == 1) {
-//					pseudoMeasure = new ReferencePseudoMeasures();
-//				}
-//				params.setPseudoFMeasure(pseudoMeasure);
-//				params.setMutationRate((float)UIparams[4]);
-//				params.setPopulationSize((int)UIparams[5]);
-				
-				params.setPFMBetaValue(1);
-				params.setCrossoverRate(0.4f);
-				params.setGenerations(10);
+				double[] UIparams = view.getUIParams();
+				params.setPFMBetaValue(UIparams[0]);
+				params.setCrossoverRate((float)UIparams[1]);
+				params.setGenerations((int)UIparams[2]);
 				PseudoMeasures pseudoMeasure = new PseudoMeasures();
+				if((int)UIparams[3] == 1) {
+					pseudoMeasure = new ReferencePseudoMeasures();
+				}
 				params.setPseudoFMeasure(pseudoMeasure);
-				params.setMutationRate(0.4f);
-				params.setPopulationSize(10);
+				params.setMutationRate((float)UIparams[4]);
+				params.setPopulationSize((int)UIparams[5]);
 				
-				
+//				params.setPFMBetaValue(1);
+//				params.setCrossoverRate(0.4f);
+//				params.setGenerations(10);
+//				PseudoMeasures pseudoMeasure = new PseudoMeasures();
+//				params.setPseudoFMeasure(pseudoMeasure);
+//				params.setMutationRate(0.4f);
+//				params.setPopulationSize(10);
+		
+			
 				//Start Learning
 				thread = new Thread(){
 					public void run(){
@@ -93,11 +105,29 @@ public class GeneticSelfConfigurationModel implements SelfConfigurationModelInte
 						currentConfig.setAcceptanceThreshold(learnedMetric.getThreshold());
 
 						learnedMapping = learner.getMapping();
-						//onFinish(sourceCache, targetCache);
+						System.out.println("während run" + sourceCache);
+						onFinish(currentConfig, view);
 					}
 				};
 				thread.start();
 				
+	}
+	private void onFinish(Config currentConfig, SelfConfigurationView view) {
+		view.learnButton.setDisable(false);
+		view.mapButton.setOnAction( 
+				e -> {
+					ObservableList<Result> results = FXCollections.observableArrayList();
+					learnedMapping.map.forEach((sourceURI, map2) ->{
+						map2.forEach((targetURI,value)->{
+							results.add(new Result(sourceURI, targetURI, value));
+						});
+					});
+					ResultView resultView = new ResultView();
+					resultView.showResults(results, currentConfig);
+				});
+		if(learnedMapping!= null && learnedMapping.size()>0) {
+			view.mapButton.setDisable(false);
+		}
 	}
 
 }
