@@ -11,6 +11,7 @@ import de.uni_leipzig.simba.cache.Cache;
 import de.uni_leipzig.simba.cache.HybridCache;
 import de.uni_leipzig.simba.data.Mapping;
 import de.uni_leipzig.simba.filter.LinearFilter;
+import de.uni_leipzig.simba.genetics.util.PropertyMapping;
 import de.uni_leipzig.simba.io.ConfigReader;
 import de.uni_leipzig.simba.io.KBInfo;
 import de.uni_leipzig.simba.mapper.SetConstraintsMapper;
@@ -38,12 +39,14 @@ public class Config {
 	 */
 	private Cache targetCache;
 
+	public PropertyMapping propertyMapping;
 	/**
-	 * Cnstructor
+	 * Constructor
 	 * @param reader LIMES-Config Reader
 	 */
 	private Config(ConfigReader reader) {
 		this.reader = reader;
+		this.propertyMapping = new PropertyMapping();
 	}
 
 	/**
@@ -136,5 +139,13 @@ public class Config {
 	 */
 	public Cache getSourceCache() {
 		return sourceCache;
+	}
+	
+	/**
+	 * Returns the configReader
+	 * @return configReader
+	 */
+	public ConfigReader getConfigReader(){
+		return reader;
 	}
 }

@@ -23,7 +23,7 @@ public class SelfConfigurationView {
 	
 	private VBox selfConfigWrapper;
 	
-	private double[] params;
+	private double[] UIparams;
 	
 	public SelfConfigurationView() {
 		createWindow();
@@ -191,13 +191,13 @@ public class SelfConfigurationView {
 				mutationRate.getValue(),
 				population.getValue()					
 			};
-			this.params = params_new;
+			this.UIparams = params_new;
 			controller.learn();
 		});
 		selfConfigWrapper.getChildren().add(buttonWrapper);
 	}
-	public double[] getParams(){
-		return this.params;
+	public double[] getUIParams(){
+		return this.UIparams;
 	}
 
 }
