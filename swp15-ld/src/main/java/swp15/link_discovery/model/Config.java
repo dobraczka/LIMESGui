@@ -21,35 +21,39 @@ import de.uni_leipzig.simba.mapper.SetConstraintsMapperFactory;
 
 /**
  * Contains all important information of the LIMES-Query
+ * 
  * @author Manuel Jacob, Sascha Hahne, Daniel Obraczka
  *
  */
 public class Config {
-	
+
 	/**
 	 * Reader to load linkspec
 	 */
 	private ConfigReader reader;
-	
+
 	/**
 	 * Cache of the source
 	 */
 	private Cache sourceCache;
-	
+
 	/**
 	 * Cache of the target
 	 */
 	private Cache targetCache;
-	
+
 	/**
 	 * current Metric
 	 */
 	private Output metric = null;
 
 	public PropertyMapping propertyMapping;
+
 	/**
 	 * Constructor
-	 * @param reader LIMES-Config Reader
+	 * 
+	 * @param reader
+	 *            LIMES-Config Reader
 	 */
 	private Config(ConfigReader reader) {
 		this.reader = reader;
@@ -58,9 +62,12 @@ public class Config {
 
 	/**
 	 * loads the linkspec from file
-	 * @param file file that should be loaded
+	 * 
+	 * @param file
+	 *            file that should be loaded
 	 * @return Config Config with loaded file
-	 * @throws Exception FileNotFoundException
+	 * @throws Exception
+	 *             FileNotFoundException
 	 */
 	public static Config loadFromFile(File file) throws Exception {
 		ConfigReader reader = new ConfigReader();
@@ -77,8 +84,11 @@ public class Config {
 
 	/**
 	 * saves the config to file
-	 * @param file file in which the config should be saved
-	 * @throws Exception FileNotFoundException
+	 * 
+	 * @param file
+	 *            file in which the config should be saved
+	 * @throws Exception
+	 *             FileNotFoundException
 	 */
 	public void save(File file) throws Exception {
 		throw new Exception("Not implemented yet!");
@@ -86,10 +96,10 @@ public class Config {
 		// BufferedOutputStream bos = new BufferedOutputStream(os);) {
 		// }
 	}
-	
 
 	/**
 	 * realizes the mapping
+	 * 
 	 * @return results the results of the mapping
 	 */
 	public ObservableList<Result> doMapping() {
@@ -118,7 +128,8 @@ public class Config {
 
 	/**
 	 * Returns the SourceInfo
-	 * @return sourceInfo 
+	 * 
+	 * @return sourceInfo
 	 */
 	public KBInfo getSourceInfo() {
 		return reader.sourceInfo;
@@ -126,6 +137,7 @@ public class Config {
 
 	/**
 	 * Returns the TargetInfo
+	 * 
 	 * @return targetInfo
 	 */
 	public KBInfo getTargetInfo() {
@@ -134,6 +146,7 @@ public class Config {
 
 	/**
 	 * Returns the TargetCache
+	 * 
 	 * @return targetCache
 	 */
 	public Cache getTargetCache() {
@@ -142,48 +155,63 @@ public class Config {
 
 	/**
 	 * Returns the SourceCache
+	 * 
 	 * @return sourceCache
 	 */
 	public Cache getSourceCache() {
 		return sourceCache;
 	}
-	
+
+	public void setSourceCache(Cache sC) {
+		this.sourceCache = sC;
+	}
+
+	public void setTargetCache(Cache tC) {
+		this.targetCache = tC;
+	}
+
 	/**
 	 * Returns the configReader
+	 * 
 	 * @return configReader
 	 */
-	public ConfigReader getConfigReader(){
+	public ConfigReader getConfigReader() {
 		return reader;
 	}
-	
+
 	/**
 	 * Sets the metric to the metricExpression and source using the MetricParser
-	 * @param metricExpression to be written to metric
+	 * 
+	 * @param metricExpression
+	 *            to be written to metric
 	 */
 	public void setMetricExpression(String metricExpression) {
-		if(metric != null) {
+		if (metric != null) {
 			double param1 = 2.0d;
 			double param2 = 2.0d;
-			if(metric.param1 != null)
+			if (metric.param1 != null)
 				param1 = metric.param1;
-			if(metric.param2 != null)
+			if (metric.param2 != null)
 				param2 = metric.param2;
-			metric = MetricParser.parse(metricExpression, getSourceInfo().var.replaceAll("\\?", ""));
-			if(param1 <= 1)
+			metric = MetricParser.parse(metricExpression,
+					getSourceInfo().var.replaceAll("\\?", ""));
+			if (param1 <= 1)
 				metric.param1 = param1;
-			if(param2 <= 1)
+			if (param2 <= 1)
 				metric.param2 = param2;
 		} else {
-			metric = MetricParser.parse(metricExpression, getSourceInfo().var.replaceAll("\\?", ""));
+			metric = MetricParser.parse(metricExpression,
+					getSourceInfo().var.replaceAll("\\?", ""));
 		}
 	}
-	
+
 	/**
-	 * Sets the acceptanceThreshold 
-	 * @param acceptanceThreshold 
+	 * Sets the acceptanceThreshold
+	 * 
+	 * @param acceptanceThreshold
 	 */
 	public void setAcceptanceThreshold(double acceptanceThreshold) {
-		if(metric == null)
+		if (metric == null)
 			metric = new Output();
 		metric.param1 = acceptanceThreshold;
 	}
