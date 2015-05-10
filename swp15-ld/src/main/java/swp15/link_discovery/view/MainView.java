@@ -167,6 +167,7 @@ public class MainView {
 		itemSave.setDisable(!isLoaded);
 		itemEditEndpoints.setDisable(!isLoaded);
 		itemMap.setDisable(!isLoaded);
+		itemSelfConfiguration.setDisable(!isLoaded);
 	}
 	/**
 	 * Shows an Information Dialog with a messag

@@ -4,6 +4,7 @@ import org.jgap.InvalidConfigurationException;
 
 import swp15.link_discovery.view.SelfConfigurationView;
 import de.uni_leipzig.simba.cache.HybridCache;
+import de.uni_leipzig.simba.data.Mapping;
 import de.uni_leipzig.simba.genetics.core.Metric;
 import de.uni_leipzig.simba.genetics.learner.UnSupervisedLearnerParameters;
 import de.uni_leipzig.simba.genetics.selfconfig.BasicGeneticSelfConfigurator;
@@ -28,6 +29,16 @@ public class GeneticSelfConfigurationModel implements SelfConfigurationModelInte
 	private Metric learnedMetric;
 	
 	/**
+	 * learned Mapping of the selfconfiguration
+	 */
+	private Mapping learnedMapping = new Mapping();
+	
+	/**
+	 * thread for better performance
+	 */
+	private Thread thread;
+	
+	/**
 	 * Constructor
 	 */
 	public GeneticSelfConfigurationModel () {
@@ -45,20 +56,29 @@ public class GeneticSelfConfigurationModel implements SelfConfigurationModelInte
 				//Get Parameters
 				this.params = new UnSupervisedLearnerParameters(currentConfig.getConfigReader(),
 						currentConfig.propertyMapping);
-				double[] UIparams = view.getUIParams();
-				params.setPFMBetaValue(UIparams[0]);
-				params.setCrossoverRate((float)UIparams[1]);
-				params.setGenerations((int)UIparams[2]);
+//				double[] UIparams = view.getUIParams();
+//				params.setPFMBetaValue(UIparams[0]);
+//				params.setCrossoverRate((float)UIparams[1]);
+//				params.setGenerations((int)UIparams[2]);
+//				PseudoMeasures pseudoMeasure = new PseudoMeasures();
+//				if((int)UIparams[3] == 1) {
+//					pseudoMeasure = new ReferencePseudoMeasures();
+//				}
+//				params.setPseudoFMeasure(pseudoMeasure);
+//				params.setMutationRate((float)UIparams[4]);
+//				params.setPopulationSize((int)UIparams[5]);
+				
+				params.setPFMBetaValue(1);
+				params.setCrossoverRate(0.4f);
+				params.setGenerations(10);
 				PseudoMeasures pseudoMeasure = new PseudoMeasures();
-				if((int)UIparams[3] == 1) {
-					pseudoMeasure = new ReferencePseudoMeasures();
-				}
 				params.setPseudoFMeasure(pseudoMeasure);
-				params.setMutationRate((float)UIparams[4]);
-				params.setPopulationSize((int)UIparams[5]);
+				params.setMutationRate(0.4f);
+				params.setPopulationSize(10);
+				
 				
 				//Start Learning
-				Thread thread = new Thread(){
+				thread = new Thread(){
 					public void run(){
 						HybridCache sourceCache = HybridCache.getData(currentConfig.getSourceInfo());
 						HybridCache targetCache = HybridCache.getData(currentConfig.getTargetInfo());
@@ -68,15 +88,15 @@ public class GeneticSelfConfigurationModel implements SelfConfigurationModelInte
 						} catch (InvalidConfigurationException e) {
 							e.printStackTrace();
 						}
-//TODO implementieren dieser Methoden in Config
-//						config.setMetricExpression(learnedMetric.getExpression());
-//						config.setAcceptanceThreshold(learnedMetric.getThreshold());
-//
-//						learnedMapping = learner.getMapping();
-//						onFinish(sourceCache, targetCache);
+
+						currentConfig.setMetricExpression(learnedMetric.getExpression());
+						currentConfig.setAcceptanceThreshold(learnedMetric.getThreshold());
+
+						learnedMapping = learner.getMapping();
+						//onFinish(sourceCache, targetCache);
 					}
 				};
-				//thread.start();
+				thread.start();
 				
 	}
 

@@ -7,6 +7,8 @@ import java.io.InputStream;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import swp15.link_discovery.model.metric.MetricParser;
+import swp15.link_discovery.model.metric.Output;
 import de.uni_leipzig.simba.cache.Cache;
 import de.uni_leipzig.simba.cache.HybridCache;
 import de.uni_leipzig.simba.data.Mapping;
@@ -38,6 +40,11 @@ public class Config {
 	 * Cache of the target
 	 */
 	private Cache targetCache;
+	
+	/**
+	 * current Metric
+	 */
+	private Output metric = null;
 
 	public PropertyMapping propertyMapping;
 	/**
@@ -147,5 +154,37 @@ public class Config {
 	 */
 	public ConfigReader getConfigReader(){
 		return reader;
+	}
+	
+	/**
+	 * Sets the metric to the metricExpression and source using the MetricParser
+	 * @param metricExpression to be written to metric
+	 */
+	public void setMetricExpression(String metricExpression) {
+		if(metric != null) {
+			double param1 = 2.0d;
+			double param2 = 2.0d;
+			if(metric.param1 != null)
+				param1 = metric.param1;
+			if(metric.param2 != null)
+				param2 = metric.param2;
+			metric = MetricParser.parse(metricExpression, getSourceInfo().var.replaceAll("\\?", ""));
+			if(param1 <= 1)
+				metric.param1 = param1;
+			if(param2 <= 1)
+				metric.param2 = param2;
+		} else {
+			metric = MetricParser.parse(metricExpression, getSourceInfo().var.replaceAll("\\?", ""));
+		}
+	}
+	
+	/**
+	 * Sets the acceptanceThreshold 
+	 * @param acceptanceThreshold 
+	 */
+	public void setAcceptanceThreshold(double acceptanceThreshold) {
+		if(metric == null)
+			metric = new Output();
+		metric.param1 = acceptanceThreshold;
 	}
 }
