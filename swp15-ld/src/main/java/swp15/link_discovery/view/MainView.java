@@ -84,7 +84,8 @@ public class MainView {
 	private MenuBar buildMenuBar(Window stage) {
 		Menu menuFile = new Menu("File");
 		MenuItem itemNew = new MenuItem("New");
-		itemNew.setOnAction(e -> controller.newConfig());
+		itemNew.setOnAction(e -> controller.newConfig(new WizardView(),
+				new EditEndpointsView()));
 		menuFile.getItems().add(itemNew);
 		menuFile.getItems().add(new SeparatorMenuItem());
 		MenuItem itemLoad = new MenuItem("Load config");

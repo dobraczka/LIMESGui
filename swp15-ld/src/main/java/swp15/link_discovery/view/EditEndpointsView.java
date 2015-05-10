@@ -40,7 +40,7 @@ public class EditEndpointsView implements IEditView {
 	/**
 	 * Constructor
 	 */
-	public EditEndpointsView() {
+	EditEndpointsView() {
 		createRootPane();
 	}
 

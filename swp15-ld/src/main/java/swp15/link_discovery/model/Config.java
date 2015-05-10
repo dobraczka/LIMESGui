@@ -49,6 +49,12 @@ public class Config {
 
 	public PropertyMapping propertyMapping;
 
+	public Config() {
+		reader = new ConfigReader();
+		reader.sourceInfo = new KBInfo();
+		reader.targetInfo = new KBInfo();
+	}
+
 	/**
 	 * Constructor
 	 * 

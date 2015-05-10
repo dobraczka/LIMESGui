@@ -10,6 +10,7 @@ import swp15.link_discovery.view.EditEndpointsView;
 import swp15.link_discovery.view.MainView;
 import swp15.link_discovery.view.ResultView;
 import swp15.link_discovery.view.SelfConfigurationView;
+import swp15.link_discovery.view.WizardView;
 /**
  * Controller of MainView
  * @author Manuel Jacob
@@ -33,12 +34,27 @@ public class MainController {
 		view.showLoadedConfig(false);
 	}
 	
+	private void setCurrentConfig(Config currentConfig) {
+		this.currentConfig = currentConfig;
+		view.showLoadedConfig(currentConfig != null);
+	}
+
 	/**
 	 * Starts a New Limes Query-Config, drops the current Config
+	 * 
+	 * @param createWizardView
+	 * @param editEndpointsView
 	 */
-	public void newConfig() {
+	public void newConfig(WizardView createWizardView,
+			EditEndpointsView editEndpointsView) {
 		confirmPotentialDataLoss();
-		view.showInformationDialog("Not implemented yet.");
+		setCurrentConfig(null);
+		Config newConfig = new Config();
+		new EditEndpointsController(newConfig, editEndpointsView);
+		new WizardController(() -> {
+			setCurrentConfig(newConfig);
+		}, () -> {
+		}, createWizardView, editEndpointsView);
 	}
 	
 	/**
@@ -48,7 +64,7 @@ public class MainController {
 	public void loadConfig(File file) {
 		confirmPotentialDataLoss();
 		try {
-			currentConfig = Config.loadFromFile(file);
+			setCurrentConfig(Config.loadFromFile(file));
 			view.showLoadedConfig(true);
 		} catch (Exception e) {
 			view.showErrorDialog(
