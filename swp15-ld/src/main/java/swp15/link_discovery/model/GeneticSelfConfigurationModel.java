@@ -117,6 +117,14 @@ public class GeneticSelfConfigurationModel implements
 
 	}
 
+	/**
+	 * Enables Buttons Defines Action of mapButton
+	 * 
+	 * @param currentConfig
+	 *            Config that was used
+	 * @param view
+	 *            SelfConfigurationView that was used
+	 */
 	private void onFinish(Config currentConfig, SelfConfigurationView view) {
 		view.learnButton.setDisable(false);
 		view.mapButton.setOnAction(e -> {
