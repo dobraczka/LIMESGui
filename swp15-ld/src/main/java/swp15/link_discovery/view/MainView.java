@@ -16,8 +16,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import swp15.link_discovery.controller.MainController;
+
 /**
  * Main View of the Application
+ * 
  * @author Manuel Jacob
  *
  */
@@ -38,15 +40,19 @@ public class MainView {
 	 * MenuItem to start Mapping
 	 */
 	private MenuItem itemMap;
-	
+
 	/**
 	 * MenuItem to start the SelfConfiguration Dialog
 	 */
 	private MenuItem itemSelfConfiguration;
 
+	private ToolBox toolBox;
+
 	/**
 	 * Constructor
-	 * @param stage Used Stage of the Application
+	 * 
+	 * @param stage
+	 *            Used Stage of the Application
 	 */
 	public MainView(Stage stage) {
 		showWindow(stage);
@@ -54,7 +60,9 @@ public class MainView {
 
 	/**
 	 * Sets corresponding Controller
-	 * @param controller Corresponding Controller
+	 * 
+	 * @param controller
+	 *            Corresponding Controller
 	 */
 	public void setController(MainController controller) {
 		this.controller = controller;
@@ -62,13 +70,16 @@ public class MainView {
 
 	/**
 	 * Builds and Shows the Window
+	 * 
 	 * @param stage
 	 */
 	private void showWindow(Stage stage) {
 		BorderPane root = new BorderPane();
 
 		MenuBar menuBar = buildMenuBar(stage);
+		toolBox = new ToolBox();
 		root.setTop(menuBar);
+		root.setLeft(toolBox);
 
 		Scene scene = new Scene(root, 800, 600);
 		stage.setTitle("LIMES");
@@ -76,9 +87,11 @@ public class MainView {
 		stage.show();
 	}
 
-	/** 
+	/**
 	 * Builds and returns MenuBar for the MainView
-	 * @param stage Used Stage of the Application
+	 * 
+	 * @param stage
+	 *            Used Stage of the Application
 	 * @return MenuBar of the Application
 	 */
 	private MenuBar buildMenuBar(Window stage) {
@@ -124,18 +137,20 @@ public class MainView {
 		itemMap = new MenuItem("Start Mapping");
 		itemMap.setOnAction(e -> controller.map(new ResultView()));
 		menuRun.getItems().add(itemMap);
-		
+
 		itemSelfConfiguration = new MenuItem("Self Configuration");
-		itemSelfConfiguration.setOnAction(e-> {
+		itemSelfConfiguration.setOnAction(e -> {
 			controller.showSelfConfig();
-		}
-		);
+		});
 		menuRun.getItems().add(itemSelfConfiguration);
 		return new MenuBar(menuFile, menuEdit, menuRun);
 	}
+
 	/**
 	 * Shows the EditEndpoints Dialog
-	 * @param editView View of the EditEndPoints Dialog
+	 * 
+	 * @param editView
+	 *            View of the EditEndPoints Dialog
 	 */
 	private void showEditWindow(IEditView editView) {
 		ButtonBar buttonBar = new ButtonBar();
@@ -160,9 +175,12 @@ public class MainView {
 			stage.close();
 		});
 	}
+
 	/**
 	 * Shows the Loaded Config, if it is Loaded
-	 * @param isLoaded True if Config is Loaded
+	 * 
+	 * @param isLoaded
+	 *            True if Config is Loaded
 	 */
 	public void showLoadedConfig(boolean isLoaded) {
 		itemSave.setDisable(!isLoaded);
@@ -170,19 +188,26 @@ public class MainView {
 		itemMap.setDisable(!isLoaded);
 		itemSelfConfiguration.setDisable(!isLoaded);
 	}
+
 	/**
 	 * Shows an Information Dialog with a messag
-	 * @param message Message To Show
+	 * 
+	 * @param message
+	 *            Message To Show
 	 */
 	public void showInformationDialog(String message) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setContentText(message);
 		alert.showAndWait();
 	}
+
 	/**
 	 * Shows if an Error occurred
-	 * @param header Caption of the Error
-	 * @param content Error Message
+	 * 
+	 * @param header
+	 *            Caption of the Error
+	 * @param content
+	 *            Error Message
 	 */
 	public void showErrorDialog(String header, String content) {
 		Alert alert = new Alert(AlertType.ERROR);
