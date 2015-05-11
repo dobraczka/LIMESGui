@@ -233,4 +233,15 @@ public class Config {
 			metric = new Output();
 		metric.param1 = acceptanceThreshold;
 	}
+
+	public String getPropertyString(int index, boolean source) {
+		if (source) {
+			return getSourceInfo().var.substring(1) + "."
+					+ getSourceInfo().properties.get(index);
+
+		} else {
+			return getTargetInfo().var.substring(1) + "."
+					+ getTargetInfo().properties.get(index);
+		}
+	}
 }

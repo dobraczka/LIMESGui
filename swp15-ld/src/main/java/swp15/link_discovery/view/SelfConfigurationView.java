@@ -72,6 +72,7 @@ public class SelfConfigurationView {
 		selfConfigChooser.getSelectionModel().selectedIndexProperty()
 				.addListener(new ChangeListener<Number>() {
 
+					@SuppressWarnings("rawtypes")
 					@Override
 					public void changed(ObservableValue arg0, Number value,
 							Number new_value) {
@@ -172,6 +173,7 @@ public class SelfConfigurationView {
 		classifierChooser.getSelectionModel().selectedIndexProperty()
 				.addListener(new ChangeListener<Number>() {
 
+					@SuppressWarnings("rawtypes")
 					@Override
 					public void changed(ObservableValue arg0, Number value,
 							Number new_value) {
