@@ -14,30 +14,54 @@ import swp15.link_discovery.model.metric.Node;
 import swp15.link_discovery.model.metric.Operator;
 import swp15.link_discovery.model.metric.Property;
 
+/**
+ * Panel in MainView which contains the specific Nodes to add to the Graph
+ * 
+ * @author Sascha Hahne
+ *
+ */
 public class ToolBox extends VBox {
 
+	/**
+	 * List of the SourceProperties
+	 */
 	private ListView<String> toolBoxSourceProperties;
 
+	/**
+	 * List of the Target Properties
+	 */
 	private ListView<String> toolBoxTargetProperties;
 
+	/**
+	 * List of the available Operators
+	 */
 	private ListView<String> toolBoxOperators;
 
+	/**
+	 * List of the available Metrics/Measurements
+	 */
 	private ListView<String> toolBoxMetrics;
 
-	private Label testLabel;
-
+	/**
+	 * Config of current Limesquery
+	 */
 	private Config config;
 
+	/**
+	 * Constructor
+	 */
 	public ToolBox() {
 		generateView(this);
 		setListeners();
 		this.config = null;
 	}
 
+	/**
+	 * Generates the View adds the ListViews to the right Places
+	 * 
+	 * @param box
+	 */
 	private void generateView(VBox box) {
-		testLabel = new Label("test");
-		box.getChildren().add(testLabel);
-
 		toolBoxSourceProperties = new ListView<String>();
 		toolBoxTargetProperties = new ListView<String>();
 		toolBoxMetrics = generateListViewFromNodeIdentifiers(Measure.identifiers);
@@ -53,6 +77,10 @@ public class ToolBox extends VBox {
 
 	}
 
+	/**
+	 * Sets the CLickListeners for the ListViews On each Click a Node will
+	 * appear in the GraphCanvas
+	 */
 	public void setListeners() {
 		toolBoxSourceProperties.setOnMouseClicked(e -> {
 			generateProperty(toolBoxSourceProperties, true);
@@ -68,6 +96,14 @@ public class ToolBox extends VBox {
 		});
 	}
 
+	/**
+	 * Set the Items in View
+	 * 
+	 * @param view
+	 *            to manipulate
+	 * @param items
+	 *            list of the items for the listview
+	 */
 	private void setListViewFromList(ListView<String> view, List<String> items) {
 		ObservableList<String> listItems = FXCollections.observableArrayList();
 		items.forEach(itemString -> {
@@ -77,6 +113,13 @@ public class ToolBox extends VBox {
 
 	}
 
+	/**
+	 * Generates a List View from the Static Measure and Operator identifiers
+	 * 
+	 * @param nodeIdentifiers
+	 *            identifiers for the List
+	 * @return ListView containing the indentifiers as items
+	 */
 	private ListView<String> generateListViewFromNodeIdentifiers(
 			Set<String> nodeIdentifiers) {
 		ObservableList<String> listItems = FXCollections.observableArrayList();
@@ -89,6 +132,14 @@ public class ToolBox extends VBox {
 
 	}
 
+	/**
+	 * Generates a new Porperty-Node from the seledted item in the List
+	 * 
+	 * @param view
+	 *            ListView of the selected Property
+	 * @param origin
+	 *            True if source
+	 */
 	public void generateProperty(ListView<String> view, boolean origin) {
 		if (view.getSelectionModel().getSelectedItem() != null) {
 			Property gen = null;
@@ -107,10 +158,22 @@ public class ToolBox extends VBox {
 		}
 	}
 
+	/**
+	 * Adds the Node in the GraphCanvas
+	 * 
+	 * @param e
+	 *            Node to be added
+	 */
 	public void setNodeToGraph(Node e) {
 
 	}
 
+	/**
+	 * Generates Operator or Measure Node from ListView
+	 * 
+	 * @param view
+	 *            ListView of the selected Item
+	 */
 	public void generateNode(ListView<String> view) {
 		if (view.getSelectionModel().getSelectedItem() != null) {
 			Node node = Node.createNode(view.getSelectionModel()
@@ -120,14 +183,12 @@ public class ToolBox extends VBox {
 
 	}
 
-	public void addSourceProperty() {
-		// TODO
-	}
-
-	public void addTargetProperty() {
-		// TODO
-	}
-
+	/**
+	 * Called on changing of the Source and Target Properties
+	 * 
+	 * @param config
+	 *            Config of current Limesquery
+	 */
 	public void showLoadedConfig(Config config) {
 		this.config = config;
 		setListViewFromList(toolBoxSourceProperties,
