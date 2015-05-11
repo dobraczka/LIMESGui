@@ -11,8 +11,10 @@ import swp15.link_discovery.view.MainView;
 import swp15.link_discovery.view.ResultView;
 import swp15.link_discovery.view.SelfConfigurationView;
 import swp15.link_discovery.view.WizardView;
+
 /**
  * Controller of MainView
+ * 
  * @author Manuel Jacob
  */
 public class MainController {
@@ -27,13 +29,15 @@ public class MainController {
 
 	/**
 	 * Constructor
-	 * @param view Corresponding View
+	 * 
+	 * @param view
+	 *            Corresponding View
 	 */
 	public MainController(MainView view) {
 		this.view = view;
 		view.showLoadedConfig(false);
 	}
-	
+
 	private void setCurrentConfig(Config currentConfig) {
 		this.currentConfig = currentConfig;
 		view.showLoadedConfig(currentConfig != null);
@@ -56,26 +60,31 @@ public class MainController {
 		}, () -> {
 		}, createWizardView, editEndpointsView);
 	}
-	
+
 	/**
 	 * Reads Config from File, drops currentConfig
-	 * @param file Linkpec-Config File in XML format
+	 * 
+	 * @param file
+	 *            Linkpec-Config File in XML format
 	 */
 	public void loadConfig(File file) {
 		confirmPotentialDataLoss();
 		try {
 			setCurrentConfig(Config.loadFromFile(file));
 			view.showLoadedConfig(true);
+			view.toolBox.showLoadedConfig(currentConfig);
 		} catch (Exception e) {
 			view.showErrorDialog(
 					"Exception while loading config: " + e.getMessage(),
 					e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Saves Cuurent Config in Valid XML Format to a File
-	 * @param file Location to save the File
+	 * 
+	 * @param file
+	 *            Location to save the File
 	 */
 	public void saveConfig(File file) {
 		if (currentConfig == null) {
@@ -110,10 +119,12 @@ public class MainController {
 		// Dialog angezeigt werden.
 		// view.showDataLossDialog();
 	}
-	
+
 	/**
 	 * Starts the editEndpoint Dialog
-	 * @param editEndpointsView Corresponding View of the Dialog
+	 * 
+	 * @param editEndpointsView
+	 *            Corresponding View of the Dialog
 	 */
 	public void editEndpoints(EditEndpointsView editEndpointsView) {
 		if (currentConfig == null) {
@@ -121,9 +132,12 @@ public class MainController {
 		}
 		new EditEndpointsController(currentConfig, editEndpointsView);
 	}
+
 	/**
 	 * Starts the Limes-Query and shows the Results
-	 * @param resultView Corresponding ResultView to show the Results
+	 * 
+	 * @param resultView
+	 *            Corresponding ResultView to show the Results
 	 */
 	public void map(ResultView resultView) {
 		if (currentConfig == null) {
@@ -132,7 +146,8 @@ public class MainController {
 		ObservableList<Result> results = currentConfig.doMapping();
 		resultView.showResults(results, currentConfig);
 	}
-	public void showSelfConfig(){
+
+	public void showSelfConfig() {
 		SelfConfigurationView selfConfigView = new SelfConfigurationView();
 		selfConfigView.controller.setCurrentConfig(currentConfig);
 	}

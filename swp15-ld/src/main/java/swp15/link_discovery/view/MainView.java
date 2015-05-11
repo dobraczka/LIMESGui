@@ -46,7 +46,7 @@ public class MainView {
 	 */
 	private MenuItem itemSelfConfiguration;
 
-	private ToolBox toolBox;
+	public ToolBox toolBox;
 
 	/**
 	 * Constructor
