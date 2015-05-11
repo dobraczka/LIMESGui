@@ -16,6 +16,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import swp15.link_discovery.controller.MainController;
+import swp15.link_discovery.view.graphBuilder.GraphBuildView;
 
 /**
  * Main View of the Application
@@ -48,6 +49,8 @@ public class MainView {
 
 	public ToolBox toolBox;
 
+	public GraphBuildView graphBuild;
+
 	/**
 	 * Constructor
 	 * 
@@ -78,8 +81,11 @@ public class MainView {
 
 		MenuBar menuBar = buildMenuBar(stage);
 		toolBox = new ToolBox();
+		graphBuild = new GraphBuildView();
 		root.setTop(menuBar);
 		root.setLeft(toolBox);
+		root.setRight(graphBuild);
+		graphBuild.draw();
 
 		Scene scene = new Scene(root, 800, 600);
 		stage.setTitle("LIMES");
