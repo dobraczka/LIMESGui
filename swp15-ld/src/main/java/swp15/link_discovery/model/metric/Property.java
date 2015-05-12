@@ -75,4 +75,8 @@ public class Property extends Node {
 					+ "\" does not confirm to the regex " + regex);
 		this.origin = origin;
 	}
+
+	public Origin getOrigin() {
+		return this.origin;
+	}
 }

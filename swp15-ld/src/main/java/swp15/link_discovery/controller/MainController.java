@@ -73,6 +73,8 @@ public class MainController {
 			setCurrentConfig(Config.loadFromFile(file));
 			view.showLoadedConfig(true);
 			view.toolBox.showLoadedConfig(currentConfig);
+			view.graphBuild.controller.setConfig(currentConfig);
+			view.graphBuild.controller.generateGraphFromConfig();
 		} catch (Exception e) {
 			view.showErrorDialog(
 					"Exception while loading config: " + e.getMessage(),
@@ -143,6 +145,16 @@ public class MainController {
 		if (currentConfig == null) {
 			return;
 		}
+		if (view.graphBuild.edited) {
+			if (view.graphBuild.nodeList.get(0).nodeData.isComplete()) {
+				System.out.println(view.graphBuild.nodeList.get(0).nodeData
+						.toString());
+
+			} else {
+				// TODO Show Warning, that Metric is not complete
+			}
+		}
+
 		ObservableList<Result> results = currentConfig.doMapping();
 		resultView.showResults(results, currentConfig);
 	}
@@ -150,5 +162,14 @@ public class MainController {
 	public void showSelfConfig() {
 		SelfConfigurationView selfConfigView = new SelfConfigurationView();
 		selfConfigView.controller.setCurrentConfig(currentConfig);
+	}
+
+	/**
+	 * returns the currentConfig
+	 * 
+	 * @return currentConfig
+	 */
+	public Config getCurrentConfig() {
+		return this.currentConfig;
 	}
 }

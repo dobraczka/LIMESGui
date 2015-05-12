@@ -89,16 +89,16 @@ public class ToolBox extends VBox {
 	 */
 	public void setListeners() {
 		toolBoxSourceProperties.setOnMouseClicked(e -> {
-			generateProperty(toolBoxSourceProperties, true);
+			generateProperty(toolBoxSourceProperties, 4, true);
 		});
 		toolBoxTargetProperties.setOnMouseClicked(e -> {
-			generateProperty(toolBoxTargetProperties, false);
+			generateProperty(toolBoxTargetProperties, 5, false);
 		});
 		toolBoxMetrics.setOnMouseClicked(e -> {
-			generateNode(toolBoxMetrics);
+			generateNode(toolBoxMetrics, 1);
 		});
 		toolBoxOperators.setOnMouseClicked(e -> {
-			generateNode(toolBoxOperators);
+			generateNode(toolBoxOperators, 3);
 		});
 	}
 
@@ -146,7 +146,8 @@ public class ToolBox extends VBox {
 	 * @param origin
 	 *            True if source
 	 */
-	public void generateProperty(ListView<String> view, boolean origin) {
+	public void generateProperty(ListView<String> view, int shape,
+			boolean origin) {
 		if (view.getSelectionModel().getSelectedItem() != null) {
 			Property gen = null;
 			if (origin) {
@@ -160,7 +161,7 @@ public class ToolBox extends VBox {
 
 			}
 
-			setNodeToGraph(gen);
+			setNodeToGraph(gen, shape);
 		}
 	}
 
@@ -170,8 +171,8 @@ public class ToolBox extends VBox {
 	 * @param e
 	 *            Node to be added
 	 */
-	public void setNodeToGraph(Node e) {
-		view.graphBuild.addNode(200, 200, e);
+	public void setNodeToGraph(Node e, int shape) {
+		view.graphBuild.addNode(200, 200, shape, e);
 	}
 
 	/**
@@ -180,11 +181,11 @@ public class ToolBox extends VBox {
 	 * @param view
 	 *            ListView of the selected Item
 	 */
-	public void generateNode(ListView<String> view) {
+	public void generateNode(ListView<String> view, int shape) {
 		if (view.getSelectionModel().getSelectedItem() != null) {
 			Node node = Node.createNode(view.getSelectionModel()
 					.getSelectedItem());
-			setNodeToGraph(node);
+			setNodeToGraph(node, shape);
 		}
 
 	}
