@@ -139,6 +139,8 @@ public class NodeView {
 
 	public void addChildWithOutDataLinking(NodeView child) {
 		children.add(child);
+		child.parent = this;
+		child.nodeData.overwriteParent(this.nodeData);
 	}
 
 	public void drawLink() {
@@ -153,16 +155,28 @@ public class NodeView {
 
 	public void deleteNode() {
 		if (parent != null) {
-			parent.children.forEach(e -> {
-				if (e.nodeData.id.equals(this.nodeData.id)) {
-					parent.children.remove(e);
-					e.nodeData.removeChild(this.nodeData);
-				}
-			});
+			parent.nodeData.removeChild(this.nodeData);
+			parent.children.remove(this);
+
 		}
 		children.forEach(e -> {
+			e.nodeData.removeParent();
 			e.parent = null;
 		});
+		this.parent = null;
+		this.nodeData.removeParent();
+		// if (parent != null) {
+		// parent.children.forEach(e -> {
+		// if (e.nodeData.id.equals(this.nodeData.id)) {
+		// parent.children.remove(e);
+		// e.nodeData.removeChild(this.nodeData);
+		// }
+		// });
+		// }
+		// children.forEach(e -> {
+		// e.parent = null;
+		// e.nodeData.removeChild(this.nodeData);
+		// });
 	}
 
 }

@@ -29,6 +29,8 @@ public class GraphBuildView extends Canvas {
 
 	public NodeView linkNode;
 
+	public boolean edited = false;
+
 	private double[] mousePosition = { 0, 0 };
 
 	public GraphBuildView(Config currentConfig) {
@@ -64,6 +66,7 @@ public class GraphBuildView extends Canvas {
 						if (node.addChild(linkNode)) {
 						} else if (linkNode.addChild(node)) {
 						}
+						edited = true;
 						draw();
 						break;
 					}

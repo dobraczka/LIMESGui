@@ -301,4 +301,12 @@ public abstract class Node {
 		else
 			return stringTest;
 	}
+
+	public void removeParent() {
+		this.parent = null;
+	}
+
+	public void overwriteParent(Node parent) {
+		this.parent = parent;
+	}
 }
