@@ -1,5 +1,7 @@
 package swp15.link_discovery.view;
 
+import static swp15.link_discovery.util.SourceOrTarget.SOURCE;
+import static swp15.link_discovery.util.SourceOrTarget.TARGET;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -14,6 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import swp15.link_discovery.controller.EditEndpointsController;
+import swp15.link_discovery.util.SourceOrTarget;
 /**
  * View to Edit EndPoints of Limes Query
  * @author Manuel Jacob, Felix Brei
@@ -56,10 +59,10 @@ public class EditEndpointsView implements IEditView {
 	 */
 	private void createRootPane() {
 		HBox hbox = new HBox();
-		Node sourcePanelWithTitle = createEndpointPane(true);
+		Node sourcePanelWithTitle = createEndpointPane(SOURCE);
 		HBox.setHgrow(sourcePanelWithTitle, Priority.ALWAYS);
 		hbox.getChildren().add(sourcePanelWithTitle);
-		Node targetPaneWithTitle = createEndpointPane(false);
+		Node targetPaneWithTitle = createEndpointPane(TARGET);
 		HBox.setHgrow(targetPaneWithTitle, Priority.ALWAYS);
 		hbox.getChildren().add(targetPaneWithTitle);
 
@@ -81,7 +84,7 @@ public class EditEndpointsView implements IEditView {
 	 * @param source If True sourcePane else targetPane
 	 * @return Created Pane
 	 */
-	private Node createEndpointPane(boolean source) {
+	private Node createEndpointPane(SourceOrTarget sourceOrTarget) {
 		GridPane pane = new GridPane();
 		pane.setAlignment(Pos.CENTER);
 		pane.setHgap(10);
@@ -112,7 +115,7 @@ public class EditEndpointsView implements IEditView {
 
 		TextField[] textFields = new TextField[] { endpointURL, idNamespace,
 				graph, pageSize };
-		if (source) {
+		if (sourceOrTarget == SOURCE) {
 			sourceFields = textFields;
 			return new TitledPane("Source endpoint", pane);
 		} else {
@@ -129,9 +132,10 @@ public class EditEndpointsView implements IEditView {
 	 * @param graph Metrik or Graph of the Endpoint
 	 * @param pageSize Length of the Limes Query
 	 */
-	public void setFields(boolean source, String endpoint, String idNamespace,
+	public void setFields(SourceOrTarget sourceOrTarget, String endpoint, String idNamespace,
 			String graph, String pageSize) {
-		TextField[] textFields = source ? sourceFields : targetFields;
+		TextField[] textFields = sourceOrTarget == SOURCE ? sourceFields
+				: targetFields;
 		textFields[0].setText(endpoint);
 		textFields[1].setText(idNamespace);
 		textFields[2].setText(graph);
@@ -143,10 +147,10 @@ public class EditEndpointsView implements IEditView {
 	 */
 	@Override
 	public void save() {
-		controller.save(true, sourceFields[0].getText(),
+		controller.save(SOURCE, sourceFields[0].getText(),
 				sourceFields[1].getText(), sourceFields[2].getText(),
 				sourceFields[3].getText());
-		controller.save(false, targetFields[0].getText(),
+		controller.save(TARGET, targetFields[0].getText(),
 				targetFields[1].getText(), targetFields[2].getText(),
 				targetFields[3].getText());
 	}

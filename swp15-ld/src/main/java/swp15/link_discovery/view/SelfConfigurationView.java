@@ -69,32 +69,28 @@ public class SelfConfigurationView {
 		HBox content = new HBox();
 		selfConfigChooser = new ChoiceBox<String>(
 				FXCollections.observableArrayList("Genetics", "Meshbased"));
-		selfConfigChooser.getSelectionModel().selectedIndexProperty()
-				.addListener(new ChangeListener<Number>() {
+		selfConfigChooser
+				.getSelectionModel()
+				.selectedIndexProperty()
+				.addListener(
+						(arg0, value, new_value) -> {
+							switch (new_value.intValue()) {
+							case 0:
+								controller
+										.setModel(new GeneticSelfConfigurationModel());
+								setGeneticConfigurationView();
 
-					@SuppressWarnings("rawtypes")
-					@Override
-					public void changed(ObservableValue arg0, Number value,
-							Number new_value) {
-						switch (new_value.intValue()) {
-						case 0:
-							controller
-									.setModel(new GeneticSelfConfigurationModel());
-							setGeneticConfigurationView();
+								break;
+							case 1:
+								// TODO Meshbased
+								controller
+										.setModel(new GeneticSelfConfigurationModel());
+								break;
+							default:
+								break;
+							}
 
-							break;
-						case 1:
-							// TODO Meshbased
-							controller
-									.setModel(new GeneticSelfConfigurationModel());
-							break;
-						default:
-							break;
 						}
-
-					}
-
-				}
 
 				);
 
@@ -171,24 +167,17 @@ public class SelfConfigurationView {
 				FXCollections.observableArrayList("Pseudo F-Measure NGLY12",
 						"Pseudo F-Measure NIK+12"));
 		classifierChooser.getSelectionModel().selectedIndexProperty()
-				.addListener(new ChangeListener<Number>() {
+				.addListener((arg0, value, new_value) -> {
+					switch (new_value.intValue()) {
+					case 0:
+						// TODO
 
-					@SuppressWarnings("rawtypes")
-					@Override
-					public void changed(ObservableValue arg0, Number value,
-							Number new_value) {
-						switch (new_value.intValue()) {
-						case 0:
-							// TODO
-
-							break;
-						case 1:
-							// TODO
-							break;
-						default:
-							break;
-						}
-
+						break;
+					case 1:
+						// TODO
+						break;
+					default:
+						break;
 					}
 
 				});
