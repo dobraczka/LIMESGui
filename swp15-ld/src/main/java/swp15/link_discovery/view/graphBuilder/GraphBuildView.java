@@ -3,6 +3,7 @@ package swp15.link_discovery.view.graphBuilder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import swp15.link_discovery.model.metric.Node;
@@ -20,18 +21,35 @@ public class GraphBuildView extends Canvas {
 
 	private NodeContextMenu contextMenu;
 
+	public boolean isLinking;
+
+	public NodeView linkNode;
+
+	private double[] mousePosition = { 0, 0 };
+
 	public GraphBuildView() {
 		this.setWidth(600);
 		this.setHeight(600);
 		this.nodeList = FXCollections.observableArrayList();
 		this.nodeClicked = false;
+		this.isLinking = false;
 		addNode(300, 300, 2, new Output());
-		addNode(400, 400, 3, Node.createNode("add"));
-		addNode(400, 400, 1, Node.createNode("overlap"));
-		nodeList.get(0).addChild(nodeList.get(2));
 	}
 
 	public void start() {
+		this.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+			if (isLinking) {
+				for (NodeView node : nodeList) {
+					if (node.contains((int) e.getX(), (int) e.getY())) {
+						isLinking = false;
+						if (node.addChild(linkNode)) {
+						} else if (linkNode.addChild(node)) {
+						}
+						break;
+					}
+				}
+			}
+		});
 		this.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			index = 0;
 			for (NodeView node : nodeList) {
@@ -48,10 +66,8 @@ public class GraphBuildView extends Canvas {
 				e -> {
 					if (nodeClicked) {
 						nodeList.get(nodeIndex).setXY(
-								(int) e.getX()
-										- (nodeList.get(nodeIndex).WIDTH) / 2,
-								(int) e.getY()
-										- (nodeList.get(nodeIndex).HEIGHT) / 2);
+								(int) e.getX() - (NodeView.WIDTH) / 2,
+								(int) e.getY() - (NodeView.HEIGHT) / 2);
 						draw();
 					}
 				});
@@ -76,11 +92,23 @@ public class GraphBuildView extends Canvas {
 				}
 			}
 		});
+		this.addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
+			if (isLinking) {
+				mousePosition[0] = e.getX();
+				mousePosition[1] = e.getY();
+				draw();
+			}
+		});
 		draw();
 	}
 
 	public void draw() {
-		this.getGraphicsContext2D().clearRect(0, 0, 600, 600);
+		GraphicsContext gc = this.getGraphicsContext2D();
+		gc.clearRect(0, 0, 600, 600);
+		if (isLinking) {
+			gc.strokeLine(linkNode.x + NodeView.WIDTH / 2, linkNode.y
+					+ NodeView.HEIGHT / 2, mousePosition[0], mousePosition[1]);
+		}
 		nodeList.forEach(e -> {
 			e.drawLink();
 			;

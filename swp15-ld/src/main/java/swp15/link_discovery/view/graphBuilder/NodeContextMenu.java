@@ -4,7 +4,6 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
 public class NodeContextMenu extends ContextMenu {
-	private int nodeIndex;
 	private GraphBuildView view;
 
 	private MenuItem close;
@@ -17,7 +16,6 @@ public class NodeContextMenu extends ContextMenu {
 
 	public NodeContextMenu(GraphBuildView view, int nodeIndex) {
 		this.view = view;
-		this.nodeIndex = nodeIndex;
 		this.linkTo = new MenuItem("Link To");
 		this.delete = new MenuItem("Delete");
 		this.close = new MenuItem("Close");
@@ -39,11 +37,14 @@ public class NodeContextMenu extends ContextMenu {
 	private void addListeners() {
 
 		this.delete.setOnAction(e -> {
-			System.out.println("called");
 			view.removeNodeView(node);
 
 		});
+		this.linkTo.setOnAction(e -> {
+			view.isLinking = true;
+			view.linkNode = this.node;
 
+		});
 	}
 
 }
