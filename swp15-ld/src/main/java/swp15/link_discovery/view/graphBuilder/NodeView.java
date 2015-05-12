@@ -137,6 +137,10 @@ public class NodeView {
 		return true;
 	}
 
+	public void addChildWithOutDataLinking(NodeView child) {
+		children.add(child);
+	}
+
 	public void drawLink() {
 		GraphicsContext gc = gbv.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);

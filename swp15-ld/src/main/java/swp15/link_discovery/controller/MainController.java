@@ -73,6 +73,8 @@ public class MainController {
 			setCurrentConfig(Config.loadFromFile(file));
 			view.showLoadedConfig(true);
 			view.toolBox.showLoadedConfig(currentConfig);
+			view.graphBuild.controller.setConfig(currentConfig);
+			view.graphBuild.controller.generateGraphFromConfig();
 		} catch (Exception e) {
 			view.showErrorDialog(
 					"Exception while loading config: " + e.getMessage(),
@@ -152,4 +154,12 @@ public class MainController {
 		selfConfigView.controller.setCurrentConfig(currentConfig);
 	}
 
+	/**
+	 * returns the currentConfig
+	 * 
+	 * @return currentConfig
+	 */
+	public Config getCurrentConfig() {
+		return this.currentConfig;
+	}
 }

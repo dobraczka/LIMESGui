@@ -6,10 +6,14 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import swp15.link_discovery.controller.GraphBuildController;
+import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.metric.Node;
 import swp15.link_discovery.model.metric.Output;
 
 public class GraphBuildView extends Canvas {
+
+	public GraphBuildController controller;
 
 	public ObservableList<NodeView> nodeList;
 
@@ -27,6 +31,16 @@ public class GraphBuildView extends Canvas {
 
 	private double[] mousePosition = { 0, 0 };
 
+	public GraphBuildView(Config currentConfig) {
+		this.setWidth(600);
+		this.setHeight(600);
+		this.nodeList = FXCollections.observableArrayList();
+		this.nodeClicked = false;
+		this.isLinking = false;
+		addNode(300, 300, 2, new Output());
+		this.controller = new GraphBuildController(currentConfig, this);
+	}
+
 	public GraphBuildView() {
 		this.setWidth(600);
 		this.setHeight(600);
@@ -34,6 +48,11 @@ public class GraphBuildView extends Canvas {
 		this.nodeClicked = false;
 		this.isLinking = false;
 		addNode(300, 300, 2, new Output());
+		this.controller = new GraphBuildController(this);
+	}
+
+	public void setCurrentConfig(Config config) {
+		this.controller.setConfig(config);
 	}
 
 	public void start() {
