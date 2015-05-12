@@ -22,7 +22,7 @@ public class GraphBuildView extends Canvas {
 		this.setHeight(600);
 		this.nodeList = FXCollections.observableArrayList();
 		this.nodeClicked = false;
-		nodeList.add(addNode(300, 300, new Output()));
+		nodeList.add(addNode(300, 300, 2, new Output()));
 
 	}
 
@@ -38,12 +38,18 @@ public class GraphBuildView extends Canvas {
 				index++;
 			}
 		});
-		this.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
-			if (nodeClicked) {
-				nodeList.get(nodeIndex).setXY((int) e.getX(), (int) e.getY());
-				draw();
-			}
-		});
+		this.addEventHandler(
+				MouseEvent.MOUSE_DRAGGED,
+				e -> {
+					if (nodeClicked) {
+						nodeList.get(nodeIndex).setXY(
+								(int) e.getX()
+										- (nodeList.get(nodeIndex).WIDTH) / 2,
+								(int) e.getY()
+										- (nodeList.get(nodeIndex).HEIGHT) / 2);
+						draw();
+					}
+				});
 		this.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
 			nodeClicked = false;
 		});
@@ -73,8 +79,8 @@ public class GraphBuildView extends Canvas {
 
 	}
 
-	public NodeView addNode(int x, int y, Node node) {
-		NodeView nv = new NodeView(x, y, 1, "test", this, node);
+	public NodeView addNode(int x, int y, int shape, Node node) {
+		NodeView nv = new NodeView(x, y, shape, "test", this, node);
 		nv.displayNode();
 		nodeList.add(nv);
 		return nv;
