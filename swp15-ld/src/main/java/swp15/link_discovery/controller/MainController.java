@@ -145,6 +145,16 @@ public class MainController {
 		if (currentConfig == null) {
 			return;
 		}
+		if (view.graphBuild.edited) {
+			if (view.graphBuild.nodeList.get(0).nodeData.isComplete()) {
+				System.out.println(view.graphBuild.nodeList.get(0).nodeData
+						.toString());
+
+			} else {
+				// TODO Show Warning, that Metric is not complete
+			}
+		}
+
 		ObservableList<Result> results = currentConfig.doMapping();
 		resultView.showResults(results, currentConfig);
 	}
