@@ -3,9 +3,12 @@ package swp15.link_discovery.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import swp15.link_discovery.model.Config;
+import swp15.link_discovery.model.metric.Measure;
 import swp15.link_discovery.model.metric.MetricParser;
 import swp15.link_discovery.model.metric.Node;
+import swp15.link_discovery.model.metric.Operator;
 import swp15.link_discovery.model.metric.Output;
+import swp15.link_discovery.model.metric.Property;
 import swp15.link_discovery.view.graphBuilder.GraphBuildView;
 import swp15.link_discovery.view.graphBuilder.NodeView;
 
@@ -44,9 +47,22 @@ public class GraphBuildController {
 
 	public ObservableList<NodeView> drawChildRek(NodeView parent, Node node,
 			ObservableList<NodeView> nodeList) {
-		int nodeShape = 1;
+		int nodeShape;
+		if (Measure.identifiers.contains(node.id)) {
+			nodeShape = NodeView.METRIC;
+		} else if (Operator.identifiers.contains(node.id)) {
+			nodeShape = NodeView.OPERATOR;
+		} else {
+			Property castedNode = (Property) node;
+			if (castedNode.getOrigin() == Property.Origin.SOURCE) {
+				nodeShape = NodeView.SOURCE;
+			} else {
+				nodeShape = NodeView.TARGET;
+			}
+		}
 		NodeView thisNode = new NodeView(200, 200, nodeShape, node.id, view,
 				node);
+
 		nodeList.add(thisNode);
 		parent.addChildWithOutDataLinking(thisNode);
 		if (node.getMaxChilds() == 0) {
