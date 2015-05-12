@@ -45,6 +45,7 @@ public class GraphBuildView extends Canvas {
 						if (node.addChild(linkNode)) {
 						} else if (linkNode.addChild(node)) {
 						}
+						draw();
 						break;
 					}
 				}
