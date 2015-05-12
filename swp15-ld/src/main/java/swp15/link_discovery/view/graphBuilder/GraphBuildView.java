@@ -25,9 +25,9 @@ public class GraphBuildView extends Canvas {
 		this.setHeight(600);
 		this.nodeList = FXCollections.observableArrayList();
 		this.nodeClicked = false;
-		addNode(300, 300, new Output());
-		addNode(400, 400, Node.createNode("add"));
-		addNode(400, 400, Node.createNode("overlap"));
+		addNode(300, 300, 2, new Output());
+		addNode(400, 400, 3, Node.createNode("add"));
+		addNode(400, 400, 1, Node.createNode("overlap"));
 		nodeList.get(0).addChild(nodeList.get(2));
 	}
 
