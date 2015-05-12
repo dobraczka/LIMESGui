@@ -1,5 +1,7 @@
 package swp15.link_discovery.model;
 
+import static swp15.link_discovery.util.SourceOrTarget.SOURCE;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import swp15.link_discovery.model.metric.MetricParser;
 import swp15.link_discovery.model.metric.Output;
+import swp15.link_discovery.util.SourceOrTarget;
 import de.uni_leipzig.simba.cache.Cache;
 import de.uni_leipzig.simba.cache.HybridCache;
 import de.uni_leipzig.simba.data.Mapping;
@@ -234,8 +237,8 @@ public class Config {
 		metric.param1 = acceptanceThreshold;
 	}
 
-	public String getPropertyString(int index, boolean source) {
-		if (source) {
+	public String getPropertyString(int index, SourceOrTarget sourceOrTarget) {
+		if (sourceOrTarget == SOURCE) {
 			return getSourceInfo().var.substring(1) + "."
 					+ getSourceInfo().properties.get(index);
 

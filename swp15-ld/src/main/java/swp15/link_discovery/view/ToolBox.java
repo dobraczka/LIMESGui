@@ -1,5 +1,8 @@
 package swp15.link_discovery.view;
 
+import static swp15.link_discovery.util.SourceOrTarget.SOURCE;
+import static swp15.link_discovery.util.SourceOrTarget.TARGET;
+
 import java.util.List;
 import java.util.Set;
 
@@ -145,11 +148,11 @@ public class ToolBox extends VBox {
 			Property gen = null;
 			if (origin) {
 				gen = new Property(config.getPropertyString(view
-						.getSelectionModel().getSelectedIndex(), true),
+						.getSelectionModel().getSelectedIndex(), SOURCE),
 						Property.Origin.SOURCE);
 			} else {
 				gen = new Property(config.getPropertyString(view
-						.getSelectionModel().getSelectedIndex(), false),
+						.getSelectionModel().getSelectedIndex(), TARGET),
 						Property.Origin.TARGET);
 
 			}
