@@ -47,13 +47,16 @@ public class ToolBox extends VBox {
 	 */
 	private Config config;
 
+	private MainView view;
+
 	/**
 	 * Constructor
 	 */
-	public ToolBox() {
+	public ToolBox(MainView view) {
 		generateView(this);
 		setListeners();
 		this.config = null;
+		this.view = view;
 	}
 
 	/**
@@ -165,7 +168,7 @@ public class ToolBox extends VBox {
 	 *            Node to be added
 	 */
 	public void setNodeToGraph(Node e) {
-
+		view.graphBuild.addNode(200, 200, e);
 	}
 
 	/**

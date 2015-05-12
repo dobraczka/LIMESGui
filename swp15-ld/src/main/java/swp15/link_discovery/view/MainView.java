@@ -80,12 +80,12 @@ public class MainView {
 		BorderPane root = new BorderPane();
 
 		MenuBar menuBar = buildMenuBar(stage);
-		toolBox = new ToolBox();
+		toolBox = new ToolBox(this);
 		graphBuild = new GraphBuildView();
 		root.setTop(menuBar);
 		root.setLeft(toolBox);
 		root.setRight(graphBuild);
-		graphBuild.draw();
+		graphBuild.start();
 
 		Scene scene = new Scene(root, 800, 600);
 		stage.setTitle("LIMES");
