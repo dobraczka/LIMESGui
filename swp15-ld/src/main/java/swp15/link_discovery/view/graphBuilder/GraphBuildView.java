@@ -3,13 +3,14 @@ package swp15.link_discovery.view.graphBuilder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import swp15.link_discovery.model.metric.Node;
 import swp15.link_discovery.model.metric.Output;
 
 public class GraphBuildView extends Canvas {
 
-	private ObservableList<NodeView> nodeList;
+	public ObservableList<NodeView> nodeList;
 
 	private boolean nodeClicked;
 
@@ -17,13 +18,17 @@ public class GraphBuildView extends Canvas {
 
 	private int index;
 
+	private NodeContextMenu contextMenu;
+
 	public GraphBuildView() {
 		this.setWidth(600);
 		this.setHeight(600);
 		this.nodeList = FXCollections.observableArrayList();
 		this.nodeClicked = false;
-		nodeList.add(addNode(300, 300, 2, new Output()));
-
+		addNode(300, 300, new Output());
+		addNode(400, 400, Node.createNode("add"));
+		addNode(400, 400, Node.createNode("overlap"));
+		nodeList.get(0).addChild(nodeList.get(2));
 	}
 
 	public void start() {
@@ -53,30 +58,36 @@ public class GraphBuildView extends Canvas {
 		this.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
 			nodeClicked = false;
 		});
+		this.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+			if (e.getButton() == MouseButton.SECONDARY) {
+				index = 0;
+				boolean clickedNode = false;
+				for (NodeView node : nodeList) {
+					if (node.contains((int) e.getX(), (int) e.getY())) {
+						nodeIndex = index;
+						clickedNode = true;
+						break;
+					}
+					index++;
+				}
+				if (clickedNode) {
+					contextMenu = new NodeContextMenu(this, nodeIndex);
+					contextMenu.show(this, e.getX() + 500, e.getY());
+				}
+			}
+		});
 		draw();
 	}
 
 	public void draw() {
 		this.getGraphicsContext2D().clearRect(0, 0, 600, 600);
 		nodeList.forEach(e -> {
+			e.drawLink();
+			;
+		});
+		nodeList.forEach(e -> {
 			e.displayNode();
 		});
-		// this.addEventHandler(MouseEvent.MOUSE_CLICKED,
-		// new EventHandler<MouseEvent>() {
-		// @Override
-		// public void handle(MouseEvent e) {
-		//
-		// }
-		// });
-		//
-		// this.addEventHandler(MouseEvent.MOUSE_DRAGGED,
-		// new EventHandler<MouseEvent>() {
-		// @Override
-		// public void handle(MouseEvent e) {
-		// addNode((int) e.getX() - 25, (int) e.getY() - 25);
-		// }
-		// });
-
 	}
 
 	public NodeView addNode(int x, int y, int shape, Node node) {
@@ -84,6 +95,20 @@ public class GraphBuildView extends Canvas {
 		nv.displayNode();
 		nodeList.add(nv);
 		return nv;
+	}
+
+	public void removeNodeView(NodeView node) {
+		boolean remove = false;
+		for (NodeView item : nodeList) {
+			if (node.nodeData.id.equals(item.nodeData.id)) {
+				remove = true;
+			}
+		}
+		if (remove) {
+			node.deleteNode();
+			nodeList.remove(node);
+			draw();
+		}
 	}
 
 }
