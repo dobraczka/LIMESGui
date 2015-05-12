@@ -79,7 +79,6 @@ public class NodeView {
 			case "or":
 				gc.drawImage(or, x, y);
 				break;
-
 			}
 			break;
 		case SOURCE:
@@ -88,7 +87,6 @@ public class NodeView {
 			gc.strokeText(nodeData.id, x, y + HEIGHT / 2);
 			break;
 		case TARGET:
-			System.out.println(this.nodeShape);
 			gc.setFill(Color.GREEN);
 			gc.fillRect(x, y, WIDTH, HEIGHT);
 			gc.strokeText(nodeData.id, x, y + HEIGHT / 2);
