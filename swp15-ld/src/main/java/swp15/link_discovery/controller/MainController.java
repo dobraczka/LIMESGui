@@ -151,4 +151,5 @@ public class MainController {
 		SelfConfigurationView selfConfigView = new SelfConfigurationView();
 		selfConfigView.controller.setCurrentConfig(currentConfig);
 	}
+
 }
