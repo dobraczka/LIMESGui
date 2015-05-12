@@ -1,5 +1,8 @@
 package swp15.link_discovery.view.graphBuilder;
 
+import java.util.List;
+import java.util.Vector;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import swp15.link_discovery.model.metric.Node;
@@ -17,6 +20,10 @@ public class NodeView {
 	GraphBuildView gbv;
 
 	public Node nodeData;
+
+	public List<NodeView> children = new Vector<NodeView>();
+
+	public NodeView parent = null;
 
 	public NodeView(int x, int y, int nodeShape, String label,
 			GraphBuildView gbv, Node node) {
@@ -37,6 +44,7 @@ public class NodeView {
 			gc.fillRect(x, y, WIDTH, HEIGHT);
 			gc.strokeText(nodeData.id, x, y);
 		}
+
 	}
 
 	public void moveNode(int x, int y) {
@@ -62,6 +70,40 @@ public class NodeView {
 			return false;
 		}
 		return false;
+	}
+
+	public boolean addChild(NodeView child) {
+		boolean test = nodeData.addChild(child.nodeData);
+		if (!test) {
+			return false;
+		}
+		children.add(child);
+		child.parent = this;
+		return true;
+	}
+
+	public void drawLink() {
+		GraphicsContext gc = gbv.getGraphicsContext2D();
+		gc.setStroke(Color.BLACK);
+		children.forEach(nodeView -> {
+			gc.strokeLine(x + NodeView.WIDTH / 2, y + NodeView.HEIGHT / 2,
+					nodeView.x + NodeView.WIDTH / 2, nodeView.y
+							+ NodeView.HEIGHT / 2);
+		});
+	}
+
+	public void deleteNode() {
+		if (parent != null) {
+			parent.children.forEach(e -> {
+				if (e.nodeData.id.equals(this.nodeData.id)) {
+					parent.children.remove(e);
+					e.nodeData.removeChild(this.nodeData);
+				}
+			});
+		}
+		children.forEach(e -> {
+			e.parent = null;
+		});
 	}
 
 }
