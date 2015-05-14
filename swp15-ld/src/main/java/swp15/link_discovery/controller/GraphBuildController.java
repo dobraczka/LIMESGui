@@ -56,6 +56,7 @@ public class GraphBuildController {
 
 	public void deleteGraph() {
 		view.nodeList.clear();
+		view.edited = true;
 		view.addNode(300, 300, 2, new Output());
 		view.draw();
 	};
@@ -72,11 +73,17 @@ public class GraphBuildController {
 				test = test.parent;
 				i++;
 			}
+			System.out.println(stages.toString() + ":" + i);
 			try {
 				stages.get(i);
 			} catch (IndexOutOfBoundsException exception) {
-				stages.add(i, 0);
+				try {
+					stages.add(i, 0);
+				} catch (IndexOutOfBoundsException e2) {
+					rekListAdder(i, stages);
+				}
 			}
+			System.out.println("worked" + stages.toString() + e.nodeData.id);
 			stages.set(i,
 					Integer.sum(Integer.max(stages.get(i).intValue(), 0), 1));
 
@@ -96,6 +103,18 @@ public class GraphBuildController {
 			stages2.set(i, stages2.get(i) - 1);
 		});
 		view.draw();
+	}
+
+	public List<Integer> rekListAdder(int index, List<Integer> stages) {
+		try {
+			stages.add(index - 1, 0);
+			stages.add(index, 0);
+			return stages;
+		} catch (IndexOutOfBoundsException e) {
+			rekListAdder(index - 1, stages);
+			stages.add(index, 0);
+			return stages;
+		}
 	}
 
 	public ObservableList<NodeView> drawChildRek(NodeView parent, Node node,
