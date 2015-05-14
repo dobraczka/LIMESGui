@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import swp15.link_discovery.controller.GraphBuildController;
@@ -58,21 +60,27 @@ public class GraphBuildView extends Canvas {
 	}
 
 	public void start() {
-		this.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-			if (isLinking) {
-				for (NodeView node : nodeList) {
-					if (node.contains((int) e.getX(), (int) e.getY())) {
-						isLinking = false;
-						if (node.addChild(linkNode)) {
-						} else if (linkNode.addChild(node)) {
+		this.addEventHandler(
+				MouseEvent.MOUSE_CLICKED,
+				e -> {
+					if (isLinking) {
+						for (NodeView node : nodeList) {
+							if (node.contains((int) e.getX(), (int) e.getY())) {
+								isLinking = false;
+								if (linkNode.addChild(node)) {
+								} else {
+									Alert alert = new Alert(
+											AlertType.INFORMATION);
+									alert.setContentText("Clicked Node is no valid Child");
+									alert.showAndWait();
+								}
+								edited = true;
+								draw();
+								break;
+							}
 						}
-						edited = true;
-						draw();
-						break;
 					}
-				}
-			}
-		});
+				});
 		this.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			index = 0;
 			for (NodeView node : nodeList) {
@@ -134,7 +142,6 @@ public class GraphBuildView extends Canvas {
 		}
 		nodeList.forEach(e -> {
 			e.drawLink();
-			;
 		});
 		nodeList.forEach(e -> {
 			e.displayNode();

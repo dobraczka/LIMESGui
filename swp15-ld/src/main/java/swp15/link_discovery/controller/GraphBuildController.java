@@ -51,6 +51,7 @@ public class GraphBuildController {
 	public void setConfigFromGraph() {
 		currentConfig.getConfigReader().metricExpression = view.nodeList.get(0).nodeData
 				.toString();
+		System.out.println(view.nodeList.get(0).nodeData.toString());
 
 	}
 
@@ -73,7 +74,6 @@ public class GraphBuildController {
 				test = test.parent;
 				i++;
 			}
-			System.out.println(stages.toString() + ":" + i);
 			try {
 				stages.get(i);
 			} catch (IndexOutOfBoundsException exception) {
@@ -83,7 +83,6 @@ public class GraphBuildController {
 					rekListAdder(i, stages);
 				}
 			}
-			System.out.println("worked" + stages.toString() + e.nodeData.id);
 			stages.set(i,
 					Integer.sum(Integer.max(stages.get(i).intValue(), 0), 1));
 
