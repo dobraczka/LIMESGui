@@ -5,21 +5,22 @@ import javafx.beans.property.SimpleStringProperty;
 
 /**
  * Contains all important information of the result of an instancematch
+ * 
  * @author Manuel Jacob
  *
  */
 public class Result {
-	
+
 	/**
 	 * URI of the source
 	 */
 	private final SimpleStringProperty sourceURI;
-	
+
 	/**
 	 * URI of the target
 	 */
 	private final SimpleStringProperty targetURI;
-	
+
 	/**
 	 * Value of the Result
 	 */
@@ -27,9 +28,13 @@ public class Result {
 
 	/**
 	 * Constructor
-	 * @param sourceURI URI of the source
-	 * @param targetURI URI of the target
-	 * @param value value of the result
+	 * 
+	 * @param sourceURI
+	 *            URI of the source
+	 * @param targetURI
+	 *            URI of the target
+	 * @param value
+	 *            value of the result
 	 */
 	public Result(String sourceURI, String targetURI, Double value) {
 		this.sourceURI = new SimpleStringProperty(sourceURI);
@@ -39,6 +44,7 @@ public class Result {
 
 	/**
 	 * returns URI of the source
+	 * 
 	 * @return sourceURI
 	 */
 	public String getSourceURI() {
@@ -47,6 +53,7 @@ public class Result {
 
 	/**
 	 * returns URI of the target
+	 * 
 	 * @return targetURI
 	 */
 	public String getTargetURI() {
@@ -55,6 +62,7 @@ public class Result {
 
 	/**
 	 * returns value of the result
+	 * 
 	 * @return value
 	 */
 	public double getValue() {

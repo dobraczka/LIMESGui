@@ -7,8 +7,10 @@ import org.apache.log4j.BasicConfigurator;
 
 import swp15.link_discovery.controller.MainController;
 import swp15.link_discovery.view.MainView;
+
 /**
  * Starts the LinkDiscovery Application
+ * 
  * @author Manuel Jacob
  *
  */
@@ -25,9 +27,12 @@ public class LinkDiscovery extends Application {
 		MainController mainController = new MainController(mainView);
 		mainView.setController(mainController);
 	}
+
 	/**
-	 *  Main function Entry Point for the Application
-	 * @param args optional arguments on StartUp, No Options implemented yet
+	 * Main function Entry Point for the Application
+	 * 
+	 * @param args
+	 *            optional arguments on StartUp, No Options implemented yet
 	 */
 	public static void main(String[] args) {
 		BasicConfigurator.configure();

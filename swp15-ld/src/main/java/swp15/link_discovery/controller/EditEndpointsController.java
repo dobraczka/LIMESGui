@@ -9,6 +9,7 @@ import de.uni_leipzig.simba.io.KBInfo;
 
 /**
  * Controls EditEndpointsView
+ * 
  * @author Manuel Jacob, Felix Brei
  *
  */
@@ -20,8 +21,11 @@ public class EditEndpointsController {
 
 	/**
 	 * Constructor
-	 * @param config Config of Limes Query
-	 * @param view corresponding EditEndpointsView
+	 * 
+	 * @param config
+	 *            Config of Limes Query
+	 * @param view
+	 *            corresponding EditEndpointsView
 	 */
 	EditEndpointsController(Config config, EditEndpointsView view) {
 		this.config = config;
@@ -36,11 +40,17 @@ public class EditEndpointsController {
 
 	/**
 	 * Saves edited Endpoint
-	 * @param source if True Source else Target
-	 * @param endpointURL URL of the Endpoint
-	 * @param idNamespace Namespace of Endpoint
-	 * @param graph TODO
-	 * @param pageSize length of Query
+	 * 
+	 * @param source
+	 *            if True Source else Target
+	 * @param endpointURL
+	 *            URL of the Endpoint
+	 * @param idNamespace
+	 *            Namespace of Endpoint
+	 * @param graph
+	 *            TODO
+	 * @param pageSize
+	 *            length of Query
 	 */
 	public void save(SourceOrTarget sourceOrTarget, String endpointURL,
 			String idNamespace, String graph, String pageSize) {

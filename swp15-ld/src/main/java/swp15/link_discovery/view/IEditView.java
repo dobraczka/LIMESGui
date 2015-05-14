@@ -1,14 +1,17 @@
 package swp15.link_discovery.view;
 
 import javafx.scene.Parent;
+
 /**
  * Interface for the EditEndPoint Dialog
+ * 
  * @author Manuel Jacob, Felix Brei
  *
  */
 public interface IEditView {
 	/**
 	 * Return the Pane
+	 * 
 	 * @return Returns the used Pane
 	 */
 	public Parent getPane();

@@ -17,8 +17,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import swp15.link_discovery.controller.EditEndpointsController;
 import swp15.link_discovery.util.SourceOrTarget;
+
 /**
  * View to Edit EndPoints of Limes Query
+ * 
  * @author Manuel Jacob, Felix Brei
  *
  */
@@ -49,11 +51,14 @@ public class EditEndpointsView implements IEditView {
 
 	/**
 	 * Sets the Controller of the View
-	 * @param controller Corresponding Controller
+	 * 
+	 * @param controller
+	 *            Corresponding Controller
 	 */
 	public void setController(EditEndpointsController controller) {
 		this.controller = controller;
 	}
+
 	/**
 	 * Creates a new RootPane with Layout
 	 */
@@ -81,7 +86,9 @@ public class EditEndpointsView implements IEditView {
 
 	/**
 	 * Creates Pane with Textfields to Edit the EndPoints
-	 * @param source If True sourcePane else targetPane
+	 * 
+	 * @param source
+	 *            If True sourcePane else targetPane
 	 * @return Created Pane
 	 */
 	private Node createEndpointPane(SourceOrTarget sourceOrTarget) {
@@ -126,14 +133,20 @@ public class EditEndpointsView implements IEditView {
 
 	/**
 	 * Fills the Textfield with the Information
-	 * @param source if True source else Target
-	 * @param endpoint URL of the Endpoint
-	 * @param idNamespace Namespace of the Endpoint
-	 * @param graph Metrik or Graph of the Endpoint
-	 * @param pageSize Length of the Limes Query
+	 * 
+	 * @param source
+	 *            if True source else Target
+	 * @param endpoint
+	 *            URL of the Endpoint
+	 * @param idNamespace
+	 *            Namespace of the Endpoint
+	 * @param graph
+	 *            Metrik or Graph of the Endpoint
+	 * @param pageSize
+	 *            Length of the Limes Query
 	 */
-	public void setFields(SourceOrTarget sourceOrTarget, String endpoint, String idNamespace,
-			String graph, String pageSize) {
+	public void setFields(SourceOrTarget sourceOrTarget, String endpoint,
+			String idNamespace, String graph, String pageSize) {
 		TextField[] textFields = sourceOrTarget == SOURCE ? sourceFields
 				: targetFields;
 		textFields[0].setText(endpoint);
