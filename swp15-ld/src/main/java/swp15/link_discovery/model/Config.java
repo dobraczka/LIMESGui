@@ -104,6 +104,8 @@ public class Config {
 		Config config = new Config(reader);
 		config.metric = MetricParser.parse(reader.metricExpression,
 				config.getSourceInfo().var.replaceAll("\\?", ""));
+		config.metric.param1 = reader.acceptanceThreshold;
+		config.metric.param2 = reader.verificationThreshold;
 		return config;
 	}
 
@@ -393,7 +395,6 @@ public class Config {
 		this.metric = MetricParser.parse(
 				view.nodeList.get(0).nodeData.toString(),
 				this.getSourceInfo().var.replaceAll("\\?", ""));
-		;
 	}
 
 	public Output getMetric() {
