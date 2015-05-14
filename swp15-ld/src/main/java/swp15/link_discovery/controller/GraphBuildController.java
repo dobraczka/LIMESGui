@@ -82,20 +82,19 @@ public class GraphBuildController {
 
 		});
 		stages2 = new ArrayList<Integer>(stages);
-		view.nodeList
-				.forEach(e -> {
-					int i = 0;
-					int hInt = stages.size();
-					NodeView test = e;
-					while (test.parent != null) {
-						test = test.parent;
-						i++;
-					}
-					e.setXY((int) (w - ((w * stages2.get(i)) / stages.get(i)) + (w / (2 * stages
-							.get(i)))), (int) (h - (((h * (i + 1)) / hInt))));
-					stages2.set(i, stages2.get(i) - 1);
-					System.out.println(e.nodeData.id + ":" + e.x + ":" + e.y);
-				});
+		view.nodeList.forEach(e -> {
+			int i = 0;
+			int hInt = stages.size();
+			NodeView test = e;
+			while (test.parent != null) {
+				test = test.parent;
+				i++;
+			}
+			e.setXY((int) (w - ((w * stages2.get(i)) / stages.get(i))
+					+ (w / (2 * stages.get(i))) - NodeView.WIDTH), (int) (h
+					+ NodeView.HEIGHT - (((h * (i + 1)) / hInt))));
+			stages2.set(i, stages2.get(i) - 1);
+		});
 		view.draw();
 	}
 
