@@ -7,7 +7,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.metric.Measure;
-import swp15.link_discovery.model.metric.MetricParser;
 import swp15.link_discovery.model.metric.Node;
 import swp15.link_discovery.model.metric.Operator;
 import swp15.link_discovery.model.metric.Output;
@@ -34,9 +33,8 @@ public class GraphBuildController {
 	}
 
 	public void generateGraphFromConfig() {
-		Output out = MetricParser.parse(
-				currentConfig.getConfigReader().metricExpression,
-				currentConfig.getSourceInfo().var.replaceAll("\\?", ""));
+
+		Output out = currentConfig.getMetric();
 		ObservableList<NodeView> newNodeList = FXCollections
 				.observableArrayList();
 		NodeView outView = new NodeView(200, 200, NodeView.OUTPUT, out.id,
@@ -49,8 +47,7 @@ public class GraphBuildController {
 	}
 
 	public void setConfigFromGraph() {
-		currentConfig.getConfigReader().metricExpression = view.nodeList.get(0).nodeData
-				.toString();
+		currentConfig.setMetric(view);
 
 	}
 
