@@ -21,6 +21,7 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
+import swp15.link_discovery.model.metric.MetricFormatException;
 import swp15.link_discovery.model.metric.MetricParser;
 import swp15.link_discovery.model.metric.Output;
 import swp15.link_discovery.util.SourceOrTarget;
@@ -119,69 +120,75 @@ public class Config {
 	 */
 	public void save(File file) throws Exception {
 		// throw new Exception("Not implemented yet!");
-		try {
-			Document document = null;
-			// document = new SAXBuilder().build(getClass().getClassLoader()
-			// .getResourceAsStream("template.xml.template"));
-			SAXBuilder builder = new SAXBuilder();
-			document = builder
-					.build(new File("resource/template.xml.template"));
-			Element rootElement = document.getRootElement();
-			{ // Prefixes
-				Map<String, String> prefixes = new HashMap<String, String>(
-						reader.sourceInfo.prefixes);
-				prefixes.putAll(reader.targetInfo.prefixes);
-				int i = 0;
-				for (String prefix : prefixes.keySet()) {
-					Element prefixElement;
-					rootElement.addContent(i++, prefixElement = new Element(
-							"PREFIX"));
-					prefixElement.addContent(new Element("NAMESPACE")
-							.setText(prefixes.get(prefix)));
-					prefixElement.addContent(new Element("LABEL")
-							.setText(prefix));
+
+		if (metric.isComplete()) {
+			try {
+				Document document = null;
+				// document = new SAXBuilder().build(getClass().getClassLoader()
+				// .getResourceAsStream("template.xml.template"));
+				SAXBuilder builder = new SAXBuilder();
+				document = builder.build(new File(
+						"resource/template.xml.template"));
+				Element rootElement = document.getRootElement();
+				{ // Prefixes
+					Map<String, String> prefixes = new HashMap<String, String>(
+							reader.sourceInfo.prefixes);
+					prefixes.putAll(reader.targetInfo.prefixes);
+					int i = 0;
+					for (String prefix : prefixes.keySet()) {
+						Element prefixElement;
+						rootElement.addContent(i++,
+								prefixElement = new Element("PREFIX"));
+						prefixElement.addContent(new Element("NAMESPACE")
+								.setText(prefixes.get(prefix)));
+						prefixElement.addContent(new Element("LABEL")
+								.setText(prefix));
+					}
 				}
+				Element sourceElement = rootElement.getChild("SOURCE");
+				sourceElement.removeChildren("RESTRICTION");
+				sourceElement.removeChildren("PROPERTY");
+				Element targetElement = rootElement.getChild("TARGET");
+				targetElement.removeChildren("RESTRICTION");
+				targetElement.removeChildren("PROPERTY");
+				fillKBElement(sourceElement, reader.sourceInfo);
+				fillKBElement(targetElement, reader.targetInfo);
+
+				if (metric != null) {
+					rootElement.getChild("METRIC").setText(metric.toString());
+					System.out.println(metric.toString());
+				}
+
+				{
+					Element acceptanceElement = rootElement
+							.getChild("ACCEPTANCE");
+					acceptanceElement.getChild("FILE").setText(
+							reader.sourceInfo.endpoint + '-'
+									+ reader.targetInfo.endpoint + "-accept");
+					acceptanceElement.getChild("THRESHOLD").setText(
+							Double.toString(getAcceptanceThreshold()));
+				}
+				{
+					Element reviewElement = rootElement.getChild("REVIEW");
+
+					reviewElement.getChild("FILE").setText(
+							reader.sourceInfo.endpoint + '-'
+									+ reader.targetInfo.endpoint + "-review");
+					reviewElement.getChild("THRESHOLD").setText(
+							Double.toString(getVerificationThreshold()));
+
+				}
+
+				XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
+				out.output(document, new FileOutputStream(file, false));
+
+				// getElementById("/LIMES/SOURCE/VAR")
+			} catch (Exception e) {
+				System.err.println();
+				throw new RuntimeException(e);
 			}
-			Element sourceElement = rootElement.getChild("SOURCE");
-			sourceElement.removeChildren("RESTRICTION");
-			sourceElement.removeChildren("PROPERTY");
-			Element targetElement = rootElement.getChild("TARGET");
-			targetElement.removeChildren("RESTRICTION");
-			targetElement.removeChildren("PROPERTY");
-			fillKBElement(sourceElement, reader.sourceInfo);
-			fillKBElement(targetElement, reader.targetInfo);
-
-			if (metric != null) {
-				rootElement.getChild("METRIC").setText(metric.toString());
-				System.out.println(metric.toString());
-			}
-
-			{
-				Element acceptanceElement = rootElement.getChild("ACCEPTANCE");
-				acceptanceElement.getChild("FILE").setText(
-						reader.sourceInfo.endpoint + '-'
-								+ reader.targetInfo.endpoint + "-accept");
-				acceptanceElement.getChild("THRESHOLD").setText(
-						Double.toString(getAcceptanceThreshold()));
-			}
-			{
-				Element reviewElement = rootElement.getChild("REVIEW");
-
-				reviewElement.getChild("FILE").setText(
-						reader.sourceInfo.endpoint + '-'
-								+ reader.targetInfo.endpoint + "-review");
-				reviewElement.getChild("THRESHOLD").setText(
-						Double.toString(getVerificationThreshold()));
-
-			}
-
-			XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
-			out.output(document, new FileOutputStream(file, false));
-
-			// getElementById("/LIMES/SOURCE/VAR")
-		} catch (Exception e) {
-			System.err.println();
-			throw new RuntimeException(e);
+		} else {
+			throw new MetricFormatException();
 		}
 	}
 
