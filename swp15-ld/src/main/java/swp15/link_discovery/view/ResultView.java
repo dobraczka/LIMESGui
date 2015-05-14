@@ -1,12 +1,18 @@
 package swp15.link_discovery.view;
 
+import java.io.File;
+
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import swp15.link_discovery.controller.ResultController;
 import swp15.link_discovery.model.Config;
@@ -15,22 +21,23 @@ import swp15.link_discovery.model.Result;
 
 /**
  * View to show the Results of the LIMES-query, and their Instances
+ * 
  * @author Daniel Obraczka, Sascha Hahne
  *
  */
 
 public class ResultView {
-	
+
 	/**
 	 * Table with the list of InstanceMatches
 	 */
 	private TableView<Result> table;
-	
+
 	/**
 	 * Corresponding Controller for the Resultview
 	 */
 	private ResultController controller;
-	
+
 	/**
 	 * Lists the Instance Properties of the clicked source Instance
 	 */
@@ -40,6 +47,10 @@ public class ResultView {
 	 * Lists the Instance Properties of the clicked target Instance
 	 */
 	private TableView<InstanceProperty> targetInstanceTable;
+
+	private ObservableList<Result> results;
+
+	private MenuItem itemSaveResults;
 
 	/**
 	 * Constructor
@@ -51,43 +62,64 @@ public class ResultView {
 
 	/**
 	 * Creates the Window, with the 3 Tables, which show the matched Instances,
-	 * and the Properties of clicked Soruce and Target
+	 * and the Properties of clicked Source and Target
 	 */
 	private void createWindow() {
-		BorderPane root = new BorderPane();
+		Stage stage = new Stage();
+
+		VBox root = new VBox();
 		HBox resultProperties = new HBox();
-		
+
+		Menu menuFile = new Menu("File");
+		itemSaveResults = new MenuItem("Save Results");
+		itemSaveResults.setOnAction(e -> {
+			FileChooser fileChooser = new FileChooser();
+			File file = fileChooser.showSaveDialog(stage);
+			if (file != null) {
+				controller.saveResults(results, file);
+			}
+		});
+		menuFile.getItems().add(itemSaveResults);
+		root.getChildren().add(new MenuBar(menuFile));
+
 		sourceInstanceTable = new TableView<InstanceProperty>();
-		TableColumn<InstanceProperty, String> sourceInstancePropertyColumn = 
-				new TableColumn<InstanceProperty, String>("Property");
-		sourceInstancePropertyColumn.setCellValueFactory(new PropertyValueFactory<>("property"));
-		
+		TableColumn<InstanceProperty, String> sourceInstancePropertyColumn = new TableColumn<InstanceProperty, String>(
+				"Property");
+		sourceInstancePropertyColumn
+				.setCellValueFactory(new PropertyValueFactory<>("property"));
+
 		sourceInstanceTable.getColumns().add(sourceInstancePropertyColumn);
-		TableColumn<InstanceProperty, String> sourceInstanceValueColumn = 
-				new TableColumn<InstanceProperty, String>("Value");
-		sourceInstanceValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
-	
+		TableColumn<InstanceProperty, String> sourceInstanceValueColumn = new TableColumn<InstanceProperty, String>(
+				"Value");
+		sourceInstanceValueColumn
+				.setCellValueFactory(new PropertyValueFactory<>("value"));
+
 		sourceInstanceTable.getColumns().add(sourceInstanceValueColumn);
 		resultProperties.getChildren().add(sourceInstanceTable);
-		
-		sourceInstancePropertyColumn.prefWidthProperty().bind(sourceInstanceTable.widthProperty().divide(2));
-		sourceInstanceValueColumn.prefWidthProperty().bind(sourceInstanceTable.widthProperty().divide(2)); 
 
-		
+		sourceInstancePropertyColumn.prefWidthProperty().bind(
+				sourceInstanceTable.widthProperty().divide(2));
+		sourceInstanceValueColumn.prefWidthProperty().bind(
+				sourceInstanceTable.widthProperty().divide(2));
+
 		targetInstanceTable = new TableView<InstanceProperty>();
-		TableColumn<InstanceProperty, String> targetInstancePropertyColumn = 
-				new TableColumn<InstanceProperty, String>("Property");
-		targetInstancePropertyColumn.setCellValueFactory(new PropertyValueFactory<>("property"));
+		TableColumn<InstanceProperty, String> targetInstancePropertyColumn = new TableColumn<InstanceProperty, String>(
+				"Property");
+		targetInstancePropertyColumn
+				.setCellValueFactory(new PropertyValueFactory<>("property"));
 		targetInstanceTable.getColumns().add(targetInstancePropertyColumn);
-		TableColumn<InstanceProperty, String> targetInstanceValueColumn = 
-				new TableColumn<InstanceProperty, String>("Value");
-		targetInstanceValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+		TableColumn<InstanceProperty, String> targetInstanceValueColumn = new TableColumn<InstanceProperty, String>(
+				"Value");
+		targetInstanceValueColumn
+				.setCellValueFactory(new PropertyValueFactory<>("value"));
 		targetInstanceTable.getColumns().add(targetInstanceValueColumn);
 		resultProperties.getChildren().add(targetInstanceTable);
-		
-		targetInstancePropertyColumn.prefWidthProperty().bind(targetInstanceTable.widthProperty().divide(2));
-		targetInstanceValueColumn.prefWidthProperty().bind(targetInstanceTable.widthProperty().divide(2)); 
-		
+
+		targetInstancePropertyColumn.prefWidthProperty().bind(
+				targetInstanceTable.widthProperty().divide(2));
+		targetInstanceValueColumn.prefWidthProperty().bind(
+				targetInstanceTable.widthProperty().divide(2));
+
 		table = new TableView<Result>();
 		TableColumn<Result, String> columnSource = new TableColumn<Result, String>(
 				"Source URI");
@@ -103,24 +135,25 @@ public class ResultView {
 				"value");
 		columnValue.setCellValueFactory(new PropertyValueFactory<>("value"));
 		table.getColumns().add(columnValue);
-		table.setOnMouseClicked(e ->{
-			controller.showProperties(table.getSelectionModel().getSelectedItem());
+		table.setOnMouseClicked(e -> {
+			controller.showProperties(table.getSelectionModel()
+					.getSelectedItem());
 		});
-		
-		columnSource.prefWidthProperty().bind(table.widthProperty().divide(40).multiply(17));
-		columnTarget.prefWidthProperty().bind(table.widthProperty().divide(40).multiply(17)); 
-		columnValue.prefWidthProperty().bind(table.widthProperty().divide(20).multiply(2)); 
-		
-		resultProperties.setMaxHeight(120);
-		root.setTop(resultProperties);
-		root.setCenter(table);
+
+		columnSource.prefWidthProperty().bind(
+				table.widthProperty().divide(40).multiply(17));
+		columnTarget.prefWidthProperty().bind(
+				table.widthProperty().divide(40).multiply(17));
+		columnValue.prefWidthProperty().bind(
+				table.widthProperty().divide(20).multiply(2));
+
+		root.getChildren().add(resultProperties);
+		root.getChildren().add(table);
 
 		Scene scene = new Scene(root, 800, 600);
-		sourceInstanceTable.setPrefWidth(scene.getWidth()/2);
-		targetInstanceTable.setPrefWidth(scene.getWidth()/2);
-		
+		sourceInstanceTable.setPrefWidth(scene.getWidth() / 2);
+		targetInstanceTable.setPrefWidth(scene.getWidth() / 2);
 
-		Stage stage = new Stage();
 		stage.setTitle("LIMES");
 		stage.setScene(scene);
 		stage.show();
@@ -128,35 +161,48 @@ public class ResultView {
 
 	/**
 	 * Puts the Results of a LIMES-query in the Table table
-	 * @param results List of the Limes results following the Model of Results
+	 * 
+	 * @param results
+	 *            List of the Limes results following the Model of Results
 	 */
 	public void showResults(ObservableList<Result> results) {
 		table.setItems(results);
 	}
-	
+
 	/**
-	 * Puts the Results of a LIMES-query in the Table table and transfers the Config to the Controller
-	 * @param results List of the Limes results following the Model of Results
-	 * @param currentConfig Config of current LIMES-query
+	 * Puts the Results of a LIMES-query in the Table table and transfers the
+	 * Config to the Controller
+	 * 
+	 * @param results
+	 *            List of the Limes results following the Model of Results
+	 * @param currentConfig
+	 *            Config of current LIMES-query
 	 */
-	public void showResults(ObservableList<Result> results,Config currentConfig) {
+	public void showResults(ObservableList<Result> results, Config currentConfig) {
+		this.results = results;
 		table.setItems(results);
 		this.controller.setCurrentConfig(currentConfig);
 	}
-	
+
 	/**
 	 * Show the Items of instanceProperty in sourceInstanceTable
-	 * @param instanceProperty List of Source-InstanceProperties
+	 * 
+	 * @param instanceProperty
+	 *            List of Source-InstanceProperties
 	 */
-	public void showSourceInstance(ObservableList<InstanceProperty> instanceProperty){
+	public void showSourceInstance(
+			ObservableList<InstanceProperty> instanceProperty) {
 		sourceInstanceTable.setItems(instanceProperty);
 	}
 
 	/**
 	 * Show the Items of instanceProperty in targetInstanceTable
-	 * @param instanceProperty List of Target-InstanceProperties
+	 * 
+	 * @param instanceProperty
+	 *            List of Target-InstanceProperties
 	 */
-	public void showTargetInstance(ObservableList<InstanceProperty> instanceProperty){
+	public void showTargetInstance(
+			ObservableList<InstanceProperty> instanceProperty) {
 		targetInstanceTable.setItems(instanceProperty);
 	}
 }
