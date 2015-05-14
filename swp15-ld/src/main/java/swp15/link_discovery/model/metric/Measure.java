@@ -28,7 +28,11 @@ public class Measure extends Node {
 	public static final Set<String> identifiers = Collections
 			.unmodifiableSet(new HashSet<String>(Arrays.asList(new String[] {
 					"cosine", "euclidean", "jaccard", "levenshtein", "overlap",
-					"trigrams", "jaro" })));
+					"trigrams", "jaro", "hausdorff", "orthodromic", "frchet",
+					"qgramsimularity", "exactmatch", "symmetrichausdorff",
+					"frechet", "geosummn", "surjection", "fairsurjection",
+					"geolink", "geomean", "datesim", "daysim", "yearsim",
+					"geomn", "geomx", "geoavg" })));
 
 	/**
 	 * Returns the Measurement identifiers
