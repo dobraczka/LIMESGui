@@ -148,7 +148,6 @@ public class MainController {
 		if (view.graphBuild.edited) {
 			if (view.graphBuild.nodeList.get(0).nodeData.isComplete()) {
 				view.graphBuild.controller.setConfigFromGraph();
-
 			} else {
 				// TODO Show Warning, that Metric is not complete
 				return;

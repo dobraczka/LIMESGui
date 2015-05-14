@@ -59,6 +59,10 @@ public class NodeView {
 			gc.setFill(Color.GREY);
 			gc.fillOval(x, y, WIDTH, HEIGHT);
 			gc.strokeText(nodeData.id, x, y + HEIGHT / 2);
+			gc.strokeText("Acceptance Threshold: " + nodeData.param1, x - 50,
+					(y + HEIGHT / 2) - 20);
+			gc.strokeText("Verification Threshold: " + nodeData.param2, x - 50,
+					(y + HEIGHT / 2) - 40);
 			break;
 		case OPERATOR:
 			switch (nodeData.id) {
