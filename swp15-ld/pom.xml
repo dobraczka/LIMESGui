@@ -34,31 +34,31 @@
       <version>0.6.rc4</version>
     </dependency>
     <dependency>
-		<groupId>org.jdom</groupId>
-		<artifactId>jdom2</artifactId>
-		<version>2.0.5</version>
-	</dependency>
-	<dependency>
-		<groupId>net.sf.jgap</groupId>
-		<artifactId>jgap</artifactId>
-		<version>3.4.4</version>
-	</dependency>
-	
+      <groupId>org.jdom</groupId>
+      <artifactId>jdom2</artifactId>
+      <version>2.0.5</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.jgap</groupId>
+      <artifactId>jgap</artifactId>
+      <version>3.4.4</version>
+    </dependency>
 
-	<dependency>
-		<groupId>org.projectlombok</groupId>
-		<artifactId>lombok</artifactId>
-		<version>1.16.4</version>
-		<scope>provided</scope>
-	</dependency>
-	
-	<dependency>
-		<groupId>de.twentyeleven.skysail</groupId>
-		<artifactId>jgraphx-osgi</artifactId>
-		<version>1.10.3.1</version>
-	</dependency>
-	
-    
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.4</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>de.twentyeleven.skysail</groupId>
+      <artifactId>jgraphx-osgi</artifactId>
+      <version>1.10.3.1</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>
