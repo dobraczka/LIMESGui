@@ -1,5 +1,8 @@
 package swp15.link_discovery.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import swp15.link_discovery.model.Config;
@@ -42,6 +45,56 @@ public class GraphBuildController {
 		view.nodeList = drawChildRek(outView,
 				outView.nodeData.getChilds().get(0), newNodeList);
 
+		layoutGraph();
+	}
+
+	public void setConfigFromGraph() {
+		currentConfig.getConfigReader().metricExpression = view.nodeList.get(0).nodeData
+				.toString();
+
+	}
+
+	public void deleteGraph() {
+		view.nodeList.clear();
+		view.addNode(300, 300, 2, new Output());
+		view.draw();
+	};
+
+	public void layoutGraph() {
+		double h = view.getHeight();
+		double w = view.getWidth();
+		List<Integer> stages = new ArrayList<Integer>();
+		List<Integer> stages2;
+		view.nodeList.forEach(e -> {
+			int i = 0;
+			NodeView test = e;
+			while (test.parent != null) {
+				test = test.parent;
+				i++;
+			}
+			try {
+				stages.get(i);
+			} catch (IndexOutOfBoundsException exception) {
+				stages.add(i, 0);
+			}
+			stages.set(i,
+					Integer.sum(Integer.max(stages.get(i).intValue(), 0), 1));
+
+		});
+		stages2 = new ArrayList<Integer>(stages);
+		view.nodeList.forEach(e -> {
+			int i = 0;
+			int hInt = stages.size();
+			NodeView test = e;
+			while (test.parent != null) {
+				test = test.parent;
+				i++;
+			}
+			e.setXY((int) (w - ((w * stages2.get(i)) / stages.get(i))
+					+ (w / (2 * stages.get(i))) - NodeView.WIDTH), (int) (h
+					+ NodeView.HEIGHT - (((h * (i + 1)) / hInt))));
+			stages2.set(i, stages2.get(i) - 1);
+		});
 		view.draw();
 	}
 

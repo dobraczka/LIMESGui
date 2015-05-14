@@ -139,6 +139,17 @@ public class MainView {
 		});
 		menuEdit.getItems().add(itemEditEndpoints);
 
+		Menu menuLayout = new Menu("Layout");
+		MenuItem layoutGraph = new MenuItem("Refresh Layout");
+		layoutGraph.setOnAction(e -> {
+			graphBuild.controller.layoutGraph();
+		});
+		MenuItem deleteGraph = new MenuItem("Delete Graph");
+		deleteGraph.setOnAction(e -> {
+			graphBuild.controller.deleteGraph();
+		});
+		menuLayout.getItems().addAll(layoutGraph, deleteGraph);
+
 		Menu menuRun = new Menu("Run");
 		itemMap = new MenuItem("Start Mapping");
 		itemMap.setOnAction(e -> controller.map(new ResultView()));
@@ -149,7 +160,7 @@ public class MainView {
 			controller.showSelfConfig();
 		});
 		menuRun.getItems().add(itemSelfConfiguration);
-		return new MenuBar(menuFile, menuEdit, menuRun);
+		return new MenuBar(menuFile, menuEdit, menuLayout, menuRun);
 	}
 
 	/**

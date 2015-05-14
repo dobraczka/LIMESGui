@@ -37,7 +37,9 @@ public class NodeContextMenu extends ContextMenu {
 	private void addListeners() {
 
 		this.delete.setOnAction(e -> {
-			view.removeNodeView(node);
+			if (!node.nodeData.id.equals("output")) {
+				view.removeNodeView(node);
+			}
 
 		});
 		this.linkTo.setOnAction(e -> {
