@@ -68,8 +68,10 @@ public class ResultController {
 		ObservableList<InstanceProperty> targetPropertyList = FXCollections
 				.observableArrayList();
 
-		Instance i1 = currentConfig.getSourceCache().getInstance(sourceURI);
-		Instance i2 = currentConfig.getTargetCache().getInstance(targetURI);
+		Instance i1 = currentConfig.getSourceEndpoint().getCache()
+				.getInstance(sourceURI);
+		Instance i2 = currentConfig.getTargetEndpoint().getCache()
+				.getInstance(targetURI);
 		for (String prop : i1.getAllProperties()) {
 			String value = "";
 			for (String s : i1.getProperty(prop)) {

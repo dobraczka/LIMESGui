@@ -18,7 +18,6 @@ import swp15.link_discovery.util.ConfigWriter;
 import swp15.link_discovery.util.SourceOrTarget;
 import swp15.link_discovery.view.graphBuilder.GraphBuildView;
 import de.uni_leipzig.simba.cache.Cache;
-import de.uni_leipzig.simba.cache.HybridCache;
 import de.uni_leipzig.simba.data.Mapping;
 import de.uni_leipzig.simba.filter.LinearFilter;
 import de.uni_leipzig.simba.genetics.util.PropertyMapping;
@@ -34,33 +33,30 @@ import de.uni_leipzig.simba.mapper.SetConstraintsMapperFactory;
  *
  */
 public class Config {
-
 	/**
 	 * Reader to load linkspec
 	 */
 	private ConfigReader reader;
 
 	/**
-	 * Cache of the source
-	 */
-	private Cache sourceCache;
-
-	/**
-	 * Cache of the target
-	 */
-	private Cache targetCache;
-
-	/**
 	 * current Metric
 	 */
 	private Output metric = null;
 
+	private Endpoint sourceEndpoint;
+	private Endpoint targetEndpoint;
+
 	public PropertyMapping propertyMapping;
 
 	public Config() {
-		reader = new ConfigReader();
+		this(createEmptyReader());
+	}
+
+	private static ConfigReader createEmptyReader() {
+		ConfigReader reader = new ConfigReader();
 		reader.sourceInfo = new KBInfo();
 		reader.targetInfo = new KBInfo();
+		return reader;
 	}
 
 	/**
@@ -71,6 +67,8 @@ public class Config {
 	 */
 	private Config(ConfigReader reader) {
 		this.reader = reader;
+		this.sourceEndpoint = new Endpoint(reader.sourceInfo);
+		this.targetEndpoint = new Endpoint(reader.targetInfo);
 		this.propertyMapping = new PropertyMapping();
 	}
 
@@ -152,8 +150,8 @@ public class Config {
 	 */
 	public ObservableList<Result> doMapping() {
 		// Kopiert aus LIMES und angepasst
-		sourceCache = HybridCache.getData(reader.getSourceInfo());
-		targetCache = HybridCache.getData(reader.getTargetInfo());
+		Cache sourceCache = sourceEndpoint.getCache();
+		Cache targetCache = targetEndpoint.getCache();
 		SetConstraintsMapper mapper = SetConstraintsMapperFactory.getMapper(
 				reader.executionPlan, reader.sourceInfo, reader.targetInfo,
 				sourceCache, targetCache, new LinearFilter(),
@@ -174,6 +172,14 @@ public class Config {
 		return results;
 	}
 
+	public Endpoint getSourceEndpoint() {
+		return sourceEndpoint;
+	}
+
+	public Endpoint getTargetEndpoint() {
+		return targetEndpoint;
+	}
+
 	/**
 	 * Returns the SourceInfo
 	 * 
@@ -190,44 +196,6 @@ public class Config {
 	 */
 	public KBInfo getTargetInfo() {
 		return reader.targetInfo;
-	}
-
-	/**
-	 * Returns the TargetCache
-	 * 
-	 * @return targetCache
-	 */
-	public Cache getTargetCache() {
-		return targetCache;
-	}
-
-	/**
-	 * Returns the SourceCache
-	 * 
-	 * @return sourceCache
-	 */
-	public Cache getSourceCache() {
-		return sourceCache;
-	}
-
-	/**
-	 * Sets the sourceCache
-	 * 
-	 * @param sC
-	 *            cache to set
-	 */
-	public void setSourceCache(Cache sC) {
-		this.sourceCache = sC;
-	}
-
-	/**
-	 * Sets the targetCache
-	 * 
-	 * @param tC
-	 *            cache to set
-	 */
-	public void setTargetCache(Cache tC) {
-		this.targetCache = tC;
 	}
 
 	/**

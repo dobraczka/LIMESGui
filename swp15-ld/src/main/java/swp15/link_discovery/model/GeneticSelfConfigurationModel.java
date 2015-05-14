@@ -7,7 +7,6 @@ import org.jgap.InvalidConfigurationException;
 
 import swp15.link_discovery.view.ResultView;
 import swp15.link_discovery.view.SelfConfigurationView;
-import de.uni_leipzig.simba.cache.HybridCache;
 import de.uni_leipzig.simba.data.Mapping;
 import de.uni_leipzig.simba.genetics.core.Metric;
 import de.uni_leipzig.simba.genetics.learner.UnSupervisedLearnerParameters;
@@ -92,10 +91,6 @@ public class GeneticSelfConfigurationModel implements
 		// Start Learning
 		thread = new Thread() {
 			public void run() {
-				HybridCache sourceCache = HybridCache.getData(currentConfig
-						.getSourceInfo());
-				HybridCache targetCache = HybridCache.getData(currentConfig
-						.getTargetInfo());
 				GeneticSelfConfigurator learner = new BasicGeneticSelfConfigurator();
 				try {
 					learnedMetric = learner.learn(params);
@@ -108,8 +103,6 @@ public class GeneticSelfConfigurationModel implements
 				currentConfig.setAcceptanceThreshold(learnedMetric
 						.getThreshold());
 				learnedMapping = learner.getMapping();
-				currentConfig.setSourceCache(sourceCache);
-				currentConfig.setTargetCache(targetCache);
 				onFinish(currentConfig, view);
 			}
 		};
