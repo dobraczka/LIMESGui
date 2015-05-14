@@ -83,7 +83,7 @@ public class MainController {
 	}
 
 	/**
-	 * Saves Cuurent Config in Valid XML Format to a File
+	 * Saves Current Config in Valid XML Format to a File
 	 * 
 	 * @param file
 	 *            Location to save the File
@@ -147,16 +147,17 @@ public class MainController {
 		}
 		if (view.graphBuild.edited) {
 			if (view.graphBuild.nodeList.get(0).nodeData.isComplete()) {
-				System.out.println(view.graphBuild.nodeList.get(0).nodeData
-						.toString());
+				view.graphBuild.controller.setConfigFromGraph();
 
 			} else {
 				// TODO Show Warning, that Metric is not complete
+				return;
 			}
 		}
 
 		ObservableList<Result> results = currentConfig.doMapping();
 		resultView.showResults(results, currentConfig);
+
 	}
 
 	public void showSelfConfig() {

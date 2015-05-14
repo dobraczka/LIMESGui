@@ -27,7 +27,7 @@ public class NodeView {
 	public final Image mult = new Image("mult.png", 50.0, 50.0, true, true);
 	public final Image or = new Image("or.png", 50.0, 50.0, true, true);
 
-	int x, y, nodeShape;
+	public int x, y, nodeShape;
 	String label;
 	GraphBuildView gbv;
 
