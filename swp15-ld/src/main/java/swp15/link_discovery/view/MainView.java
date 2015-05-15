@@ -85,9 +85,15 @@ public class MainView {
 		root.setTop(menuBar);
 		root.setLeft(toolBox);
 		root.setRight(graphBuild);
+		graphBuild.widthProperty().bind(
+				root.widthProperty().subtract(toolBox.widthProperty()));
+		graphBuild.heightProperty().bind(
+				root.heightProperty().subtract(menuBar.heightProperty()));
 		graphBuild.start();
 
 		Scene scene = new Scene(root, 800, 600);
+		stage.setMinHeight(600);
+		stage.setMinWidth(600);
 		stage.setTitle("LIMES");
 		stage.setScene(scene);
 		stage.show();
