@@ -28,9 +28,13 @@ public class GeneticSelfConfigurationPanel extends
 		Slider pseudoF = new Slider();
 		Label pseudoFLabel = new Label("1");
 		Label pseudoFText = new Label("Beta value for the pseudo-f-Measure");
+		HBox pseudoBox = new HBox();
+
 		view.selfConfigWrapper.getChildren().add(pseudoFText);
-		view.selfConfigWrapper.getChildren().add(pseudoF);
-		view.selfConfigWrapper.getChildren().add(pseudoFLabel);
+		pseudoBox.getChildren().add(pseudoF);
+		pseudoBox.getChildren().add(pseudoFLabel);
+		view.selfConfigWrapper.getChildren().add(pseudoBox);
+
 		pseudoF.setMin(0.1);
 		pseudoF.setMax(2);
 		pseudoF.setValue(1);
@@ -51,9 +55,13 @@ public class GeneticSelfConfigurationPanel extends
 		Slider crossover = new Slider();
 		Label crossoverLabel = new Label("0.4");
 		Label crossoverText = new Label("Crossover probabiltiy");
+		HBox crossoverBox = new HBox();
+
 		view.selfConfigWrapper.getChildren().add(crossoverText);
-		view.selfConfigWrapper.getChildren().add(crossover);
-		view.selfConfigWrapper.getChildren().add(crossoverLabel);
+		crossoverBox.getChildren().add(crossover);
+		crossoverBox.getChildren().add(crossoverLabel);
+		view.selfConfigWrapper.getChildren().add(crossoverBox);
+
 		crossover.setMin(0);
 		crossover.setMax(1);
 		crossover.setValue(0.4);
@@ -72,8 +80,9 @@ public class GeneticSelfConfigurationPanel extends
 		});
 
 		Label generationsText = new Label("Number of generations");
-		view.selfConfigWrapper.getChildren().add(generationsText);
 		Spinner<Integer> generations = new Spinner<Integer>(5, 100, 5, 5);
+
+		view.selfConfigWrapper.getChildren().add(generationsText);
 		view.selfConfigWrapper.getChildren().add(generations);
 
 		ChoiceBox<String> classifierChooser = new ChoiceBox<String>(
@@ -94,13 +103,16 @@ public class GeneticSelfConfigurationPanel extends
 					}
 
 				});
-
+		HBox mutationsBox = new HBox();
 		Slider mutationRate = new Slider();
 		Label mutationRateLabel = new Label("0.4");
 		Label mutationRateText = new Label("Mutation rate");
+
 		view.selfConfigWrapper.getChildren().add(mutationRateText);
-		view.selfConfigWrapper.getChildren().add(mutationRate);
-		view.selfConfigWrapper.getChildren().add(mutationRateLabel);
+		mutationsBox.getChildren().add(mutationRate);
+		mutationsBox.getChildren().add(mutationRateLabel);
+		view.selfConfigWrapper.getChildren().add(mutationsBox);
+
 		mutationRate.setMin(0);
 		mutationRate.setMax(1);
 		mutationRate.setValue(0.4);
@@ -119,8 +131,9 @@ public class GeneticSelfConfigurationPanel extends
 		});
 
 		Label populationText = new Label("Population size");
-		view.selfConfigWrapper.getChildren().add(populationText);
 		Spinner<Integer> population = new Spinner<Integer>(5, 100, 5, 5);
+
+		view.selfConfigWrapper.getChildren().add(populationText);
 		view.selfConfigWrapper.getChildren().add(population);
 
 		HBox buttonWrapper = new HBox();
@@ -140,6 +153,10 @@ public class GeneticSelfConfigurationPanel extends
 		});
 		mapButton.setDisable(true);
 		view.selfConfigWrapper.getChildren().add(buttonWrapper);
+	}
+
+	public double[] getUIParams() {
+		return this.UIparams;
 	}
 
 }

@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 import org.jgap.InvalidConfigurationException;
 
 import swp15.link_discovery.view.ResultView;
-import swp15.link_discovery.view.SelfConfigurationView;
+import swp15.link_discovery.view.SelfConfigurationPanelInterface;
 import de.uni_leipzig.simba.data.Mapping;
 import de.uni_leipzig.simba.genetics.core.Metric;
 import de.uni_leipzig.simba.genetics.learner.UnSupervisedLearnerParameters;
@@ -58,7 +58,7 @@ public class GeneticSelfConfigurationModel implements
 	 * @param currentConfig the currently used config
 	 * @param view the corresponding view
 	 */
-	public void learn(Config currentConfig, SelfConfigurationView view) {
+	public void learn(Config currentConfig, SelfConfigurationPanelInterface view) {
 		// check if PropertyMapping was set else set to default
 		if (!currentConfig.propertyMapping.wasSet()) {
 			currentConfig.propertyMapping.setDefault(
@@ -79,14 +79,6 @@ public class GeneticSelfConfigurationModel implements
 		params.setPseudoFMeasure(pseudoMeasure);
 		params.setMutationRate((float) UIparams[4]);
 		params.setPopulationSize((int) UIparams[5]);
-
-		// params.setPFMBetaValue(1);
-		// params.setCrossoverRate(0.4f);
-		// params.setGenerations(10);
-		// PseudoMeasures pseudoMeasure = new PseudoMeasures();
-		// params.setPseudoFMeasure(pseudoMeasure);
-		// params.setMutationRate(0.4f);
-		// params.setPopulationSize(10);
 
 		// Start Learning
 		thread = new Thread() {
@@ -118,7 +110,8 @@ public class GeneticSelfConfigurationModel implements
 	 * @param view
 	 *            SelfConfigurationView that was used
 	 */
-	private void onFinish(Config currentConfig, SelfConfigurationView view) {
+	private void onFinish(Config currentConfig,
+			SelfConfigurationPanelInterface view) {
 		view.learnButton.setDisable(false);
 		view.mapButton.setOnAction(e -> {
 			ObservableList<Result> results = FXCollections
@@ -133,6 +126,9 @@ public class GeneticSelfConfigurationModel implements
 		});
 		if (learnedMapping != null && learnedMapping.size() > 0) {
 			view.mapButton.setDisable(false);
+			System.out
+					.println(currentConfig.getConfigReader().metricExpression);
+			view.view.view.graphBuild.controller.setConfigFromGraph();
 		}
 	}
 

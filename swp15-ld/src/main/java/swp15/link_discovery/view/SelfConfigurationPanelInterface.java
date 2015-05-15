@@ -5,12 +5,17 @@ import swp15.link_discovery.model.SelfConfigurationModelInterface;
 
 public class SelfConfigurationPanelInterface {
 	protected SelfConfigurationModelInterface model;
-	protected SelfConfigurationView view;
-	protected Button learnButton;
-	protected Button mapButton;
+	public SelfConfigurationView view;
+	public Button learnButton;
+	public Button mapButton;
 
 	public SelfConfigurationPanelInterface(SelfConfigurationView view) {
 		this.view = view;
+	}
+
+	public double[] getUIParams() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

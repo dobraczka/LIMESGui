@@ -168,7 +168,7 @@ public class MainController {
 	}
 
 	public void showSelfConfig() {
-		SelfConfigurationView selfConfigView = new SelfConfigurationView();
+		SelfConfigurationView selfConfigView = new SelfConfigurationView(view);
 		selfConfigView.controller.setCurrentConfig(currentConfig);
 	}
 

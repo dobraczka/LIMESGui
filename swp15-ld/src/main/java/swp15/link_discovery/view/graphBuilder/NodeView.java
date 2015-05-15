@@ -26,6 +26,7 @@ public class NodeView {
 	public final Image minus = new Image("minus.png", 50.0, 50.0, true, true);
 	public final Image mult = new Image("mult.png", 50.0, 50.0, true, true);
 	public final Image or = new Image("or.png", 50.0, 50.0, true, true);
+	public final Image arrow = new Image("arrow.png", 10.0, 10.0, true, true);
 
 	public int x, y, nodeShape;
 	String label;
@@ -151,15 +152,26 @@ public class NodeView {
 		GraphicsContext gc = gbv.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		children.forEach(nodeView -> {
-			ArrowHelper helper = new ArrowHelper(x, y, nodeView.x, nodeView.y);
+			int middleX = x
+					+ NodeView.WIDTH
+					/ 2
+					+ ((nodeView.x + NodeView.WIDTH / 2) - (this.x + NodeView.WIDTH / 2))
+					/ 2;
+			int middleY = y
+					+ NodeView.HEIGHT
+					/ 2
+					+ ((nodeView.y + NodeView.WIDTH / 2) - (this.y + NodeView.WIDTH / 2))
+					/ 2;
 			gc.strokeLine(x + NodeView.WIDTH / 2, y + NodeView.HEIGHT / 2,
 					nodeView.x + NodeView.WIDTH / 2, nodeView.y
 							+ NodeView.HEIGHT / 2);
-			// gc.fillRect(helper.middleX, helper.middleY, 10, 10);
-			// gc.strokeLine(helper.middleX, helper.middleY, helper.leftX,
-			// helper.leftY);
-			// gc.strokeLine(helper.middleX, helper.middleY, helper.rightX,
-			// helper.rightY);
+			gc.save();
+			double deg = ArrowHelper.getAngle(nodeView.x, nodeView.y, this.x,
+					this.y);
+			gc.rotate(deg);
+			int[] rot = ArrowHelper.rotate(middleX, middleY, -deg);
+			gc.drawImage(arrow, rot[0], rot[1]);
+			gc.restore();
 		});
 	}
 
@@ -177,71 +189,29 @@ public class NodeView {
 		this.nodeData.removeParent();
 	}
 
-	private class ArrowHelper {
-		int parentX;
-		int parentY;
-		int childX;
-		int childY;
-		public double leftX;
-		public double leftY;
-		public double rightX;
-		public double rightY;
-		int meanDisX;
-		int meanDisY;
-		public int middleX, middleY;
-
-		public ArrowHelper(int parentX, int parentY, int childX, int childY) {
-			this.parentX = parentX;
-			this.parentY = parentY;
-			this.childX = childX;
-			this.childY = childY;
-			this.middleX = x
-					+ NodeView.WIDTH
-					/ 2
-					+ ((childX + NodeView.WIDTH / 2) - (parentX + NodeView.WIDTH / 2))
-					/ 2;
-			this.middleY = y
-					+ NodeView.HEIGHT
-					/ 2
-					+ ((childY + NodeView.WIDTH / 2) - (parentY + NodeView.WIDTH / 2))
-					/ 2;
-			this.meanDisX = ((childX + NodeView.WIDTH / 2) - (parentX + NodeView.WIDTH / 2)) / 2;
-			this.meanDisY = ((childY + NodeView.WIDTH / 2) - (parentY + NodeView.WIDTH / 2)) / 2;
-			setLeft();
-			setRight();
-		}
-
-		private void setLeft() {
-			double l = Math.sqrt(Math.pow(childX - parentX, 2)
-					+ Math.pow(childY - parentY, 2));
-			leftX = middleX
-					+ 20
-					/ l
-					* (Math.cos(Math.PI / 2) * (childX - parentX) - Math
-							.sin(Math.PI / 2) * (childY - parentY));
-			leftY = middleY
-					+ 20
-					/ l
-					* (Math.sin(Math.PI / 2) * (childY - parentY) + Math
-							.cos(Math.PI / 2) * (childX - parentX));
+	private static class ArrowHelper {
+		public static int[] rotate(int x, int y, double degree) {
+			int[] res = { 0, 0 };
+			double angle = Math.toRadians(degree);
+			res[0] = (int) ((x + 10) * Math.cos(angle) - y * Math.sin(angle));
+			res[1] = (int) ((x + 10) * Math.sin(angle) + y * Math.cos(angle));
+			return res;
 
 		}
 
-		private void setRight() {
-			double l = Math.sqrt(Math.pow(childX - parentX, 2)
-					+ Math.pow(childY - parentY, 2));
-			rightX = middleX
-					+ 20
-					/ l
-					* (Math.cos(5 * Math.PI / 2) * (childX - parentX) - Math
-							.sin(5 * Math.PI / 2) * (childY - parentY));
-			rightY = middleY
-					+ 20
-					/ l
-					* (Math.sin(5 * Math.PI / 2) * (childY - parentY) + Math
-							.cos(5 * Math.PI / 2) * (childX - parentX));
-
+		public static double getAngle(int startX, int startY, int endX, int endY) {
+			double res;
+			int degoff = 0;
+			int x = endX - startX;
+			int y = endY - startY;
+			if (x > 0) {
+				degoff = 180;
+			}
+			if (x == 0) {
+				return -225;
+			}
+			res = Math.toDegrees(Math.atan(y / x));
+			return res - degoff + 270 - 45;
 		}
-
 	}
 }

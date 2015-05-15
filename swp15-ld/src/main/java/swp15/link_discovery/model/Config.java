@@ -16,7 +16,6 @@ import swp15.link_discovery.model.metric.MetricParser;
 import swp15.link_discovery.model.metric.Output;
 import swp15.link_discovery.util.ConfigWriter;
 import swp15.link_discovery.util.SourceOrTarget;
-import swp15.link_discovery.view.graphBuilder.GraphBuildView;
 import de.uni_leipzig.simba.cache.Cache;
 import de.uni_leipzig.simba.data.Mapping;
 import de.uni_leipzig.simba.filter.LinearFilter;
@@ -251,12 +250,6 @@ public class Config {
 			return getTargetInfo().var.substring(1) + "."
 					+ getTargetInfo().properties.get(index);
 		}
-	}
-
-	public void setMetric(GraphBuildView view) {
-		this.metric = MetricParser.parse(
-				view.nodeList.get(0).nodeData.toString(),
-				this.getSourceInfo().var.replaceAll("\\?", ""));
 	}
 
 	public Output getMetric() {

@@ -1,6 +1,6 @@
 package swp15.link_discovery.model;
 
-import swp15.link_discovery.view.SelfConfigurationView;
+import swp15.link_discovery.view.SelfConfigurationPanelInterface;
 
 public interface SelfConfigurationModelInterface {
 
@@ -11,6 +11,6 @@ public interface SelfConfigurationModelInterface {
 	 * @param currentConfig
 	 * @param view
 	 */
-	public void learn(Config currentConfig, SelfConfigurationView view);
+	public void learn(Config currentConfig, SelfConfigurationPanelInterface view);
 
 }
