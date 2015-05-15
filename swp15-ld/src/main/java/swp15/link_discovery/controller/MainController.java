@@ -4,6 +4,8 @@ import java.io.File;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.Result;
 import swp15.link_discovery.view.EditEndpointsView;
@@ -141,21 +143,30 @@ public class MainController {
 	 * @param resultView
 	 *            Corresponding ResultView to show the Results
 	 */
-	public void map(ResultView resultView) {
+	public void map() {
 		if (currentConfig == null) {
 			return;
 		}
 		if (view.graphBuild.edited) {
+			System.out.println("edited");
 			if (view.graphBuild.nodeList.get(0).nodeData.isComplete()) {
+				ResultView resultView = new ResultView();
 				view.graphBuild.controller.setConfigFromGraph();
+				System.out.println("map");
+				ObservableList<Result> results = currentConfig.doMapping();
+				resultView.showResults(results, currentConfig);
 			} else {
-				// TODO Show Warning, that Metric is not complete
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setContentText("Metric is not complete!");
+				alert.showAndWait();
 				return;
 			}
+		} else {
+			ResultView resultView = new ResultView();
+			System.out.println("map");
+			ObservableList<Result> results = currentConfig.doMapping();
+			resultView.showResults(results, currentConfig);
 		}
-
-		ObservableList<Result> results = currentConfig.doMapping();
-		resultView.showResults(results, currentConfig);
 
 	}
 
