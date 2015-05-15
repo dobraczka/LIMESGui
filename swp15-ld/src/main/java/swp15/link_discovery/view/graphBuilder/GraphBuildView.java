@@ -156,6 +156,7 @@ public class GraphBuildView extends Canvas {
 	}
 
 	public void removeNodeView(NodeView node) {
+		edited = true;
 		boolean remove = false;
 		for (NodeView item : nodeList) {
 			if (node.nodeData.id.equals(item.nodeData.id)) {

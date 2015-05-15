@@ -159,10 +159,8 @@ public class Config {
 		Mapping mapping = mapper.getLinks(reader.metricExpression,
 				reader.verificationThreshold);
 		// get Writer ready
-		if (reader.executionPlan.toLowerCase().startsWith("oneton"))
-			mapping = mapping.getBestOneToNMapping();
-		else if (reader.executionPlan.toLowerCase().startsWith("onetoone"))
-			mapping = Mapping.getBestOneToOneMappings(mapping);
+		mapping = mapper.getLinks(reader.metricExpression,
+				this.getAcceptanceThreshold());
 		ObservableList<Result> results = FXCollections.observableArrayList();
 		mapping.map.forEach((sourceURI, map2) -> {
 			map2.forEach((targetURI, value) -> {
