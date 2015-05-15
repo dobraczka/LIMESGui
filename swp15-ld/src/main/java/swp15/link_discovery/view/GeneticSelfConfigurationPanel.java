@@ -142,4 +142,8 @@ public class GeneticSelfConfigurationPanel extends
 		view.selfConfigWrapper.getChildren().add(buttonWrapper);
 	}
 
+	public double[] getUIParams() {
+		return this.UIparams;
+	}
+
 }

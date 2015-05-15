@@ -70,6 +70,6 @@ public class SelfConfigurationController {
 	 * starts the learning by calling the corresponding method of the model
 	 */
 	public void learn() {
-		this.model.learn(currentConfig, view);
+		this.model.learn(currentConfig, view.selfConfigPanel);
 	}
 }
