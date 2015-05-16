@@ -14,12 +14,10 @@ import swp15.link_discovery.model.GeneticSelfConfigurationModel;
 public class GeneticSelfConfigurationPanel extends
 		SelfConfigurationPanelInterface {
 
-	double[] UIparams;
-
-	public GeneticSelfConfigurationPanel(SelfConfigurationView view) {
-		super(view);
+	public GeneticSelfConfigurationPanel(SelfConfigurationView selfConfigView) {
+		super(selfConfigView);
 		createWindow();
-		view.controller.setModel(new GeneticSelfConfigurationModel());
+		selfConfigView.controller.setModel(new GeneticSelfConfigurationModel());
 
 	}
 
@@ -153,10 +151,6 @@ public class GeneticSelfConfigurationPanel extends
 		});
 		mapButton.setDisable(true);
 		view.selfConfigWrapper.getChildren().add(buttonWrapper);
-	}
-
-	public double[] getUIParams() {
-		return this.UIparams;
 	}
 
 }
