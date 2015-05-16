@@ -36,8 +36,8 @@ public class GraphBuildView extends Canvas {
 	private double[] mousePosition = { 0, 0 };
 
 	public GraphBuildView(Config currentConfig) {
-		this.setWidth(600);
-		this.setHeight(600);
+		widthProperty().addListener(evt -> draw());
+		heightProperty().addListener(evt -> draw());
 		this.nodeList = FXCollections.observableArrayList();
 		this.nodeClicked = false;
 		this.isLinking = false;
@@ -46,13 +46,28 @@ public class GraphBuildView extends Canvas {
 	}
 
 	public GraphBuildView() {
-		this.setWidth(600);
-		this.setHeight(600);
+		widthProperty().addListener(evt -> draw());
+		heightProperty().addListener(evt -> draw());
 		this.nodeList = FXCollections.observableArrayList();
 		this.nodeClicked = false;
 		this.isLinking = false;
 		addNode(300, 300, 2, new Output());
 		this.controller = new GraphBuildController(this);
+	}
+
+	@Override
+	public boolean isResizable() {
+		return true;
+	}
+
+	@Override
+	public double prefWidth(double height) {
+		return getWidth();
+	}
+
+	@Override
+	public double prefHeight(double width) {
+		return getHeight();
 	}
 
 	public void setCurrentConfig(Config config) {
@@ -119,7 +134,7 @@ public class GraphBuildView extends Canvas {
 				}
 				if (clickedNode) {
 					contextMenu = new NodeContextMenu(this, nodeIndex);
-					contextMenu.show(this, e.getX() + 500, e.getY());
+					contextMenu.show(this, e.getScreenX(), e.getScreenY());
 				}
 			}
 		});
@@ -135,7 +150,7 @@ public class GraphBuildView extends Canvas {
 
 	public void draw() {
 		GraphicsContext gc = this.getGraphicsContext2D();
-		gc.clearRect(0, 0, 600, 600);
+		gc.clearRect(0, 0, this.getWidth(), this.getHeight());
 		if (isLinking) {
 			gc.strokeLine(linkNode.x + NodeView.WIDTH / 2, linkNode.y
 					+ NodeView.HEIGHT / 2, mousePosition[0], mousePosition[1]);

@@ -148,11 +148,9 @@ public class MainController {
 			return;
 		}
 		if (view.graphBuild.edited) {
-			System.out.println("edited");
 			if (view.graphBuild.nodeList.get(0).nodeData.isComplete()) {
 				ResultView resultView = new ResultView();
 				view.graphBuild.controller.setConfigFromGraph();
-				System.out.println("map");
 				ObservableList<Result> results = currentConfig.doMapping();
 				resultView.showResults(results, currentConfig);
 			} else {
@@ -163,7 +161,6 @@ public class MainController {
 			}
 		} else {
 			ResultView resultView = new ResultView();
-			System.out.println("map");
 			ObservableList<Result> results = currentConfig.doMapping();
 			resultView.showResults(results, currentConfig);
 		}
