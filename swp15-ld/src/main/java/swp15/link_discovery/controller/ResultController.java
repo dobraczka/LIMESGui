@@ -78,7 +78,6 @@ public class ResultController {
 				value += s + " ";
 			}
 			sourcePropertyList.add(new InstanceProperty(prop, value));
-			System.out.println(prop + value);
 
 		}
 
@@ -90,7 +89,6 @@ public class ResultController {
 				value += s + " ";
 			}
 			targetPropertyList.add(new InstanceProperty(prop, value));
-			System.out.println(prop + value);
 		}
 		view.showTargetInstance(targetPropertyList);
 	}

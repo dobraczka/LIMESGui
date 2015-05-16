@@ -138,28 +138,17 @@ public class GraphBuildView extends Canvas {
 				}
 			}
 		});
-		this.addEventHandler(
-				MouseEvent.MOUSE_MOVED,
-				e -> {
-					if (isLinking) {
-						mousePosition[0] = e.getX();
-						mousePosition[1] = e.getY();
-						draw();
-					}
-					// TODO entfernen
-					mousePosition[0] = e.getX();
-					mousePosition[1] = e.getY();
-					draw();
-					GraphicsContext gc = this.getGraphicsContext2D();
-					gc.strokeText("Mouse: " + mousePosition[0]
-							+ mousePosition[1], 10, 10);
-				});
+		this.addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
+			if (isLinking) {
+				mousePosition[0] = e.getX();
+				mousePosition[1] = e.getY();
+				draw();
+			}
+		});
 		draw();
 	}
 
 	public void draw() {
-		// System.out.println(this.widthProperty().getValue());
-		// System.out.println(this.heightProperty().getValue());
 		GraphicsContext gc = this.getGraphicsContext2D();
 		gc.clearRect(0, 0, this.getWidth(), this.getHeight());
 		if (isLinking) {
