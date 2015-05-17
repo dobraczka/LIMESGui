@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.List;
 
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -49,12 +51,15 @@ public class Config {
 
 	public Config() {
 		this(createEmptyReader());
+		metric = new Output();
 	}
 
 	private static ConfigReader createEmptyReader() {
 		ConfigReader reader = new ConfigReader();
 		reader.sourceInfo = new KBInfo();
+		reader.sourceInfo.var = "?source";
 		reader.targetInfo = new KBInfo();
+		reader.targetInfo.var = "?target";
 		return reader;
 	}
 
@@ -111,8 +116,11 @@ public class Config {
 			throw new MetricFormatException();
 		}
 		reader.metricExpression = metric.toString();
-		reader.acceptanceThreshold = metric.param1;
-		reader.verificationThreshold = metric.param2;
+		reader.acceptanceThreshold = getAcceptanceThreshold();
+		reader.verificationThreshold = getVerificationThreshold();
+		reader.prefixes = new HashMap<String, String>();
+		reader.prefixes.putAll(sourceEndpoint.getInfo().prefixes);
+		reader.prefixes.putAll(targetEndpoint.getInfo().prefixes);
 		ConfigWriter.saveToXML(reader, file);
 	}
 
@@ -261,5 +269,16 @@ public class Config {
 
 	public Output getMetric() {
 		return this.metric;
+	}
+
+	public void setPropertiesMatching(List<PropertyPair> propertyPairs) {
+		List<String> sourceProperties = sourceEndpoint.getInfo().properties;
+		List<String> targetProperties = targetEndpoint.getInfo().properties;
+		sourceProperties.clear();
+		targetProperties.clear();
+		for (PropertyPair propertyPair : propertyPairs) {
+			sourceProperties.add(propertyPair.getSourceProperty());
+			targetProperties.add(propertyPair.getTargetProperty());
+		}
 	}
 }
