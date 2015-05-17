@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import swp15.link_discovery.model.metric.MetricFormatException;
@@ -141,17 +140,6 @@ public class Config {
 			return number.doubleValue();
 		} else
 			return metric.param2;
-	}
-
-	/**
-	 * Creates a new MappingProcessView which asks the user to start the mapping
-	 * or cancel it
-	 * 
-	 * @return results the results of the mapping
-	 */
-	public ObservableList<Result> doMapping() {
-		ObservableList<Result> results = FXCollections.observableArrayList();
-		return results;
 	}
 
 	/**

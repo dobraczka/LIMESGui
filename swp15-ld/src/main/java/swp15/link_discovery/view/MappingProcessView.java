@@ -2,6 +2,7 @@ package swp15.link_discovery.view;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -34,10 +35,9 @@ public class MappingProcessView {
 	 * @param results
 	 *            to be used
 	 */
-	public MappingProcessView(Config currentConfig,
-			ObservableList<Result> results) {
+	public MappingProcessView(Config currentConfig) {
 		this.currentConfig = currentConfig;
-		this.results = results;
+		this.results = FXCollections.observableArrayList();
 	}
 
 	/**

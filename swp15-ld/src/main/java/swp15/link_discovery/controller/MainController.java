@@ -3,11 +3,9 @@ package swp15.link_discovery.controller;
 import java.io.File;
 
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import swp15.link_discovery.model.Config;
-import swp15.link_discovery.model.Result;
 import swp15.link_discovery.view.EditEndpointsView;
 import swp15.link_discovery.view.MainView;
 import swp15.link_discovery.view.MappingProcessView;
@@ -152,9 +150,7 @@ public class MainController {
 			return;
 		}
 		view.graphBuild.controller.setConfigFromGraph();
-		ObservableList<Result> results = currentConfig.doMapping();
-		MappingProcessView mapProcView = new MappingProcessView(currentConfig,
-				results);
+		MappingProcessView mapProcView = new MappingProcessView(currentConfig);
 		mapProcView.showWindow();
 	}
 
