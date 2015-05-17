@@ -17,7 +17,6 @@ import swp15.link_discovery.model.metric.MetricParser;
 import swp15.link_discovery.model.metric.Output;
 import swp15.link_discovery.util.ConfigWriter;
 import swp15.link_discovery.util.SourceOrTarget;
-import swp15.link_discovery.view.MappingProcessView;
 import de.uni_leipzig.simba.cache.Cache;
 import de.uni_leipzig.simba.data.Mapping;
 import de.uni_leipzig.simba.filter.LinearFilter;
@@ -152,9 +151,6 @@ public class Config {
 	 */
 	public ObservableList<Result> doMapping() {
 		ObservableList<Result> results = FXCollections.observableArrayList();
-
-		MappingProcessView mapProcView = new MappingProcessView(this, results);
-		mapProcView.showWindow();
 		return results;
 	}
 

@@ -10,6 +10,7 @@ import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.Result;
 import swp15.link_discovery.view.EditEndpointsView;
 import swp15.link_discovery.view.MainView;
+import swp15.link_discovery.view.MappingProcessView;
 import swp15.link_discovery.view.SelfConfigurationView;
 import swp15.link_discovery.view.WizardView;
 
@@ -143,21 +144,18 @@ public class MainController {
 		if (currentConfig == null) {
 			return;
 		}
-		if (view.graphBuild.edited) {
-			if (view.graphBuild.nodeList.get(0).nodeData.isComplete()) {
-				view.graphBuild.controller.setConfigFromGraph();
-				ObservableList<Result> results = currentConfig.doMapping();
-			} else {
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setContentText("Metric is not complete!");
-				alert.showAndWait();
-				return;
-			}
-		} else {
-			view.graphBuild.controller.setConfigFromGraph();
-			ObservableList<Result> results = currentConfig.doMapping();
+		if (view.graphBuild.edited
+				&& !view.graphBuild.nodeList.get(0).nodeData.isComplete()) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setContentText("Metric is not complete!");
+			alert.showAndWait();
+			return;
 		}
-
+		view.graphBuild.controller.setConfigFromGraph();
+		ObservableList<Result> results = currentConfig.doMapping();
+		MappingProcessView mapProcView = new MappingProcessView(currentConfig,
+				results);
+		mapProcView.showWindow();
 	}
 
 	public void showSelfConfig() {
