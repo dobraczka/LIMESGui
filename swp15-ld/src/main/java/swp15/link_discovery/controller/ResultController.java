@@ -93,6 +93,14 @@ public class ResultController {
 		view.showTargetInstance(targetPropertyList);
 	}
 
+	/**
+	 * Save Results to File
+	 * 
+	 * @param results
+	 *            Results of ResultView
+	 * @param file
+	 *            Path to File
+	 */
 	public void saveResults(ObservableList<Result> results, File file) {
 		try {
 			FileWriter fileWriter = new FileWriter(file);

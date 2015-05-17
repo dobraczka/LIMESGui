@@ -13,16 +13,35 @@ import javafx.scene.layout.HBox;
 import swp15.link_discovery.model.MeshBasedSelfConfigurationModel;
 import de.uni_leipzig.simba.selfconfig.SimpleClassifier;
 
+/**
+ * Panel of MeshBased Learning
+ * 
+ * @author Sascha Hahne
+ *
+ */
 public class MeshBasedSelfConfigurationPanel extends
 		SelfConfigurationPanelInterface {
+	/**
+	 * Choice Box to show Mapping of specific Resultmetric
+	 */
 	public ChoiceBox<SimpleClassifier> resultSelect;
 
+	// public List<String> metricList;
+	/**
+	 * Contructor
+	 * 
+	 * @param view
+	 *            Corresponding calling View
+	 */
 	public MeshBasedSelfConfigurationPanel(SelfConfigurationView view) {
 		super(view);
 		view.controller.setModel(new MeshBasedSelfConfigurationModel());
 		showWindow();
 	}
 
+	/**
+	 * generate Form
+	 */
 	private void showWindow() {
 
 		view.selfConfigWrapper.getChildren().clear();
@@ -132,6 +151,7 @@ public class MeshBasedSelfConfigurationPanel extends
 		buttonWrapper.getChildren().add(mapButton);
 		buttonWrapper.getChildren().add(progressIndicator);
 		mapButton.setDisable(true);
+		// metricList = new Table
 		view.selfConfigWrapper.getChildren().add(buttonWrapper);
 	}
 
