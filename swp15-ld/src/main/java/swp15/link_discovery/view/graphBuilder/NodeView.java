@@ -167,7 +167,7 @@ public class NodeView {
 							+ NodeView.HEIGHT / 2);
 			gc.save();
 			double deg = ArrowHelper.getAngle(nodeView.x, nodeView.y, this.x,
-					this.y);
+					this.y) + 180;
 			gc.rotate(deg);
 			int[] rot = ArrowHelper.rotate(middleX, middleY, -deg);
 			gc.drawImage(arrow, rot[0], rot[1]);
@@ -193,8 +193,8 @@ public class NodeView {
 		public static int[] rotate(int x, int y, double degree) {
 			int[] res = { 0, 0 };
 			double angle = Math.toRadians(degree);
-			res[0] = (int) ((x + 10) * Math.cos(angle) - y * Math.sin(angle));
-			res[1] = (int) ((x + 10) * Math.sin(angle) + y * Math.cos(angle));
+			res[0] = (int) ((x - 7) * Math.cos(angle) - y * Math.sin(angle));
+			res[1] = (int) ((x - 7) * Math.sin(angle) + y * Math.cos(angle));
 			return res;
 
 		}
