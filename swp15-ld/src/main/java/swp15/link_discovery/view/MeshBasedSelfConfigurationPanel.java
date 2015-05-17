@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.HBox;
@@ -106,7 +107,10 @@ public class MeshBasedSelfConfigurationPanel extends
 
 		HBox buttonWrapper = new HBox();
 		learnButton = new Button("Start Learning");
+		progressIndicator = new ProgressIndicator();
+		progressIndicator.setVisible(false);
 		learnButton.setOnAction(e -> {
+			progressIndicator.setVisible(true);
 			double[] params = {
 					pseudoSlider.getValue(), // 0
 					classifierChooser.getSelectionModel().getSelectedIndex(), // 1
@@ -126,6 +130,7 @@ public class MeshBasedSelfConfigurationPanel extends
 		mapButton = new Button("Show Mapping");
 		buttonWrapper.getChildren().add(learnButton);
 		buttonWrapper.getChildren().add(mapButton);
+		buttonWrapper.getChildren().add(progressIndicator);
 		mapButton.setDisable(true);
 		view.selfConfigWrapper.getChildren().add(buttonWrapper);
 	}

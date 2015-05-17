@@ -1,7 +1,5 @@
 package swp15.link_discovery.view;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -87,15 +85,6 @@ public class MappingProcessView {
 
 				progressBar.progressProperty().unbind();
 				progressBar.progressProperty().bind(mapTask.progressProperty());
-
-				mapTask.messageProperty().addListener(
-						new ChangeListener<String>() {
-							public void changed(
-									ObservableValue<? extends String> observable,
-									String oldValue, String newValue) {
-								System.out.println(newValue);
-							}
-						});
 
 				/*
 				 * called when Task is finished creates new ResultView with
