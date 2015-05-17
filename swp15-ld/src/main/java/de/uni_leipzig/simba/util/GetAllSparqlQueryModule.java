@@ -19,6 +19,7 @@ import de.uni_leipzig.simba.query.SparqlQueryModule;
  * With everything is meant: all properties and their names and their objects but still only the restricted ones.
  * @author Konrad Höffner
  */
+@SuppressWarnings("all")
 public class GetAllSparqlQueryModule extends SparqlQueryModule
 {
 	private final static Logger LOGGER = Logger.getLogger(GetAllSparqlQueryModule.class.getName());
