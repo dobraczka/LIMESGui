@@ -9,7 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import swp15.link_discovery.controller.SelfConfigurationController;
-import swp15.link_discovery.model.GeneticSelfConfigurationModel;
 
 /**
  * UI for selfconfiguration
@@ -75,9 +74,8 @@ public class SelfConfigurationView {
 										this);
 								break;
 							case 1:
-								// TODO Meshbased
-								controller
-										.setModel(new GeneticSelfConfigurationModel());
+								this.selfConfigPanel = new MeshBasedSelfConfigurationPanel(
+										this);
 								break;
 							default:
 								break;
