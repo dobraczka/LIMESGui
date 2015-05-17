@@ -118,7 +118,7 @@ public class MeshBasedSelfConfigurationModel implements
 			view.mapButton.setDisable(false);
 			System.out
 					.println(currentConfig.getConfigReader().metricExpression);
-			view.view.view.graphBuild.controller.setConfigFromGraph();
+			view.view.view.graphBuild.graphBuildController.setConfigFromGraph();
 		}
 	}
 

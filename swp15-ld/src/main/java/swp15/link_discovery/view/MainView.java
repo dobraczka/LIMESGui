@@ -170,11 +170,11 @@ public class MainView {
 		Menu menuLayout = new Menu("Layout");
 		MenuItem layoutGraph = new MenuItem("Refresh Layout");
 		layoutGraph.setOnAction(e -> {
-			graphBuild.controller.layoutGraph();
+			graphBuild.graphBuildController.layoutGraph();
 		});
 		MenuItem deleteGraph = new MenuItem("Delete Graph");
 		deleteGraph.setOnAction(e -> {
-			graphBuild.controller.deleteGraph();
+			graphBuild.graphBuildController.deleteGraph();
 		});
 		menuLayout.getItems().addAll(layoutGraph, deleteGraph);
 

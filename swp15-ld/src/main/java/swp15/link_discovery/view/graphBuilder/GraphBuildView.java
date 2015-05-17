@@ -15,26 +15,57 @@ import swp15.link_discovery.model.metric.Output;
 
 public class GraphBuildView extends Canvas {
 
-	public GraphBuildController controller;
+	/**
+	 * Corresponding GraphBuildController
+	 */
+	public GraphBuildController graphBuildController;
 
+	/**
+	 * List of nodes in the Canvas
+	 */
 	public ObservableList<NodeView> nodeList;
 
+	/**
+	 * True if Node was clicked
+	 */
 	private boolean nodeClicked;
 
+	/**
+	 * Index of clicked Node
+	 */
 	private int nodeIndex;
 
-	private int index;
-
+	/**
+	 * Context Menu to show on secondary MouseClick
+	 */
 	private NodeContextMenu contextMenu;
 
+	/**
+	 * True if Linking Process is running
+	 */
 	public boolean isLinking;
 
+	/**
+	 * Node to Link in linking Process
+	 */
 	public NodeView linkNode;
 
+	/**
+	 * Boolean to check if Graph was edited
+	 */
 	public boolean edited = false;
 
+	/**
+	 * Mouseposition on Canvas
+	 */
 	private double[] mousePosition = { 0, 0 };
 
+	/**
+	 * Constructor
+	 * 
+	 * @param currentConfig
+	 *            Current used Configmodel
+	 */
 	public GraphBuildView(Config currentConfig) {
 		widthProperty().addListener(evt -> draw());
 		heightProperty().addListener(evt -> draw());
@@ -42,9 +73,13 @@ public class GraphBuildView extends Canvas {
 		this.nodeClicked = false;
 		this.isLinking = false;
 		addNode(300, 300, 2, new Output());
-		this.controller = new GraphBuildController(currentConfig, this);
+		this.graphBuildController = new GraphBuildController(currentConfig,
+				this);
 	}
 
+	/**
+	 * Constructor
+	 */
 	public GraphBuildView() {
 		widthProperty().addListener(evt -> draw());
 		heightProperty().addListener(evt -> draw());
@@ -52,28 +87,49 @@ public class GraphBuildView extends Canvas {
 		this.nodeClicked = false;
 		this.isLinking = false;
 		addNode(300, 300, 2, new Output());
-		this.controller = new GraphBuildController(this);
+		this.graphBuildController = new GraphBuildController(this);
 	}
 
+	/**
+	 * Set Resizablity to true,overwrite default Canvas Property
+	 */
 	@Override
 	public boolean isResizable() {
 		return true;
 	}
 
 	@Override
+	/**
+	 * Set Width of Canvas
+	 * @param width
+	 */
 	public double prefWidth(double height) {
 		return getWidth();
 	}
 
+	/**
+	 * Set Height of Canvas
+	 * 
+	 * @params height
+	 */
 	@Override
 	public double prefHeight(double width) {
 		return getHeight();
 	}
 
+	/**
+	 * Set Current Config model
+	 * 
+	 * @param config
+	 *            Currently used Config
+	 */
 	public void setCurrentConfig(Config config) {
-		this.controller.setConfig(config);
+		this.graphBuildController.setConfig(config);
 	}
 
+	/**
+	 * Add eventlisteners Begin drawing
+	 */
 	public void start() {
 		this.addEventHandler(
 				MouseEvent.MOUSE_CLICKED,
@@ -97,7 +153,7 @@ public class GraphBuildView extends Canvas {
 					}
 				});
 		this.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-			index = 0;
+			int index = 0;
 			for (NodeView node : nodeList) {
 				if (node.contains((int) e.getX(), (int) e.getY())) {
 					nodeClicked = true;
@@ -122,7 +178,7 @@ public class GraphBuildView extends Canvas {
 		});
 		this.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
 			if (e.getButton() == MouseButton.SECONDARY) {
-				index = 0;
+				int index = 0;
 				boolean clickedNode = false;
 				for (NodeView node : nodeList) {
 					if (node.contains((int) e.getX(), (int) e.getY())) {
@@ -148,6 +204,9 @@ public class GraphBuildView extends Canvas {
 		draw();
 	}
 
+	/**
+	 * Draw Nodes and Links to the Canvas
+	 */
 	public void draw() {
 		GraphicsContext gc = this.getGraphicsContext2D();
 		gc.clearRect(0, 0, this.getWidth(), this.getHeight());
@@ -163,13 +222,30 @@ public class GraphBuildView extends Canvas {
 		});
 	}
 
-	public NodeView addNode(int x, int y, int shape, Node node) {
+	/**
+	 * Adds a Node to the Canvas
+	 * 
+	 * @param x
+	 *            Position on x-Axis
+	 * @param y
+	 *            Position on y-Axis
+	 * @param shape
+	 *            Shape of Node
+	 * @param node
+	 *            Node Data Model
+	 */
+	public void addNode(int x, int y, int shape, Node node) {
 		NodeView nv = new NodeView(x, y, shape, "test", this, node);
 		nv.displayNode();
 		nodeList.add(nv);
-		return nv;
 	}
 
+	/**
+	 * Remove Node From Canvas
+	 * 
+	 * @param node
+	 *            Node to be removed
+	 */
 	public void removeNodeView(NodeView node) {
 		edited = true;
 		boolean remove = false;

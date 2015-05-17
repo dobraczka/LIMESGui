@@ -46,9 +46,9 @@ public class MainController {
 		if (currentConfig != null) {
 			view.showLoadedConfig(true);
 			view.toolBox.showLoadedConfig(currentConfig);
-			view.graphBuild.controller.setConfig(currentConfig);
+			view.graphBuild.graphBuildController.setConfig(currentConfig);
 			if (currentConfig.getConfigReader().metricExpression != null) {
-				view.graphBuild.controller.generateGraphFromConfig();
+				view.graphBuild.graphBuildController.generateGraphFromConfig();
 			}
 		}
 	}
@@ -184,7 +184,7 @@ public class MainController {
 			alert.showAndWait();
 			return;
 		}
-		view.graphBuild.controller.setConfigFromGraph();
+		view.graphBuild.graphBuildController.setConfigFromGraph();
 	}
 
 	public void showSelfConfig() {
