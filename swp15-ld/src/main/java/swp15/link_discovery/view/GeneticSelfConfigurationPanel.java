@@ -52,7 +52,7 @@ public class GeneticSelfConfigurationPanel extends
 
 		Slider crossover = new Slider();
 		Label crossoverLabel = new Label("0.4");
-		Label crossoverText = new Label("Crossover probabiltiy");
+		Label crossoverText = new Label("Crossover probability");
 		HBox crossoverBox = new HBox();
 
 		view.selfConfigWrapper.getChildren().add(crossoverText);

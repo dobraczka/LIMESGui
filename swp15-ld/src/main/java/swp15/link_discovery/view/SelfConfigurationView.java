@@ -90,7 +90,7 @@ public class SelfConfigurationView {
 		selfConfigWrapper.setFillWidth(false);
 		root.setTop(content);
 		root.setCenter(selfConfigWrapper);
-		Scene scene = new Scene(root, 800, 600);
+		Scene scene = new Scene(root, 300, 400);
 
 		Stage stage = new Stage();
 		stage.setTitle("LIMES - Self Configuration");
