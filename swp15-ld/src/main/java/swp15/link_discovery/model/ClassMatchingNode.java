@@ -10,7 +10,13 @@ public class ClassMatchingNode {
 
 	public ClassMatchingNode(URI uri, List<ClassMatchingNode> children) {
 		this.uri = uri;
-		this.name = uri.getFragment();
+		String fragment = uri.getFragment();
+		if (fragment != null) {
+			this.name = fragment;
+		} else {
+			String path = uri.getPath();
+			this.name = path.substring(path.lastIndexOf('/') + 1);
+		}
 		this.children = children;
 	}
 
