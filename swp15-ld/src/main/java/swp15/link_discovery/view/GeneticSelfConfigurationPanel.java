@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.HBox;
@@ -137,9 +138,13 @@ public class GeneticSelfConfigurationPanel extends
 		HBox buttonWrapper = new HBox();
 		learnButton = new Button("Start Learning");
 		mapButton = new Button("Show Mapping");
+		progressIndicator = new ProgressIndicator();
 		buttonWrapper.getChildren().add(learnButton);
 		buttonWrapper.getChildren().add(mapButton);
+		buttonWrapper.getChildren().add(progressIndicator);
+		progressIndicator.setVisible(false);
 		learnButton.setOnAction(e -> {
+			progressIndicator.setVisible(true);
 			double[] params_new = { pseudoF.getValue(), crossover.getValue(),
 					generations.getValue(),
 					classifierChooser.getSelectionModel().getSelectedIndex(),

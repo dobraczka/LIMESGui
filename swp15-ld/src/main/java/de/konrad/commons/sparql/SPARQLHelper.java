@@ -65,6 +65,7 @@ import de.uni_leipzig.simba.util.GetAllSparqlQueryModule;
 //import java.util.logging.*;
 //;
 //// TODO: move all sparql stuff into aksw commons
+@SuppressWarnings("all")
 public class SPARQLHelper
 {
 	

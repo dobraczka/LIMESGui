@@ -13,6 +13,7 @@ import de.uni_leipzig.simba.io.KBInfo;
  * Subclass of KBInfo that adds a view convenience methods such as different constructors and better error messages.
  * Also contains additional fields like the classes so that you can't downgrade AdvancedKBInfo to KBInfo without some information losses.
  * @author Konrad Höffner */
+@SuppressWarnings("all")
 public class AdvancedKBInfo extends KBInfo implements Serializable
 {
 	//public String var = "?var";

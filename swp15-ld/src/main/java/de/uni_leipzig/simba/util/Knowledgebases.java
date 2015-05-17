@@ -2,6 +2,7 @@ package de.uni_leipzig.simba.util;
 
 import de.uni_leipzig.simba.io.KBInfo;
 
+@SuppressWarnings("all")
 public class Knowledgebases
 {
 	public static final String DBPEDIA_ENDPOINT = "http://dbpedia.org/sparql";

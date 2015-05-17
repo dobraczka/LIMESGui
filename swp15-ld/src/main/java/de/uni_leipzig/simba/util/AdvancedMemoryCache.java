@@ -20,6 +20,7 @@ import de.konrad.commons.sparql.PrefixHelper;
 import de.uni_leipzig.simba.cache.MemoryCache;
 import de.uni_leipzig.simba.data.Instance;
 /** @author Konrad Höffner */
+@SuppressWarnings("all")
 public class AdvancedMemoryCache extends MemoryCache implements Serializable
 {
 	private static final long serialVersionUID = 1L;

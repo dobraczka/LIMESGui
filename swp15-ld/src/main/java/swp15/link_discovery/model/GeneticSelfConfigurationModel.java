@@ -126,6 +126,7 @@ public class GeneticSelfConfigurationModel implements
 		});
 		if (learnedMapping != null && learnedMapping.size() > 0) {
 			view.mapButton.setDisable(false);
+			view.progressIndicator.setVisible(false);
 			System.out
 					.println(currentConfig.getConfigReader().metricExpression);
 			view.view.view.graphBuild.graphBuildController.setConfigFromGraph();
