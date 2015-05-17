@@ -24,6 +24,7 @@ public class MeshBasedSelfConfigurationPanel extends
 
 	private void showWindow() {
 
+		view.selfConfigWrapper.getChildren().clear();
 		// Beta value for the pseudo-f-Measure Slider 0.1 2 1
 		Label pseudoText = new Label("Beta value for the pseudo-f-Measure");
 		Slider pseudoSlider = new Slider(0.1, 2, 1);
