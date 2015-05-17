@@ -6,7 +6,9 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import swp15.link_discovery.model.Config;
+import swp15.link_discovery.view.EditClassMatchingView;
 import swp15.link_discovery.view.EditEndpointsView;
+import swp15.link_discovery.view.EditPropertyMatchingView;
 import swp15.link_discovery.view.MainView;
 import swp15.link_discovery.view.MappingProcessView;
 import swp15.link_discovery.view.SelfConfigurationView;
@@ -41,6 +43,14 @@ public class MainController {
 	private void setCurrentConfig(Config currentConfig) {
 		this.currentConfig = currentConfig;
 		view.showLoadedConfig(currentConfig != null);
+		if (currentConfig != null) {
+			view.showLoadedConfig(true);
+			view.toolBox.showLoadedConfig(currentConfig);
+			view.graphBuild.controller.setConfig(currentConfig);
+			if (currentConfig.getConfigReader().metricExpression != null) {
+				view.graphBuild.controller.generateGraphFromConfig();
+			}
+		}
 	}
 
 	/**
@@ -48,17 +58,23 @@ public class MainController {
 	 * 
 	 * @param createWizardView
 	 * @param editEndpointsView
+	 * @param editClassMatchingView
+	 * @param editPropertyMatchingView
 	 */
 	public void newConfig(WizardView createWizardView,
-			EditEndpointsView editEndpointsView) {
+			EditEndpointsView editEndpointsView,
+			EditClassMatchingView editClassMatchingView,
+			EditPropertyMatchingView editPropertyMatchingView) {
 		confirmPotentialDataLoss();
 		setCurrentConfig(null);
 		Config newConfig = new Config();
-		new EditEndpointsController(newConfig, editEndpointsView);
 		new WizardController(() -> {
 			setCurrentConfig(newConfig);
 		}, () -> {
-		}, createWizardView, editEndpointsView);
+		}, createWizardView, new EditEndpointsController(newConfig,
+				editEndpointsView), new EditClassMatchingController(newConfig,
+				editClassMatchingView), new EditPropertyMatchingController(
+				newConfig, editPropertyMatchingView));
 	}
 
 	/**
@@ -71,11 +87,8 @@ public class MainController {
 		confirmPotentialDataLoss();
 		try {
 			setCurrentConfig(Config.loadFromFile(file));
-			view.showLoadedConfig(true);
-			view.toolBox.showLoadedConfig(currentConfig);
-			view.graphBuild.controller.setConfig(currentConfig);
-			view.graphBuild.controller.generateGraphFromConfig();
 		} catch (Exception e) {
+			e.printStackTrace();
 			view.showErrorDialog(
 					"Exception while loading config: " + e.getMessage(),
 					e.getMessage());
@@ -92,11 +105,11 @@ public class MainController {
 		if (currentConfig == null) {
 			return;
 		}
+		checkAndUpdateMetric();
 		try {
 			currentConfig.save(file);
 		} catch (Exception e) {
-			view.showErrorDialog(
-					"Exception while saving config: " + e.getMessage(),
+			view.showErrorDialog("Exception while saving config: " + e,
 					e.getMessage());
 		}
 	}
@@ -135,6 +148,22 @@ public class MainController {
 		new EditEndpointsController(currentConfig, editEndpointsView);
 	}
 
+	public void editClassMatching(EditClassMatchingView editClassMatchingView) {
+		if (currentConfig == null) {
+			return;
+		}
+		new EditClassMatchingController(currentConfig, editClassMatchingView);
+	}
+
+	public void editPropertyMatching(
+			EditPropertyMatchingView editPropertyMatchingView) {
+		if (currentConfig == null) {
+			return;
+		}
+		new EditPropertyMatchingController(currentConfig,
+				editPropertyMatchingView);
+	}
+
 	/**
 	 * Starts the Limes-Query and shows the Results
 	 */
@@ -142,6 +171,12 @@ public class MainController {
 		if (currentConfig == null) {
 			return;
 		}
+		checkAndUpdateMetric();
+		MappingProcessView mapProcView = new MappingProcessView(currentConfig);
+		mapProcView.showWindow();
+	}
+
+	private void checkAndUpdateMetric() {
 		if (view.graphBuild.edited
 				&& !view.graphBuild.nodeList.get(0).nodeData.isComplete()) {
 			Alert alert = new Alert(AlertType.INFORMATION);
@@ -150,8 +185,6 @@ public class MainController {
 			return;
 		}
 		view.graphBuild.controller.setConfigFromGraph();
-		MappingProcessView mapProcView = new MappingProcessView(currentConfig);
-		mapProcView.showWindow();
 	}
 
 	public void showSelfConfig() {

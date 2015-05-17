@@ -3,8 +3,10 @@ package swp15.link_discovery.controller;
 import static swp15.link_discovery.util.SourceOrTarget.SOURCE;
 import static swp15.link_discovery.util.SourceOrTarget.TARGET;
 import swp15.link_discovery.model.Config;
+import swp15.link_discovery.model.Endpoint;
 import swp15.link_discovery.util.SourceOrTarget;
 import swp15.link_discovery.view.EditEndpointsView;
+import swp15.link_discovery.view.IEditView;
 import de.uni_leipzig.simba.io.KBInfo;
 
 /**
@@ -13,11 +15,13 @@ import de.uni_leipzig.simba.io.KBInfo;
  * @author Manuel Jacob, Felix Brei
  *
  */
-public class EditEndpointsController {
+public class EditEndpointsController implements IEditController {
 	/**
 	 * Config of the LIMES Query
 	 */
 	private Config config;
+
+	private EditEndpointsView view;
 
 	/**
 	 * Constructor
@@ -29,7 +33,12 @@ public class EditEndpointsController {
 	 */
 	EditEndpointsController(Config config, EditEndpointsView view) {
 		this.config = config;
+		this.view = view;
 		view.setController(this);
+	}
+
+	@Override
+	public void load() {
 		KBInfo sourceEndpoint = config.getSourceInfo();
 		view.setFields(SOURCE, sourceEndpoint.endpoint, sourceEndpoint.id,
 				sourceEndpoint.graph, Integer.toString(sourceEndpoint.pageSize));
@@ -54,12 +63,19 @@ public class EditEndpointsController {
 	 */
 	public void save(SourceOrTarget sourceOrTarget, String endpointURL,
 			String idNamespace, String graph, String pageSize) {
-		KBInfo endpoint = sourceOrTarget == SOURCE ? config.getSourceInfo()
-				: config.getTargetInfo();
-		endpoint.endpoint = endpointURL;
-		endpoint.id = idNamespace;
-		endpoint.graph = graph;
+		Endpoint endpoint = sourceOrTarget == SOURCE ? config
+				.getSourceEndpoint() : config.getTargetEndpoint();
+		KBInfo info = endpoint.getInfo();
+		info.endpoint = endpointURL;
+		info.id = idNamespace;
+		info.graph = graph;
 		// TODO: Validierung
-		endpoint.pageSize = Integer.parseInt(pageSize);
+		info.pageSize = Integer.parseInt(pageSize);
+		endpoint.update();
+	}
+
+	@Override
+	public IEditView getView() {
+		return view;
 	}
 }

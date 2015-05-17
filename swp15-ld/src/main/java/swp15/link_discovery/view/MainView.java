@@ -38,6 +38,10 @@ public class MainView {
 	 */
 	private MenuItem itemEditEndpoints;
 	/**
+	 * MenuItem to EditClassMatching
+	 */
+	private MenuItem itemEditClassMatching;
+	/**
 	 * MenuItem to start Mapping
 	 */
 	private MenuItem itemMap;
@@ -50,6 +54,7 @@ public class MainView {
 	public ToolBox toolBox;
 
 	public GraphBuildView graphBuild;
+	private MenuItem itemEditPropertyMatching;
 
 	/**
 	 * Constructor
@@ -110,7 +115,8 @@ public class MainView {
 		Menu menuFile = new Menu("File");
 		MenuItem itemNew = new MenuItem("New");
 		itemNew.setOnAction(e -> controller.newConfig(new WizardView(),
-				new EditEndpointsView()));
+				new EditEndpointsView(), new EditClassMatchingView(),
+				new EditPropertyMatchingView()));
 		menuFile.getItems().add(itemNew);
 		menuFile.getItems().add(new SeparatorMenuItem());
 		MenuItem itemLoad = new MenuItem("Load config");
@@ -144,6 +150,22 @@ public class MainView {
 			showEditWindow(editEndpointsView);
 		});
 		menuEdit.getItems().add(itemEditEndpoints);
+		itemEditClassMatching = new MenuItem("Edit Class Matching");
+		itemEditClassMatching
+				.setOnAction(e -> {
+					EditClassMatchingView editClassMatchingView = new EditClassMatchingView();
+					controller.editClassMatching(editClassMatchingView);
+					showEditWindow(editClassMatchingView);
+				});
+		menuEdit.getItems().add(itemEditClassMatching);
+		itemEditPropertyMatching = new MenuItem("Edit Property Matching");
+		itemEditPropertyMatching
+				.setOnAction(e -> {
+					EditPropertyMatchingView editPropertyMatchingView = new EditPropertyMatchingView();
+					controller.editPropertyMatching(editPropertyMatchingView);
+					showEditWindow(editPropertyMatchingView);
+				});
+		menuEdit.getItems().add(itemEditPropertyMatching);
 
 		Menu menuLayout = new Menu("Layout");
 		MenuItem layoutGraph = new MenuItem("Refresh Layout");

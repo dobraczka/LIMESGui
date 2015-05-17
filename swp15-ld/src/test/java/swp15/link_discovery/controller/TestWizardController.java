@@ -5,7 +5,6 @@ import mockit.Mocked;
 
 import org.junit.Test;
 
-import swp15.link_discovery.view.IEditView;
 import swp15.link_discovery.view.WizardView;
 
 public class TestWizardController {
@@ -16,20 +15,22 @@ public class TestWizardController {
 	@Mocked
 	private WizardView view;
 	@Mocked
-	private IEditView editView1;
+	private IEditController editController1;
 	@Mocked
-	private IEditView editView2;
+	private IEditController editController2;
 	@Mocked
-	private IEditView editView3;
+	private IEditController editController3;
 
 	@Test
 	public void testLinear() {
 		WizardController controller = new WizardController(finishCallback,
-				cancelCallback, view, editView1, editView2, editView3);
+				cancelCallback, view, editController1, editController2,
+				editController3);
 		new FullVerifications() {
 			{
 				view.setController(controller);
-				view.setEditView(editView1, false, true);
+				editController1.load();
+				view.setEditView(editController1.getView(), false, true);
 			}
 		};
 
@@ -42,23 +43,25 @@ public class TestWizardController {
 		controller.nextOrFinish();
 		new FullVerifications() {
 			{
-				editView1.save();
-				view.setEditView(editView2, true, true);
+				editController1.save();
+				editController2.load();
+				view.setEditView(editController2.getView(), true, true);
 			}
 		};
 
 		controller.nextOrFinish();
 		new FullVerifications() {
 			{
-				editView2.save();
-				view.setEditView(editView3, true, false);
+				editController2.save();
+				editController3.load();
+				view.setEditView(editController3.getView(), true, false);
 			}
 		};
 
 		controller.nextOrFinish();
 		new FullVerifications() {
 			{
-				editView3.save();
+				editController3.save();
 				view.close();
 				finishCallback.run();
 			}
@@ -68,11 +71,13 @@ public class TestWizardController {
 	@Test
 	public void testCancel() {
 		WizardController controller = new WizardController(finishCallback,
-				cancelCallback, view, editView1, editView2, editView3);
+				cancelCallback, view, editController1, editController2,
+				editController3);
 		new FullVerifications() {
 			{
 				view.setController(controller);
-				view.setEditView(editView1, false, true);
+				editController1.load();
+				view.setEditView(editController1.getView(), false, true);
 			}
 		};
 
