@@ -10,7 +10,6 @@ import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.Result;
 import swp15.link_discovery.view.EditEndpointsView;
 import swp15.link_discovery.view.MainView;
-import swp15.link_discovery.view.ResultView;
 import swp15.link_discovery.view.SelfConfigurationView;
 import swp15.link_discovery.view.WizardView;
 
@@ -139,9 +138,6 @@ public class MainController {
 
 	/**
 	 * Starts the Limes-Query and shows the Results
-	 * 
-	 * @param resultView
-	 *            Corresponding ResultView to show the Results
 	 */
 	public void map() {
 		if (currentConfig == null) {
@@ -149,10 +145,8 @@ public class MainController {
 		}
 		if (view.graphBuild.edited) {
 			if (view.graphBuild.nodeList.get(0).nodeData.isComplete()) {
-				ResultView resultView = new ResultView();
 				view.graphBuild.controller.setConfigFromGraph();
 				ObservableList<Result> results = currentConfig.doMapping();
-				resultView.showResults(results, currentConfig);
 			} else {
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setContentText("Metric is not complete!");
@@ -160,9 +154,8 @@ public class MainController {
 				return;
 			}
 		} else {
-			ResultView resultView = new ResultView();
+			view.graphBuild.controller.setConfigFromGraph();
 			ObservableList<Result> results = currentConfig.doMapping();
-			resultView.showResults(results, currentConfig);
 		}
 
 	}

@@ -11,11 +11,13 @@ import java.text.NumberFormat;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import swp15.link_discovery.model.metric.MetricFormatException;
 import swp15.link_discovery.model.metric.MetricParser;
 import swp15.link_discovery.model.metric.Output;
 import swp15.link_discovery.util.ConfigWriter;
 import swp15.link_discovery.util.SourceOrTarget;
+import swp15.link_discovery.view.MappingProcessView;
 import de.uni_leipzig.simba.cache.Cache;
 import de.uni_leipzig.simba.data.Mapping;
 import de.uni_leipzig.simba.filter.LinearFilter;
@@ -143,30 +145,51 @@ public class Config {
 	}
 
 	/**
-	 * realizes the mapping
+	 * Creates a new MappingProcessView which asks the user to start the mapping
+	 * or cancel it
 	 * 
 	 * @return results the results of the mapping
 	 */
 	public ObservableList<Result> doMapping() {
-		// Kopiert aus LIMES und angepasst
-		Cache sourceCache = sourceEndpoint.getCache();
-		Cache targetCache = targetEndpoint.getCache();
-		SetConstraintsMapper mapper = SetConstraintsMapperFactory.getMapper(
-				reader.executionPlan, reader.sourceInfo, reader.targetInfo,
-				sourceCache, targetCache, new LinearFilter(),
-				reader.granularity);
-		Mapping mapping = mapper.getLinks(reader.metricExpression,
-				reader.verificationThreshold);
-		// get Writer ready
-		mapping = mapper.getLinks(reader.metricExpression,
-				this.getAcceptanceThreshold());
 		ObservableList<Result> results = FXCollections.observableArrayList();
-		mapping.map.forEach((sourceURI, map2) -> {
-			map2.forEach((targetURI, value) -> {
-				results.add(new Result(sourceURI, targetURI, value));
-			});
-		});
+
+		MappingProcessView mapProcView = new MappingProcessView(this, results);
+		mapProcView.showWindow();
 		return results;
+	}
+
+	/**
+	 * creates the Task in which the mappingProcess is realized
+	 * 
+	 * @param results
+	 *            of the mapping
+	 * @return null
+	 */
+	public Task<Void> createMappingTask(ObservableList<Result> results) {
+		return new Task<Void>() {
+			@Override
+			protected Void call() {
+				// Kopiert aus LIMES und angepasst
+				Cache sourceCache = sourceEndpoint.getCache();
+				Cache targetCache = targetEndpoint.getCache();
+				SetConstraintsMapper mapper = SetConstraintsMapperFactory
+						.getMapper(reader.executionPlan, reader.sourceInfo,
+								reader.targetInfo, sourceCache, targetCache,
+								new LinearFilter(), reader.granularity);
+				Mapping mapping = mapper.getLinks(reader.metricExpression,
+						reader.verificationThreshold);
+				// get Writer ready
+				mapping = mapper.getLinks(reader.metricExpression,
+						getAcceptanceThreshold());
+				mapping.map.forEach((sourceURI, map2) -> {
+					map2.forEach((targetURI, value) -> {
+						results.add(new Result(sourceURI, targetURI, value));
+					});
+				});
+				return null;
+			}
+		};
+
 	}
 
 	public Endpoint getSourceEndpoint() {

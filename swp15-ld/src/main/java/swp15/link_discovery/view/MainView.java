@@ -158,7 +158,9 @@ public class MainView {
 
 		Menu menuRun = new Menu("Run");
 		itemMap = new MenuItem("Start Mapping");
-		itemMap.setOnAction(e -> controller.map());
+		itemMap.setOnAction(e -> {
+			controller.map();
+		});
 		menuRun.getItems().add(itemMap);
 
 		itemSelfConfiguration = new MenuItem("Self Configuration");
