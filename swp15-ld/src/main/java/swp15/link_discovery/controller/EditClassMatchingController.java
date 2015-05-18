@@ -8,6 +8,11 @@ import swp15.link_discovery.model.Endpoint;
 import swp15.link_discovery.view.EditClassMatchingView;
 import swp15.link_discovery.view.IEditView;
 
+/**
+ * Controller class for class matching step in create wizard
+ * 
+ * @author Manuel Jacob
+ */
 public class EditClassMatchingController implements IEditController {
 	private Config config;
 	private EditClassMatchingView view;

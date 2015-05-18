@@ -7,6 +7,11 @@ import swp15.link_discovery.model.PropertyPair;
 import swp15.link_discovery.view.EditPropertyMatchingView;
 import swp15.link_discovery.view.IEditView;
 
+/**
+ * Controller class for property matching step in create wizard
+ * 
+ * @author Manuel Jacob
+ */
 public class EditPropertyMatchingController implements IEditController {
 	private Config config;
 	private EditPropertyMatchingView view;

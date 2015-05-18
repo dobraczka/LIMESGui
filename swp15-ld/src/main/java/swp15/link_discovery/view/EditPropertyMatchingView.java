@@ -28,6 +28,11 @@ import javafx.stage.Stage;
 import swp15.link_discovery.controller.EditPropertyMatchingController;
 import swp15.link_discovery.model.PropertyPair;
 
+/**
+ * View class for edit properties step in create wizard
+ * 
+ * @author Manuel Jacob
+ */
 public class EditPropertyMatchingView extends Application implements IEditView {
 	private EditPropertyMatchingController controller;
 	private ScrollPane rootPane;

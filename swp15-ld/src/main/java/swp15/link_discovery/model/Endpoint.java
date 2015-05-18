@@ -15,6 +15,11 @@ import de.uni_leipzig.simba.io.KBInfo;
 import de.uni_leipzig.simba.query.ModelRegistry;
 import de.uni_leipzig.simba.query.QueryModuleFactory;
 
+/**
+ * Represents an LIMES endpoint
+ * 
+ * @author Manuel Jacob
+ */
 public class Endpoint {
 	private KBInfo info;
 	private Cache cache;

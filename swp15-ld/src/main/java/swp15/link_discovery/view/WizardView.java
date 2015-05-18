@@ -7,6 +7,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import swp15.link_discovery.controller.WizardController;
 
+/**
+ * View class for wizards
+ * 
+ * @author Manuel Jacob
+ */
 public class WizardView {
 	WizardController controller;
 	private Button buttonBack;

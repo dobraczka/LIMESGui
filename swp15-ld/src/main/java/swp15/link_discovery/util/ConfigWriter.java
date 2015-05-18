@@ -12,6 +12,11 @@ import org.jdom2.output.XMLOutputter;
 import de.uni_leipzig.simba.io.ConfigReader;
 import de.uni_leipzig.simba.io.KBInfo;
 
+/**
+ * Class for saving LIMES config to file
+ * 
+ * @author Manuel Jacob
+ */
 public class ConfigWriter {
 	public static void saveToXML(ConfigReader configReader, File file) {
 		// Basierend auf Code aus SAIM.

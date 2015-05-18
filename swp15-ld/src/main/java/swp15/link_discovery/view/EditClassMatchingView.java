@@ -22,6 +22,11 @@ import swp15.link_discovery.controller.EditClassMatchingController;
 import swp15.link_discovery.model.ClassMatchingNode;
 import swp15.link_discovery.util.SourceOrTarget;
 
+/**
+ * View class for class matching step in create wizard
+ * 
+ * @author Manuel Jacob
+ */
 public class EditClassMatchingView extends Application implements IEditView {
 	private EditClassMatchingController controller;
 	private ScrollPane rootPane;

@@ -209,7 +209,7 @@ public class MainView {
 		});
 		menuRun.getItems().add(itemActiveLearning);
 		menuRun.getItems().add(itemSelfConfiguration);
-		return new MenuBar(menuFile, menuEdit, menuLayout, menuRun);
+		return new MenuBar(menuFile, menuLayout, menuRun);
 	}
 
 	/**

@@ -2,6 +2,11 @@ package swp15.link_discovery.controller;
 
 import swp15.link_discovery.view.WizardView;
 
+/**
+ * Controller class for wizards
+ * 
+ * @author Manuel
+ */
 public class WizardController {
 	private Runnable finishCallback;
 	private Runnable cancelCallback;
