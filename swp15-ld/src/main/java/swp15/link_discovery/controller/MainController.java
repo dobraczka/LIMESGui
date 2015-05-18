@@ -58,9 +58,13 @@ public class MainController {
 	 * Starts a New Limes Query-Config, drops the current Config
 	 * 
 	 * @param createWizardView
+	 *            Basic View
 	 * @param editEndpointsView
+	 *            EndpointsView
 	 * @param editClassMatchingView
+	 *            Classmatching VIew
 	 * @param editPropertyMatchingView
+	 *            Property Matching View
 	 */
 	public void newConfig(WizardView createWizardView,
 			EditEndpointsView editEndpointsView,
@@ -153,6 +157,7 @@ public class MainController {
 	 * Show ClassMatching View
 	 * 
 	 * @param editClassMatchingView
+	 *            View
 	 */
 	public void editClassMatching(EditClassMatchingView editClassMatchingView) {
 		if (currentConfig == null) {
@@ -165,6 +170,7 @@ public class MainController {
 	 * Show PropertyMatching Window
 	 * 
 	 * @param editPropertyMatchingView
+	 *            View
 	 */
 	public void editPropertyMatching(
 			EditPropertyMatchingView editPropertyMatchingView) {
