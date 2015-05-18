@@ -44,7 +44,7 @@ public class MeshBasedSelfConfigurationPanel extends
 	 */
 	private void showWindow() {
 
-		view.selfConfigWrapper.getChildren().clear();
+		selfConfigurationView.selfConfigWrapper.getChildren().clear();
 		// Beta value for the pseudo-f-Measure Slider 0.1 2 1
 		Label pseudoText = new Label("Beta value for the pseudo-f-Measure");
 		Slider pseudoSlider = new Slider(0.1, 2, 1);
@@ -52,8 +52,8 @@ public class MeshBasedSelfConfigurationPanel extends
 		HBox pseudoBox = new HBox();
 		pseudoBox.getChildren().add(pseudoSlider);
 		pseudoBox.getChildren().add(pseudoLabel);
-		view.selfConfigWrapper.getChildren().add(pseudoText);
-		view.selfConfigWrapper.getChildren().add(pseudoBox);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(pseudoText);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(pseudoBox);
 		pseudoSlider.setShowTickLabels(true);
 		pseudoSlider.setShowTickMarks(false);
 		pseudoSlider.setMajorTickUnit(0.5);
@@ -76,28 +76,36 @@ public class MeshBasedSelfConfigurationPanel extends
 				FXCollections.observableArrayList("MeshBase SelfConfigurator",
 						"Linear MeshBase SelfConfigurator",
 						"Disjunctive MeshBase SelfConfigurator"));
-		view.selfConfigWrapper.getChildren().add(classifierLabel);
-		view.selfConfigWrapper.getChildren().add(classifierChooser);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(
+				classifierLabel);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(
+				classifierChooser);
 
 		// Number of points used for the grid 1 100 3Clicker
 		Label gridPointsText = new Label("Number of points used for the grid");
 		Spinner<Integer> gridPointsSpinner = new Spinner<Integer>(1, 100, 3, 1);
-		view.selfConfigWrapper.getChildren().add(gridPointsText);
-		view.selfConfigWrapper.getChildren().add(gridPointsSpinner);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(
+				gridPointsText);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(
+				gridPointsSpinner);
 
 		// Number of iterations 1 10 3 Clicker
 		Label iterationsText = new Label("Number of iterations");
 		Spinner<Integer> iterationsSpinner = new Spinner<Integer>(1, 10, 3, 1);
-		view.selfConfigWrapper.getChildren().add(iterationsText);
-		view.selfConfigWrapper.getChildren().add(iterationsSpinner);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(
+				iterationsText);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(
+				iterationsSpinner);
 
 		// Choose a classifier Pseudo F-Measure NGLY12; Pseudo F-Measure NIK+12
 		Label classifierMeasureText = new Label("Choose a classifier");
 		ChoiceBox<String> classifierMeasureChooser = new ChoiceBox<String>(
 				FXCollections.observableArrayList("Pseudo F-Measure NGLY12",
 						"Pseudo F-Measure NIK+12"));
-		view.selfConfigWrapper.getChildren().add(classifierMeasureText);
-		view.selfConfigWrapper.getChildren().add(classifierMeasureChooser);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(
+				classifierMeasureText);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(
+				classifierMeasureChooser);
 
 		// Minimal Coverage for a property 0 1 0.1 0.6
 		Label coverageText = new Label("Minimal Coverage for a property");
@@ -121,8 +129,8 @@ public class MeshBasedSelfConfigurationPanel extends
 					}
 				});
 
-		view.selfConfigWrapper.getChildren().add(coverageText);
-		view.selfConfigWrapper.getChildren().add(coverageBox);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(coverageText);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(coverageBox);
 
 		HBox buttonWrapper = new HBox();
 		learnButton = new Button("Start Learning");
@@ -141,10 +149,10 @@ public class MeshBasedSelfConfigurationPanel extends
 			};
 			this.UIparams = params;
 			learnButton.setDisable(true);
-			view.controller.learn();
+			selfConfigurationView.controller.learn();
 		});
 		resultSelect = new ChoiceBox<SimpleClassifier>();
-		view.selfConfigWrapper.getChildren().add(resultSelect);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(resultSelect);
 		resultSelect.setVisible(false);
 		mapButton = new Button("Show Mapping");
 		buttonWrapper.getChildren().add(learnButton);
@@ -152,7 +160,8 @@ public class MeshBasedSelfConfigurationPanel extends
 		buttonWrapper.getChildren().add(progressIndicator);
 		mapButton.setDisable(true);
 		// metricList = new Table
-		view.selfConfigWrapper.getChildren().add(buttonWrapper);
+		selfConfigurationView.selfConfigWrapper.getChildren()
+				.add(buttonWrapper);
 	}
 
 }

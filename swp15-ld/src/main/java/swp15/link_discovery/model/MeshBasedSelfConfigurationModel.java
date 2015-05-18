@@ -106,7 +106,7 @@ public class MeshBasedSelfConfigurationModel implements
 
 	private void onFinish(Config currentConfig,
 			SelfConfigurationPanelInterface view) {
-		view.view.view.graphBuild.graphBuildController.setConfig(currentConfig);
+		view.selfConfigurationView.view.graphBuild.graphBuildController.setConfig(currentConfig);
 		ObservableList<Result> results = FXCollections.observableArrayList();
 		learnedMapping.map.forEach((sourceURI, map2) -> {
 			map2.forEach((targetURI, value) -> {
@@ -122,7 +122,7 @@ public class MeshBasedSelfConfigurationModel implements
 			resultView.showResults(savedResults.get(i).getResults(),
 					currentConfig);
 			currentConfig.setMetricExpression(metricList.get(i));
-			view.view.view.graphBuild.graphBuildController
+			view.selfConfigurationView.view.graphBuild.graphBuildController
 					.setConfig(currentConfig);
 
 		});
@@ -132,7 +132,7 @@ public class MeshBasedSelfConfigurationModel implements
 			view.progressIndicator.setVisible(false);
 			System.out
 					.println(currentConfig.getConfigReader().metricExpression);
-			view.view.view.graphBuild.graphBuildController.setConfigFromGraph();
+			view.selfConfigurationView.view.graphBuild.graphBuildController.setConfigFromGraph();
 		}
 	}
 

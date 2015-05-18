@@ -129,7 +129,7 @@ public class GeneticSelfConfigurationModel implements
 			view.progressIndicator.setVisible(false);
 			System.out
 					.println(currentConfig.getConfigReader().metricExpression);
-			view.view.view.graphBuild.graphBuildController.setConfigFromGraph();
+			view.selfConfigurationView.view.graphBuild.graphBuildController.setConfigFromGraph();
 		}
 	}
 

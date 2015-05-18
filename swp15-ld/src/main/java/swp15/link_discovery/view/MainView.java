@@ -51,9 +51,18 @@ public class MainView {
 	 */
 	private MenuItem itemSelfConfiguration;
 
+	/**
+	 * Toolbox of the MainView adds Nodes to Graph
+	 */
 	public ToolBox toolBox;
 
+	/**
+	 * GraphBuildView to Model and View the Metric
+	 */
 	public GraphBuildView graphBuild;
+	/**
+	 * MenuItem to Edit PropertyMatching
+	 */
 	private MenuItem itemEditPropertyMatching;
 
 	/**

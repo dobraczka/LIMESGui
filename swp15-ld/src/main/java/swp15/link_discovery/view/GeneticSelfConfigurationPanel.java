@@ -12,9 +12,21 @@ import javafx.scene.control.Spinner;
 import javafx.scene.layout.HBox;
 import swp15.link_discovery.model.GeneticSelfConfigurationModel;
 
+/**
+ * Panel to view the Options of the Selfconfiguration
+ * 
+ * @author Sascha Hahne, Daniel Obraczka
+ *
+ */
 public class GeneticSelfConfigurationPanel extends
 		SelfConfigurationPanelInterface {
 
+	/**
+	 * Constructor
+	 * 
+	 * @param selfConfigView
+	 *            Corresponding view
+	 */
 	public GeneticSelfConfigurationPanel(SelfConfigurationView selfConfigView) {
 		super(selfConfigView);
 		createWindow();
@@ -22,17 +34,20 @@ public class GeneticSelfConfigurationPanel extends
 
 	}
 
+	/**
+	 * Creates the Form
+	 */
 	private void createWindow() {
-		view.selfConfigWrapper.getChildren().clear();
+		selfConfigurationView.selfConfigWrapper.getChildren().clear();
 		Slider pseudoF = new Slider();
 		Label pseudoFLabel = new Label("1");
 		Label pseudoFText = new Label("Beta value for the pseudo-f-Measure");
 		HBox pseudoBox = new HBox();
 
-		view.selfConfigWrapper.getChildren().add(pseudoFText);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(pseudoFText);
 		pseudoBox.getChildren().add(pseudoF);
 		pseudoBox.getChildren().add(pseudoFLabel);
-		view.selfConfigWrapper.getChildren().add(pseudoBox);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(pseudoBox);
 
 		pseudoF.setMin(0.1);
 		pseudoF.setMax(2);
@@ -56,10 +71,10 @@ public class GeneticSelfConfigurationPanel extends
 		Label crossoverText = new Label("Crossover probability");
 		HBox crossoverBox = new HBox();
 
-		view.selfConfigWrapper.getChildren().add(crossoverText);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(crossoverText);
 		crossoverBox.getChildren().add(crossover);
 		crossoverBox.getChildren().add(crossoverLabel);
-		view.selfConfigWrapper.getChildren().add(crossoverBox);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(crossoverBox);
 
 		crossover.setMin(0);
 		crossover.setMax(1);
@@ -81,8 +96,8 @@ public class GeneticSelfConfigurationPanel extends
 		Label generationsText = new Label("Number of generations");
 		Spinner<Integer> generations = new Spinner<Integer>(5, 100, 5, 5);
 
-		view.selfConfigWrapper.getChildren().add(generationsText);
-		view.selfConfigWrapper.getChildren().add(generations);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(generationsText);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(generations);
 
 		ChoiceBox<String> classifierChooser = new ChoiceBox<String>(
 				FXCollections.observableArrayList("Pseudo F-Measure NGLY12",
@@ -107,10 +122,10 @@ public class GeneticSelfConfigurationPanel extends
 		Label mutationRateLabel = new Label("0.4");
 		Label mutationRateText = new Label("Mutation rate");
 
-		view.selfConfigWrapper.getChildren().add(mutationRateText);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(mutationRateText);
 		mutationsBox.getChildren().add(mutationRate);
 		mutationsBox.getChildren().add(mutationRateLabel);
-		view.selfConfigWrapper.getChildren().add(mutationsBox);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(mutationsBox);
 
 		mutationRate.setMin(0);
 		mutationRate.setMax(1);
@@ -132,8 +147,8 @@ public class GeneticSelfConfigurationPanel extends
 		Label populationText = new Label("Population size");
 		Spinner<Integer> population = new Spinner<Integer>(5, 100, 5, 5);
 
-		view.selfConfigWrapper.getChildren().add(populationText);
-		view.selfConfigWrapper.getChildren().add(population);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(populationText);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(population);
 
 		HBox buttonWrapper = new HBox();
 		learnButton = new Button("Start Learning");
@@ -151,11 +166,11 @@ public class GeneticSelfConfigurationPanel extends
 					mutationRate.getValue(), population.getValue() };
 			this.UIparams = params_new;
 			learnButton.setDisable(true);
-			view.controller.learn();
+			selfConfigurationView.controller.learn();
 
 		});
 		mapButton.setDisable(true);
-		view.selfConfigWrapper.getChildren().add(buttonWrapper);
+		selfConfigurationView.selfConfigWrapper.getChildren().add(buttonWrapper);
 	}
 
 }

@@ -50,8 +50,14 @@ public class ResultView {
 	 */
 	private TableView<InstanceProperty> targetInstanceTable;
 
+	/**
+	 * List of Results from Mapping
+	 */
 	private ObservableList<Result> results;
 
+	/**
+	 * MenuItem to save Results to File
+	 */
 	private MenuItem itemSaveResults;
 
 	/**

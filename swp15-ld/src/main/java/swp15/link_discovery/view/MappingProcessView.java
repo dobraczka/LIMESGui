@@ -19,6 +19,13 @@ import javafx.stage.Stage;
 import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.Result;
 
+/**
+ * Shows the Progress of the Mapping Allows to start and finish the Progress of
+ * Mapping
+ * 
+ * @author Daniel Obraczka
+ *
+ */
 public class MappingProcessView {
 	public Config currentConfig;
 	public ObservableList<Result> results;
