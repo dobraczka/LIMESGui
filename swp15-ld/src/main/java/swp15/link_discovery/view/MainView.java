@@ -66,6 +66,11 @@ public class MainView {
 	private MenuItem itemEditPropertyMatching;
 
 	/**
+	 * MenuItem to start the Active Learning Dialog
+	 */
+	private MenuItem itemActiveLearning;
+
+	/**
 	 * Constructor
 	 * 
 	 * @param stage
@@ -198,6 +203,11 @@ public class MainView {
 		itemSelfConfiguration.setOnAction(e -> {
 			controller.showSelfConfig();
 		});
+		itemActiveLearning = new MenuItem("Active Learning");
+		itemActiveLearning.setOnAction(e -> {
+			controller.showActiveLearning();
+		});
+		menuRun.getItems().add(itemActiveLearning);
 		menuRun.getItems().add(itemSelfConfiguration);
 		return new MenuBar(menuFile, menuEdit, menuLayout, menuRun);
 	}

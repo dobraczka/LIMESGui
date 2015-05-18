@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import swp15.link_discovery.model.Config;
+import swp15.link_discovery.view.ActiveLearningView;
 import swp15.link_discovery.view.EditClassMatchingView;
 import swp15.link_discovery.view.EditEndpointsView;
 import swp15.link_discovery.view.EditPropertyMatchingView;
@@ -148,6 +149,11 @@ public class MainController {
 		new EditEndpointsController(currentConfig, editEndpointsView);
 	}
 
+	/**
+	 * Show ClassMatching View
+	 * 
+	 * @param editClassMatchingView
+	 */
 	public void editClassMatching(EditClassMatchingView editClassMatchingView) {
 		if (currentConfig == null) {
 			return;
@@ -155,6 +161,11 @@ public class MainController {
 		new EditClassMatchingController(currentConfig, editClassMatchingView);
 	}
 
+	/**
+	 * Show PropertyMatching Window
+	 * 
+	 * @param editPropertyMatchingView
+	 */
 	public void editPropertyMatching(
 			EditPropertyMatchingView editPropertyMatchingView) {
 		if (currentConfig == null) {
@@ -176,6 +187,9 @@ public class MainController {
 		mapProcView.showWindow();
 	}
 
+	/**
+	 * Check if Metric is complete
+	 */
 	private void checkAndUpdateMetric() {
 		if (view.graphBuild.edited
 				&& !view.graphBuild.nodeList.get(0).nodeData.isComplete()) {
@@ -187,9 +201,21 @@ public class MainController {
 		view.graphBuild.graphBuildController.setConfigFromGraph();
 	}
 
+	/**
+	 * Show SelfConfig Window
+	 */
 	public void showSelfConfig() {
 		SelfConfigurationView selfConfigView = new SelfConfigurationView(view);
 		selfConfigView.controller.setCurrentConfig(currentConfig);
+	}
+
+	/**
+	 * Show the Active Learning Window
+	 */
+	public void showActiveLearning() {
+		if (currentConfig == null)
+			return;
+		ActiveLearningView a = new ActiveLearningView(view, currentConfig);
 	}
 
 	/**
