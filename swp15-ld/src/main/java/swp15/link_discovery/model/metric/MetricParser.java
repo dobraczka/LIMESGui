@@ -101,6 +101,20 @@ public class MetricParser {
 		return s;
 	}
 
+	/**
+	 * Parses Node from String
+	 * 
+	 * @param parent
+	 *            Already parsed Parent
+	 * @param s
+	 *            String to parse
+	 * @param sourceVar
+	 *            Label
+	 * @param pos
+	 *            Position of Node
+	 * @return Node
+	 * @throws MetricFormatException
+	 */
 	protected static Node parsePart(Node parent, String s, String sourceVar,
 			int pos) throws MetricFormatException {
 		String[] tokens = splitFunc(s);
@@ -133,6 +147,16 @@ public class MetricParser {
 		return node;
 	}
 
+	/**
+	 * Parses String to Metric
+	 * 
+	 * @param s
+	 *            String to parse
+	 * @param sourceVar
+	 *            Label
+	 * @return Metric as Output
+	 * @throws MetricFormatException
+	 */
 	public static Output parse(String s, String sourceVar)
 			throws MetricFormatException {
 		if (s.isEmpty())

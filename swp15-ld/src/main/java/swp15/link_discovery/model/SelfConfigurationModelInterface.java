@@ -2,6 +2,12 @@ package swp15.link_discovery.model;
 
 import swp15.link_discovery.view.SelfConfigurationPanelInterface;
 
+/**
+ * Interface to add different Panels in SelfConfigView
+ * 
+ * @author Sascha Hahne
+ *
+ */
 public interface SelfConfigurationModelInterface {
 
 	/**

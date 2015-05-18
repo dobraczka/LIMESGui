@@ -7,9 +7,12 @@ import java.util.Vector;
 
 public abstract class Node {
 	/**
-	 * 
+	 * Acceptance Threshold
 	 */
 	public Double param1 = null;
+	/**
+	 * Verification Threshold
+	 */
 	public Double param2 = null;
 
 	/**
@@ -302,10 +305,19 @@ public abstract class Node {
 			return stringTest;
 	}
 
+	/**
+	 * Set the Parent of this Node to Null
+	 */
 	public void removeParent() {
 		this.parent = null;
 	}
 
+	/**
+	 * set a New Parent to this Node
+	 * 
+	 * @param parent
+	 *            New Parent
+	 */
 	public void overwriteParent(Node parent) {
 		this.parent = parent;
 	}

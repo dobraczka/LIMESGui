@@ -76,6 +76,11 @@ public class Property extends Node {
 		this.origin = origin;
 	}
 
+	/**
+	 * Getter Origin
+	 * 
+	 * @return This Origin
+	 */
 	public Origin getOrigin() {
 		return this.origin;
 	}
