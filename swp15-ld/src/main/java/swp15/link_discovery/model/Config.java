@@ -44,16 +44,33 @@ public class Config {
 	 */
 	private Output metric = null;
 
+	/**
+	 * Source Endpoint
+	 */
 	private Endpoint sourceEndpoint;
+	/**
+	 * Target Endpoint
+	 */
 	private Endpoint targetEndpoint;
 
+	/**
+	 * PorpertyMapping of current query
+	 */
 	public PropertyMapping propertyMapping;
 
+	/**
+	 * Constructor
+	 */
 	public Config() {
 		this(createEmptyReader());
 		metric = new Output();
 	}
 
+	/**
+	 * Create an empty Configreader
+	 * 
+	 * @return Genrated Configreader
+	 */
 	private static ConfigReader createEmptyReader() {
 		ConfigReader reader = new ConfigReader();
 		reader.sourceInfo = new KBInfo();
@@ -124,6 +141,11 @@ public class Config {
 		ConfigWriter.saveToXML(reader, file);
 	}
 
+	/**
+	 * Returns the Acceptance Threshold
+	 * 
+	 * @return the Acceptance Threshold
+	 */
 	public double getAcceptanceThreshold() {
 		if (metric == null || metric.param1 == null) {
 			return 1d;
@@ -131,6 +153,11 @@ public class Config {
 		return metric.param1;
 	}
 
+	/**
+	 * Returns the Verification Threshold
+	 * 
+	 * @return Verification Threshold
+	 */
 	public double getVerificationThreshold() {
 		if (metric == null || metric.param2 == null) {
 			DecimalFormat twoDForm = new DecimalFormat("#.####");
@@ -184,10 +211,20 @@ public class Config {
 
 	}
 
+	/**
+	 * Getter SourceEndpoint
+	 * 
+	 * @return SourceEndpoint
+	 */
 	public Endpoint getSourceEndpoint() {
 		return sourceEndpoint;
 	}
 
+	/**
+	 * Getter TargetEndpoint
+	 * 
+	 * @return TargetEndpoint
+	 */
 	public Endpoint getTargetEndpoint() {
 		return targetEndpoint;
 	}
@@ -256,6 +293,15 @@ public class Config {
 		metric.param1 = acceptanceThreshold;
 	}
 
+	/**
+	 * Returns the property Label
+	 * 
+	 * @param index
+	 *            Index of Porperty
+	 * @param sourceOrTarget
+	 *            is Source or Target
+	 * @return Property String
+	 */
 	public String getPropertyString(int index, SourceOrTarget sourceOrTarget) {
 		if (sourceOrTarget == SOURCE) {
 			return getSourceInfo().var.substring(1) + "."
@@ -267,10 +313,21 @@ public class Config {
 		}
 	}
 
+	/**
+	 * Getter Metric as Output
+	 * 
+	 * @return Metric
+	 */
 	public Output getMetric() {
 		return this.metric;
 	}
 
+	/**
+	 * Setter PropertyMatching
+	 * 
+	 * @param propertyPairs
+	 *            Pairs of Properties
+	 */
 	public void setPropertiesMatching(List<PropertyPair> propertyPairs) {
 		List<String> sourceProperties = sourceEndpoint.getInfo().properties;
 		List<String> targetProperties = targetEndpoint.getInfo().properties;
