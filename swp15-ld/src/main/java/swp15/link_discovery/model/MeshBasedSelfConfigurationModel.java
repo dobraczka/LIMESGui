@@ -23,9 +23,12 @@ public class MeshBasedSelfConfigurationModel implements
 
 	private Mapping learnedMapping;
 
+	ObservableList<ResultsList> savedResults = FXCollections
+			.observableArrayList();
 	MeshBasedSelfConfigurator selfConfigurator;
 	List<SimpleClassifier> classifiers;
 	ComplexClassifier cc;
+	ObservableList<String> metricList = FXCollections.observableArrayList();
 
 	@Override
 	public void learn(Config currentConfig, SelfConfigurationPanelInterface view) {
@@ -76,6 +79,7 @@ public class MeshBasedSelfConfigurationModel implements
 							learnedMapping = cc.mapping;
 						currentConfig
 								.setMetricExpression(generatedMetricexpression);
+						metricList.add(generatedMetricexpression);
 						currentConfig
 								.setAcceptanceThreshold(getThreshold(cc.classifiers));
 						System.out.println("SelfConfig class= "
@@ -102,18 +106,27 @@ public class MeshBasedSelfConfigurationModel implements
 
 	private void onFinish(Config currentConfig,
 			SelfConfigurationPanelInterface view) {
+		view.view.view.graphBuild.graphBuildController.setConfig(currentConfig);
+		ObservableList<Result> results = FXCollections.observableArrayList();
+		learnedMapping.map.forEach((sourceURI, map2) -> {
+			map2.forEach((targetURI, value) -> {
+				results.add(new Result(sourceURI, targetURI, value));
+			});
+		});
+		savedResults.add(new ResultsList(results));
 		view.learnButton.setDisable(false);
 		view.mapButton.setOnAction(e -> {
-			ObservableList<Result> results = FXCollections
-					.observableArrayList();
-			learnedMapping.map.forEach((sourceURI, map2) -> {
-				map2.forEach((targetURI, value) -> {
-					results.add(new Result(sourceURI, targetURI, value));
-				});
-			});
+			int i = ((MeshBasedSelfConfigurationPanel) view).resultSelect
+					.getSelectionModel().getSelectedIndex();
 			ResultView resultView = new ResultView();
-			resultView.showResults(results, currentConfig);
+			resultView.showResults(savedResults.get(i).getResults(),
+					currentConfig);
+			currentConfig.setMetricExpression(metricList.get(i));
+			view.view.view.graphBuild.graphBuildController
+					.setConfig(currentConfig);
+
 		});
+
 		if (learnedMapping != null && learnedMapping.size() > 0) {
 			view.mapButton.setDisable(false);
 			view.progressIndicator.setVisible(false);
@@ -190,6 +203,19 @@ public class MeshBasedSelfConfigurationModel implements
 				min = sC.threshold;
 		}
 		return min > 1 ? 0.5d : min;
+	}
+
+	private static class ResultsList {
+		private ObservableList<Result> res;
+
+		public ResultsList(ObservableList<Result> res) {
+			this.res = res;
+		}
+
+		public ObservableList<Result> getResults() {
+			return this.res;
+		}
+
 	}
 
 }
