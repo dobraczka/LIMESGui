@@ -188,23 +188,26 @@ public class MainController {
 		if (currentConfig == null) {
 			return;
 		}
-		checkAndUpdateMetric();
-		MappingProcessView mapProcView = new MappingProcessView(currentConfig);
-		mapProcView.showWindow();
+		if (checkAndUpdateMetric()) {
+			MappingProcessView mapProcView = new MappingProcessView(
+					currentConfig);
+			mapProcView.showWindow();
+		}
 	}
 
 	/**
 	 * Check if Metric is complete
 	 */
-	private void checkAndUpdateMetric() {
+	private boolean checkAndUpdateMetric() {
 		if (view.graphBuild.edited
 				&& !view.graphBuild.nodeList.get(0).nodeData.isComplete()) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setContentText("Metric is not complete!");
 			alert.showAndWait();
-			return;
+			return false;
 		}
 		view.graphBuild.graphBuildController.setConfigFromGraph();
+		return true;
 	}
 
 	/**
