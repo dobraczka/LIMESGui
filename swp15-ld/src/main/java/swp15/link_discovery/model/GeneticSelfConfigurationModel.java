@@ -1,5 +1,6 @@
 package swp15.link_discovery.model;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -89,7 +90,6 @@ public class GeneticSelfConfigurationModel implements
 				} catch (InvalidConfigurationException e) {
 					e.printStackTrace();
 				}
-
 				currentConfig
 						.setMetricExpression(learnedMetric.getExpression());
 				currentConfig.setAcceptanceThreshold(learnedMetric
@@ -129,7 +129,17 @@ public class GeneticSelfConfigurationModel implements
 			view.progressIndicator.setVisible(false);
 			System.out
 					.println(currentConfig.getConfigReader().metricExpression);
-			view.selfConfigurationView.view.graphBuild.graphBuildController.setConfigFromGraph();
+			view.selfConfigurationView.view.graphBuild.graphBuildController
+					.setConfigFromGraph();
+		} else {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					view.progressIndicator.setVisible(false);
+					view.selfConfigurationView.createErrorWindow();
+				}
+			});
+
 		}
 	}
 

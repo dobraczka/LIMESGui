@@ -3,6 +3,7 @@ package swp15.link_discovery.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import swp15.link_discovery.view.MeshBasedSelfConfigurationPanel;
@@ -106,7 +107,8 @@ public class MeshBasedSelfConfigurationModel implements
 
 	private void onFinish(Config currentConfig,
 			SelfConfigurationPanelInterface view) {
-		view.selfConfigurationView.view.graphBuild.graphBuildController.setConfig(currentConfig);
+		view.selfConfigurationView.view.graphBuild.graphBuildController
+				.setConfig(currentConfig);
 		ObservableList<Result> results = FXCollections.observableArrayList();
 		learnedMapping.map.forEach((sourceURI, map2) -> {
 			map2.forEach((targetURI, value) -> {
@@ -132,7 +134,17 @@ public class MeshBasedSelfConfigurationModel implements
 			view.progressIndicator.setVisible(false);
 			System.out
 					.println(currentConfig.getConfigReader().metricExpression);
-			view.selfConfigurationView.view.graphBuild.graphBuildController.setConfigFromGraph();
+			view.selfConfigurationView.view.graphBuild.graphBuildController
+					.setConfigFromGraph();
+		} else {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					view.progressIndicator.setVisible(false);
+					view.selfConfigurationView.createErrorWindow();
+				}
+			});
+
 		}
 	}
 

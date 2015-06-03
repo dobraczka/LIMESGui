@@ -2,6 +2,8 @@ package swp15.link_discovery.view;
 
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.BorderPane;
@@ -98,4 +100,9 @@ public class SelfConfigurationView {
 		stage.show();
 	}
 
+	public void createErrorWindow() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setContentText("Something went wrong!");
+		alert.showAndWait();
+	}
 }

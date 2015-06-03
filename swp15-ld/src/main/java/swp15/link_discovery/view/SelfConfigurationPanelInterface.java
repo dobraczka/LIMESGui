@@ -60,4 +60,5 @@ public class SelfConfigurationPanelInterface {
 
 		return this.UIparams;
 	}
+
 }
