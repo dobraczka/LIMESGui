@@ -50,7 +50,8 @@ public class ActiveLearningController {
 	 * Event that fires when the learning process starts
 	 */
 	public void goButtonPressed() {
-		ActiveLearningResultView r = new ActiveLearningResultView(currentConfig);
+		ActiveLearningResultView r = new ActiveLearningResultView(
+				currentConfig, model);
 		Mapping bestMapping = model.learn(currentConfig);
 		ObservableList<ActiveLearningResult> results = FXCollections
 				.observableArrayList();
@@ -61,6 +62,7 @@ public class ActiveLearningController {
 						value));
 			});
 		});
+		r.getActiveLearningResultController().setMatching(results);
 		r.showResults(results);
 	}
 }

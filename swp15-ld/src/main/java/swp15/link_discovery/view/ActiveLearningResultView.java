@@ -1,14 +1,10 @@
 package swp15.link_discovery.view;
 
-import java.io.File;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -16,10 +12,10 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import swp15.link_discovery.controller.ActiveLearningResultController;
+import swp15.link_discovery.model.ActiveLearningModel;
 import swp15.link_discovery.model.ActiveLearningResult;
 import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.InstanceProperty;
@@ -59,43 +55,30 @@ public class ActiveLearningResultView {
 	 * List of Results from Mapping
 	 */
 
-	/**
-	 * MenuItem to save Results to File
-	 */
-	private MenuItem itemSaveResults;
-
-	/**
-	 * List of Results from Mapping
-	 */
 	private ObservableList<Result> results;
 
 	private Config config;
 
+	private Button learnButton = new Button("Learn");
+
+	private Button getMetricButton = new Button("Get Metric");
+
+	private ActiveLearningModel model;
+
 	/**
 	 * Default constructor
 	 */
-	public ActiveLearningResultView(Config c) {
+	public ActiveLearningResultView(Config c, ActiveLearningModel m) {
 
+		this.model = m;
 		this.config = c;
-		this.controller = new ActiveLearningResultController(this, config);
+		this.controller = new ActiveLearningResultController(this, config,
+				model);
 
 		Stage stage = new Stage();
 
 		VBox root = new VBox();
 		HBox resultProperties = new HBox();
-
-		// Build Menubar for saving of results
-		Menu menuFile = new Menu("File");
-		itemSaveResults = new MenuItem("Save Results");
-		itemSaveResults.setOnAction(e -> {
-			FileChooser fileChooser = new FileChooser();
-			File file = fileChooser.showSaveDialog(stage);
-			if (file != null) {
-				controller.saveResults(results, file);
-			}
-		});
-		menuFile.getItems().add(itemSaveResults);
-		root.getChildren().add(new MenuBar(menuFile));
 
 		// Build table for sourceproperties
 		sourceInstanceTable = new TableView<InstanceProperty>();
@@ -162,13 +145,17 @@ public class ActiveLearningResultView {
 				.setCellValueFactory(new PropertyValueFactory<ActiveLearningResult, Boolean>(
 						"isMatch"));
 		columnIsMatch
-				.setCellFactory(new Callback<TableColumn<ActiveLearningResult, Boolean>, TableCell<ActiveLearningResult, Boolean>>() {
+				.setCellFactory(
 
+				new Callback<TableColumn<ActiveLearningResult, Boolean>, TableCell<ActiveLearningResult, Boolean>>() {
 					public TableCell<ActiveLearningResult, Boolean> call(
 							TableColumn<ActiveLearningResult, Boolean> p) {
 						return new CheckBoxTableCell<ActiveLearningResult, Boolean>();
 					}
 				});
+
+		columnIsMatch.setEditable(true);
+		table.setEditable(true);
 
 		table.getColumns().add(columnIsMatch);
 
@@ -202,6 +189,17 @@ public class ActiveLearningResultView {
 
 			}
 		});
+		learnButton.setOnAction(e -> {
+			controller.learnButtonPressed();
+		});
+		HBox buttonBox = new HBox();
+		buttonBox.getChildren().add(learnButton);
+		buttonBox.getChildren().add(getMetricButton);
+
+		buttonBox.setSpacing(10);
+		root.setSpacing(10);
+
+		root.getChildren().add(buttonBox);
 
 		Scene scene = new Scene(root, 800, 600);
 		sourceInstanceTable.setPrefWidth(scene.getWidth() / 2);
@@ -237,6 +235,14 @@ public class ActiveLearningResultView {
 	public void showTargetInstance(
 			ObservableList<InstanceProperty> instanceProperty) {
 		targetInstanceTable.setItems(instanceProperty);
+	}
+
+	public ActiveLearningResultController getActiveLearningResultController() {
+		return this.controller;
+	}
+
+	public TableView<ActiveLearningResult> getMatchingTable() {
+		return this.table;
 	}
 
 }

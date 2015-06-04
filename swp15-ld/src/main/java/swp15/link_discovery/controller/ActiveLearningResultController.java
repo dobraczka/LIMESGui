@@ -1,16 +1,11 @@
 package swp15.link_discovery.controller;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import swp15.link_discovery.model.ActiveLearningModel;
 import swp15.link_discovery.model.ActiveLearningResult;
 import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.InstanceProperty;
-import swp15.link_discovery.model.Result;
 import swp15.link_discovery.view.ActiveLearningResultView;
 import de.uni_leipzig.simba.data.Instance;
 
@@ -27,16 +22,7 @@ public class ActiveLearningResultController {
 	 */
 	private ActiveLearningResultView view;
 
-	/**
-	 * Default constructor
-	 * 
-	 * @param v
-	 *            View that is to be observed
-	 */
-	public ActiveLearningResultController(ActiveLearningResultView v, Config c) {
-		view = v;
-		currentConfig = c;
-	}
+	private ObservableList<ActiveLearningResult> matching;
 
 	/**
 	 * ResultView to manipulate
@@ -47,12 +33,7 @@ public class ActiveLearningResultController {
 	 */
 	private Config currentConfig;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param view
-	 *            corresponding view
-	 */
+	private ActiveLearningModel model;
 
 	/**
 	 * Sets the Config
@@ -64,6 +45,19 @@ public class ActiveLearningResultController {
 
 		this.currentConfig = c;
 
+	}
+
+	/**
+	 * Default constructor
+	 * 
+	 * @param v
+	 *            View that is to be observed
+	 */
+	public ActiveLearningResultController(ActiveLearningResultView v, Config c,
+			ActiveLearningModel m) {
+		view = v;
+		currentConfig = c;
+		model = m;
 	}
 
 	/**
@@ -106,27 +100,26 @@ public class ActiveLearningResultController {
 		view.showTargetInstance(targetPropertyList);
 	}
 
-	/**
-	 * Save Results to File
-	 * 
-	 * @param results
-	 *            Results of ResultView
-	 * @param file
-	 *            Path to File
-	 */
-	public void saveResults(ObservableList<Result> results, File file) {
-		try {
-			FileWriter fileWriter = new FileWriter(file);
-			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-			for (Result item : results) {
-				bufferedWriter.write("SourceURI: " + item.getSourceURI());
-				bufferedWriter.write("\nTargetURI: " + item.getTargetURI());
-				bufferedWriter.write("\nValue: " + item.getValue());
-				bufferedWriter.newLine();
-			}
-			bufferedWriter.close();
-		} catch (IOException e1) {
-			e1.printStackTrace();
+	public void learnButtonPressed() {
+		for (ActiveLearningResult item : view.getMatchingTable().getItems()) {
+			System.out.println(item.getSourceURI() + " " + item.getTargetURI()
+					+ "  " + item.getValue() + " " + item.isMatch);
 		}
+
+		// Mapping bestMapping = model.learn(currentConfig);
+		// ObservableList<ActiveLearningResult> results = FXCollections
+		// .observableArrayList();
+		// bestMapping.map.forEach((sourceURI, map2) -> {
+		// System.out.println(sourceURI + " " + map2);
+		// map2.forEach((targetURI, value) -> {
+		// results.add(new ActiveLearningResult(sourceURI, targetURI,
+		// value));
+		// });
+		// });
+		// view.showResults(results);
+	}
+
+	public void setMatching(ObservableList<ActiveLearningResult> matching) {
+		this.matching = matching;
 	}
 }

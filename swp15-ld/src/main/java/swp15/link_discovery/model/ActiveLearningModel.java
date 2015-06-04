@@ -18,7 +18,7 @@ public class ActiveLearningModel {
 	/**
 	 * The best mapping so far
 	 */
-	private Mapping bestMapping = new Mapping();
+	public Mapping bestMapping = new Mapping();
 
 	/**
 	 * LIMES' own genetic learning class
