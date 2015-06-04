@@ -138,11 +138,11 @@ public class GraphBuildView extends Canvas {
 						for (NodeView node : nodeList) {
 							if (node.contains((int) e.getX(), (int) e.getY())) {
 								isLinking = false;
-								if (linkNode.addChild(node)) {
+								if (linkNode.addParent(node)) {
 								} else {
 									Alert alert = new Alert(
 											AlertType.INFORMATION);
-									alert.setContentText("Clicked Node is no valid Child");
+									alert.setContentText("Clicked Node is no valid Parent!");
 									alert.showAndWait();
 								}
 								edited = true;
