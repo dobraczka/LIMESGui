@@ -103,7 +103,7 @@ public class ActiveLearningResultController {
 	public void learnButtonPressed() {
 		for (ActiveLearningResult item : view.getMatchingTable().getItems()) {
 			System.out.println(item.getSourceURI() + " " + item.getTargetURI()
-					+ "  " + item.getValue() + " " + item.isMatch);
+					+ "  " + item.getValue() + " " + item.isMatchProperty());
 		}
 
 		// Mapping bestMapping = model.learn(currentConfig);
