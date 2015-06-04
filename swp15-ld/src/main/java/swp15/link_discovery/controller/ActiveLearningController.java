@@ -50,11 +50,12 @@ public class ActiveLearningController {
 	 * Event that fires when the learning process starts
 	 */
 	public void goButtonPressed() {
-		ActiveLearningResultView r = new ActiveLearningResultView();
+		ActiveLearningResultView r = new ActiveLearningResultView(currentConfig);
 		Mapping bestMapping = model.learn(currentConfig);
 		ObservableList<ActiveLearningResult> results = FXCollections
 				.observableArrayList();
 		bestMapping.map.forEach((sourceURI, map2) -> {
+			System.out.println(sourceURI + " " + map2);
 			map2.forEach((targetURI, value) -> {
 				results.add(new ActiveLearningResult(sourceURI, targetURI,
 						value));
