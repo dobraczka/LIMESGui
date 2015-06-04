@@ -199,9 +199,16 @@ public class ActiveLearningResultView {
 		learnButton.setOnAction(e -> {
 			controller.learnButtonPressed();
 		});
-		getMetricButton.setOnAction(e -> {
-			controller.getMetric();
-		});
+		getMetricButton
+				.setOnAction(e -> {
+					String metricString = controller.getMetric()
+							.getExpression();
+					config.setMetricExpression(metricString);
+					config.setAcceptanceThreshold(controller.getMetric()
+							.getThreshold());
+					view.view.graphBuild.graphBuildController
+							.generateGraphFromConfig();
+				});
 		HBox buttonBox = new HBox();
 		buttonBox.getChildren().add(learnButton);
 		buttonBox.getChildren().add(getMetricButton);
@@ -224,8 +231,7 @@ public class ActiveLearningResultView {
 
 	public void setLabel(String bestMetric) {
 		metricLabel.setText(bestMetric);
-		config.setMetricExpression(bestMetric);
-		view.view.graphBuild.graphBuildController.generateGraphFromConfig();
+
 	}
 
 	public void showResults(ObservableList<ActiveLearningResult> results) {

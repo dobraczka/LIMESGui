@@ -161,6 +161,7 @@ public class MetricParser {
 			throws MetricFormatException {
 		if (s.isEmpty())
 			throw new MetricFormatException();
+
 		Output output = new Output();
 		s = setParametersFromString(output, s, 0);
 		output.param1 = null;
