@@ -6,6 +6,7 @@ import java.util.Vector;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import swp15.link_discovery.model.metric.Node;
@@ -95,6 +96,11 @@ public class NodeView {
 	 * Position on y-Axis
 	 */
 	public int y;
+
+	/**
+	 * Offset to get the Text centered
+	 */
+	private int xOffset;
 	/**
 	 * Shape int of Node
 	 */
@@ -147,6 +153,7 @@ public class NodeView {
 		this.label = label;
 		this.gbv = gbv;
 		this.nodeData = node;
+		this.xOffset = calculateOffset();
 	}
 
 	/**
@@ -158,12 +165,12 @@ public class NodeView {
 		switch (this.nodeShape) {
 		case METRIC:
 			gc.drawImage(metric, x, y);
-			gc.strokeText(nodeData.id, x, y + HEIGHT / 2);
+			gc.strokeText(nodeData.id, x + xOffset, y + HEIGHT / 2);
 			break;
 		case OUTPUT:
 			gc.setFill(Color.GREY);
 			gc.fillOval(x, y, WIDTH, HEIGHT);
-			gc.strokeText(nodeData.id, x, y + HEIGHT / 2);
+			gc.strokeText(nodeData.id, x + xOffset, y + HEIGHT / 2);
 			gc.strokeText("Acceptance Threshold: " + nodeData.param1, x - 50,
 					(y + HEIGHT / 2) - 20);
 			gc.strokeText("Verification Threshold: " + nodeData.param2, x - 50,
@@ -200,15 +207,24 @@ public class NodeView {
 		case SOURCE:
 			gc.setFill(Color.RED);
 			gc.fillRect(x, y, WIDTH, HEIGHT);
-			gc.strokeText(nodeData.id, x, y + HEIGHT / 2);
+			gc.strokeText(nodeData.id, x + xOffset, y + HEIGHT / 2);
 			break;
 		case TARGET:
 			gc.setFill(Color.GREEN);
 			gc.fillRect(x, y, WIDTH, HEIGHT);
-			gc.strokeText(nodeData.id, x, y + HEIGHT / 2);
+			gc.strokeText(nodeData.id, x + xOffset, y + HEIGHT / 2);
 			break;
 		}
 
+	}
+
+	/**
+	 * Calculate the offset, to get the text centered
+	 */
+	public int calculateOffset() {
+		Text label = new Text(nodeData.id);
+		double labelWidth = label.getLayoutBounds().getWidth();
+		return (int) (WIDTH / 2.0 - labelWidth / 2.0);
 	}
 
 	/**
