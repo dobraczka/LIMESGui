@@ -265,6 +265,13 @@ public class NodeView {
 		return true;
 	}
 
+	/**
+	 * Adds a Parent to the NodeView, and links the Data Models
+	 * 
+	 * @param parent
+	 *            parent to add
+	 * @return True if successful
+	 */
 	public boolean addParent(NodeView parent) {
 		boolean test = parent.nodeData.addChild(nodeData);
 		if (!test) {
