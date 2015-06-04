@@ -51,7 +51,7 @@ public class ActiveLearningController {
 	 */
 	public void goButtonPressed() {
 		ActiveLearningResultView r = new ActiveLearningResultView(
-				currentConfig, model);
+				currentConfig, model, view);
 		Mapping bestMapping = model.learn(currentConfig);
 		ObservableList<ActiveLearningResult> results = FXCollections
 				.observableArrayList();

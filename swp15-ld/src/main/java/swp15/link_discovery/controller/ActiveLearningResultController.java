@@ -8,6 +8,8 @@ import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.InstanceProperty;
 import swp15.link_discovery.view.ActiveLearningResultView;
 import de.uni_leipzig.simba.data.Instance;
+import de.uni_leipzig.simba.data.Mapping;
+import de.uni_leipzig.simba.genetics.core.Metric;
 
 /**
  * Controller that corresponds to the view
@@ -102,24 +104,30 @@ public class ActiveLearningResultController {
 
 	public void learnButtonPressed() {
 		for (ActiveLearningResult item : view.getMatchingTable().getItems()) {
-			System.out.println(item.getSourceURI() + " " + item.getTargetURI()
-					+ "  " + item.getValue() + " " + item.isMatchProperty());
+			if (item.isMatchProperty().get()) {
+				model.bestMapping.add(item.getSourceURI(), item.getTargetURI(),
+						1.0d);
+			}
 		}
 
-		// Mapping bestMapping = model.learn(currentConfig);
-		// ObservableList<ActiveLearningResult> results = FXCollections
-		// .observableArrayList();
-		// bestMapping.map.forEach((sourceURI, map2) -> {
-		// System.out.println(sourceURI + " " + map2);
-		// map2.forEach((targetURI, value) -> {
-		// results.add(new ActiveLearningResult(sourceURI, targetURI,
-		// value));
-		// });
-		// });
-		// view.showResults(results);
+		Mapping bestMapping = model.learn(currentConfig);
+		ObservableList<ActiveLearningResult> results = FXCollections
+				.observableArrayList();
+		bestMapping.map.forEach((sourceURI, map2) -> {
+			map2.forEach((targetURI, value) -> {
+				results.add(new ActiveLearningResult(sourceURI, targetURI,
+						value));
+			});
+		});
+		view.showResults(results);
 	}
 
 	public void setMatching(ObservableList<ActiveLearningResult> matching) {
 		this.matching = matching;
+	}
+
+	public Metric getMetric() {
+		view.setLabel(model.getMetric().toString());
+		return model.getMetric();
 	}
 }

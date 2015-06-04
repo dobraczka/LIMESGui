@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -65,15 +66,21 @@ public class ActiveLearningResultView {
 
 	private ActiveLearningModel model;
 
+	private Label metricLabel = new Label("");
+
+	private ActiveLearningView view;
+
 	/**
 	 * Default constructor
 	 */
-	public ActiveLearningResultView(Config c, ActiveLearningModel m) {
+	public ActiveLearningResultView(Config c, ActiveLearningModel m,
+			ActiveLearningView v) {
 
 		this.model = m;
 		this.config = c;
 		this.controller = new ActiveLearningResultController(this, config,
 				model);
+		view = v;
 
 		Stage stage = new Stage();
 
@@ -192,6 +199,9 @@ public class ActiveLearningResultView {
 		learnButton.setOnAction(e -> {
 			controller.learnButtonPressed();
 		});
+		getMetricButton.setOnAction(e -> {
+			controller.getMetric();
+		});
 		HBox buttonBox = new HBox();
 		buttonBox.getChildren().add(learnButton);
 		buttonBox.getChildren().add(getMetricButton);
@@ -200,6 +210,7 @@ public class ActiveLearningResultView {
 		root.setSpacing(10);
 
 		root.getChildren().add(buttonBox);
+		root.getChildren().add(metricLabel);
 
 		Scene scene = new Scene(root, 800, 600);
 		sourceInstanceTable.setPrefWidth(scene.getWidth() / 2);
@@ -209,6 +220,12 @@ public class ActiveLearningResultView {
 		stage.setScene(scene);
 		stage.show();
 
+	}
+
+	public void setLabel(String bestMetric) {
+		metricLabel.setText(bestMetric);
+		config.setMetricExpression(bestMetric);
+		view.view.graphBuild.graphBuildController.generateGraphFromConfig();
 	}
 
 	public void showResults(ObservableList<ActiveLearningResult> results) {
