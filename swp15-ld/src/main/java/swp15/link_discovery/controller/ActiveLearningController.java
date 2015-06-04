@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import swp15.link_discovery.model.ActiveLearningModel;
 import swp15.link_discovery.model.ActiveLearningResult;
 import swp15.link_discovery.model.Config;
-import swp15.link_discovery.model.Result;
 import swp15.link_discovery.view.ActiveLearningResultView;
 import swp15.link_discovery.view.ActiveLearningView;
 import de.uni_leipzig.simba.data.Mapping;
@@ -53,7 +52,8 @@ public class ActiveLearningController {
 	public void goButtonPressed() {
 		ActiveLearningResultView r = new ActiveLearningResultView();
 		Mapping bestMapping = model.learn(currentConfig);
-		ObservableList<Result> results = FXCollections.observableArrayList();
+		ObservableList<ActiveLearningResult> results = FXCollections
+				.observableArrayList();
 		bestMapping.map.forEach((sourceURI, map2) -> {
 			map2.forEach((targetURI, value) -> {
 				results.add(new ActiveLearningResult(sourceURI, targetURI,

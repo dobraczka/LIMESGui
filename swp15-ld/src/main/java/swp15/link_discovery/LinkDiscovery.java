@@ -9,7 +9,7 @@ import swp15.link_discovery.controller.MainController;
 import swp15.link_discovery.view.MainView;
 
 /**
- * Starts the LinkDiscovery Application
+ * Starts the LinkDiscovery Application, with Extra
  * 
  * @author Manuel Jacob
  *
