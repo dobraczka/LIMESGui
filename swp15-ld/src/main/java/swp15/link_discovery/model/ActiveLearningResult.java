@@ -1,5 +1,7 @@
 package swp15.link_discovery.model;
 
+import javafx.beans.property.SimpleBooleanProperty;
+
 /**
  * Stores information about possible results during the supervised
  * genetic/active learning process
@@ -12,7 +14,7 @@ public class ActiveLearningResult extends Result {
 	/**
 	 * Flag to set if source URI and target URI are indeed a match (or not)
 	 */
-	public boolean isMatch = false;
+	private SimpleBooleanProperty isMatch;
 
 	/**
 	 * Default constructor
@@ -26,5 +28,10 @@ public class ActiveLearningResult extends Result {
 	 */
 	public ActiveLearningResult(String sourceURI, String targetURI, Double value) {
 		super(sourceURI, targetURI, value);
+		isMatch = new SimpleBooleanProperty(false);
+	}
+
+	public SimpleBooleanProperty isMatchProperty() {
+		return isMatch;
 	}
 }
