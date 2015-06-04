@@ -103,6 +103,7 @@ public class ActiveLearningResultController {
 	}
 
 	public void learnButtonPressed() {
+		view.learnProgress.setVisible(true);
 		for (ActiveLearningResult item : view.getMatchingTable().getItems()) {
 			if (item.isMatchProperty().get()) {
 				model.bestMapping.add(item.getSourceURI(), item.getTargetURI(),
@@ -110,15 +111,25 @@ public class ActiveLearningResultController {
 			}
 		}
 
-		Mapping bestMapping = model.learn(currentConfig);
 		ObservableList<ActiveLearningResult> results = FXCollections
 				.observableArrayList();
-		bestMapping.map.forEach((sourceURI, map2) -> {
-			map2.forEach((targetURI, value) -> {
-				results.add(new ActiveLearningResult(sourceURI, targetURI,
-						value));
-			});
-		});
+		Thread thread = new Thread() {
+			public void run() {
+				Mapping bestMapping = model.learn(currentConfig);
+				bestMapping.map.forEach((sourceURI, map2) -> {
+					map2.forEach((targetURI, value) -> {
+						results.add(new ActiveLearningResult(sourceURI,
+								targetURI, value));
+					});
+				});
+				onFinish(results);
+			}
+		};
+		thread.start();
+	}
+
+	public void onFinish(ObservableList<ActiveLearningResult> results) {
+		view.learnProgress.setVisible(false);
 		view.showResults(results);
 	}
 

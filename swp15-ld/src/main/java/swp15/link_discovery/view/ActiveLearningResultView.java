@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -69,6 +70,8 @@ public class ActiveLearningResultView {
 	private Label metricLabel = new Label("");
 
 	private ActiveLearningView view;
+
+	public ProgressIndicator learnProgress;
 
 	/**
 	 * Default constructor
@@ -196,6 +199,8 @@ public class ActiveLearningResultView {
 
 			}
 		});
+		learnProgress = new ProgressIndicator();
+		learnProgress.setVisible(false);
 		learnButton.setOnAction(e -> {
 			controller.learnButtonPressed();
 		});
@@ -210,8 +215,8 @@ public class ActiveLearningResultView {
 							.generateGraphFromConfig();
 				});
 		HBox buttonBox = new HBox();
-		buttonBox.getChildren().add(learnButton);
-		buttonBox.getChildren().add(getMetricButton);
+		buttonBox.getChildren().addAll(learnButton, getMetricButton,
+				learnProgress);
 
 		buttonBox.setSpacing(10);
 		root.setSpacing(10);

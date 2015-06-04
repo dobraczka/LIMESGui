@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
@@ -77,6 +78,11 @@ public class ActiveLearningView {
 	 * Starts the process
 	 */
 	private Button goButton;
+
+	/**
+	 * Notifies the User that learning is in progress
+	 */
+	public ProgressIndicator learningProgress;
 
 	/**
 	 * Config at the time of construction
@@ -191,7 +197,9 @@ public class ActiveLearningView {
 		goButton.setOnAction(e -> {
 			controller.goButtonPressed();
 		});
-		buttonBox.getChildren().add(goButton);
+		learningProgress = new ProgressIndicator();
+		learningProgress.setVisible(false);
+		buttonBox.getChildren().addAll(goButton, learningProgress);
 		buttonBox.setPadding(new Insets(25, 25, 25, 25));
 		// root.add(goButton, 0, 7);
 

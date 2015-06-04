@@ -27,6 +27,8 @@ public class ActiveLearningController {
 	 */
 	private ActiveLearningModel model;
 
+	private Thread thread;
+
 	/**
 	 * The current config of the query
 	 */
@@ -50,18 +52,31 @@ public class ActiveLearningController {
 	 * Event that fires when the learning process starts
 	 */
 	public void goButtonPressed() {
+		view.learningProgress.setVisible(true);
 		ActiveLearningResultView r = new ActiveLearningResultView(
 				currentConfig, model, view);
-		Mapping bestMapping = model.learn(currentConfig);
-		ObservableList<ActiveLearningResult> results = FXCollections
-				.observableArrayList();
-		bestMapping.map.forEach((sourceURI, map2) -> {
-			System.out.println(sourceURI + " " + map2);
-			map2.forEach((targetURI, value) -> {
-				results.add(new ActiveLearningResult(sourceURI, targetURI,
-						value));
-			});
-		});
+		thread = new Thread() {
+			public void run() {
+				Mapping bestMapping = model.learn(currentConfig);
+				ObservableList<ActiveLearningResult> results = FXCollections
+						.observableArrayList();
+				bestMapping.map.forEach((sourceURI, map2) -> {
+					System.out.println(sourceURI + " " + map2);
+					map2.forEach((targetURI, value) -> {
+						results.add(new ActiveLearningResult(sourceURI,
+								targetURI, value));
+					});
+				});
+				onFinish(r, results);
+			}
+		};
+		thread.start();
+
+	};
+
+	public void onFinish(ActiveLearningResultView r,
+			ObservableList<ActiveLearningResult> results) {
+		view.learningProgress.setVisible(false);
 		r.getActiveLearningResultController().setMatching(results);
 		r.showResults(results);
 	}
