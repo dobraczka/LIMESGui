@@ -5,8 +5,6 @@ import java.io.File;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -33,14 +31,7 @@ public class MainView {
 	 * MenuItem to do a Save Operation
 	 */
 	private MenuItem itemSave;
-	/**
-	 * MenuItem to EditEndPoints
-	 */
-	private MenuItem itemEditEndpoints;
-	/**
-	 * MenuItem to EditClassMatching
-	 */
-	private MenuItem itemEditClassMatching;
+
 	/**
 	 * MenuItem to start Mapping
 	 */
@@ -60,10 +51,6 @@ public class MainView {
 	 * GraphBuildView to Model and View the Metric
 	 */
 	public GraphBuildView graphBuild;
-	/**
-	 * MenuItem to Edit PropertyMatching
-	 */
-	private MenuItem itemEditPropertyMatching;
 
 	/**
 	 * MenuItem to start the Active Learning Dialog
@@ -156,31 +143,6 @@ public class MainView {
 		itemExit.setOnAction(e -> controller.exit());
 		menuFile.getItems().add(itemExit);
 
-		Menu menuEdit = new Menu("Edit");
-		itemEditEndpoints = new MenuItem("Edit Endpoints");
-		itemEditEndpoints.setOnAction(e -> {
-			EditEndpointsView editEndpointsView = new EditEndpointsView();
-			controller.editEndpoints(editEndpointsView);
-			showEditWindow(editEndpointsView);
-		});
-		menuEdit.getItems().add(itemEditEndpoints);
-		itemEditClassMatching = new MenuItem("Edit Class Matching");
-		itemEditClassMatching
-				.setOnAction(e -> {
-					EditClassMatchingView editClassMatchingView = new EditClassMatchingView();
-					controller.editClassMatching(editClassMatchingView);
-					showEditWindow(editClassMatchingView);
-				});
-		menuEdit.getItems().add(itemEditClassMatching);
-		itemEditPropertyMatching = new MenuItem("Edit Property Matching");
-		itemEditPropertyMatching
-				.setOnAction(e -> {
-					EditPropertyMatchingView editPropertyMatchingView = new EditPropertyMatchingView();
-					controller.editPropertyMatching(editPropertyMatchingView);
-					showEditWindow(editPropertyMatchingView);
-				});
-		menuEdit.getItems().add(itemEditPropertyMatching);
-
 		Menu menuLayout = new Menu("Layout");
 		MenuItem layoutGraph = new MenuItem("Refresh Layout");
 		layoutGraph.setOnAction(e -> {
@@ -213,36 +175,6 @@ public class MainView {
 	}
 
 	/**
-	 * Shows the EditEndpoints Dialog
-	 * 
-	 * @param editView
-	 *            View of the EditEndPoints Dialog
-	 */
-	private void showEditWindow(IEditView editView) {
-		ButtonBar buttonBar = new ButtonBar();
-		Button buttonCancel = new Button("Cancel");
-		buttonBar.getButtons().add(buttonCancel);
-		Button buttonOk = new Button("OK");
-		buttonBar.getButtons().add(buttonOk);
-
-		BorderPane windowRootPane = new BorderPane();
-		windowRootPane.setCenter(editView.getPane());
-		windowRootPane.setBottom(buttonBar);
-
-		Scene scene = new Scene(windowRootPane, 800, 600);
-		Stage stage = new Stage();
-		stage.setTitle("LIMES");
-		stage.setScene(scene);
-		stage.show();
-
-		buttonCancel.setOnAction(e -> stage.close());
-		buttonOk.setOnAction(e -> {
-			editView.save();
-			stage.close();
-		});
-	}
-
-	/**
 	 * Shows the Loaded Config, if it is Loaded
 	 * 
 	 * @param isLoaded
@@ -250,7 +182,6 @@ public class MainView {
 	 */
 	public void showLoadedConfig(boolean isLoaded) {
 		itemSave.setDisable(!isLoaded);
-		itemEditEndpoints.setDisable(!isLoaded);
 		itemMap.setDisable(!isLoaded);
 		itemSelfConfiguration.setDisable(!isLoaded);
 		itemActiveLearning.setDisable(!isLoaded);
