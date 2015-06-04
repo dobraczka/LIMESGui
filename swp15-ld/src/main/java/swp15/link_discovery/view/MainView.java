@@ -253,6 +253,7 @@ public class MainView {
 		itemEditEndpoints.setDisable(!isLoaded);
 		itemMap.setDisable(!isLoaded);
 		itemSelfConfiguration.setDisable(!isLoaded);
+		itemActiveLearning.setDisable(!isLoaded);
 	}
 
 	/**
