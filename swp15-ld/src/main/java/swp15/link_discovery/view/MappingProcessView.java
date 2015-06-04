@@ -58,7 +58,7 @@ public class MappingProcessView {
 		stage.setAlwaysOnTop(true);
 		stage.setTitle("Mapping");
 		Group root = new Group();
-		Scene scene = new Scene(root, 250, 80, Color.WHITE);
+		Scene scene = new Scene(root, 250, 60, Color.WHITE);
 
 		BorderPane mainPane = new BorderPane();
 		root.getChildren().add(mainPane);
@@ -72,48 +72,38 @@ public class MappingProcessView {
 		hb.getChildren().addAll(label, progressBar);
 		mainPane.setTop(hb);
 
-		final Button startButton = new Button("Start");
 		final Button cancelButton = new Button("Cancel");
 		final HBox hb2 = new HBox();
 		hb2.setSpacing(5);
 		hb2.setAlignment(Pos.CENTER);
-		hb2.getChildren().addAll(startButton, cancelButton);
+		hb2.getChildren().addAll(cancelButton);
 		mainPane.setBottom(hb2);
 
-		// EventListener vor 'start' button
-		startButton.setOnAction(new EventHandler<ActionEvent>() {
+		progressBar.setProgress(0);
+		cancelButton.setDisable(false);
+		mapTask = currentConfig.createMappingTask(results);
 
-			// create mappingTask and animate Progressbar
-			public void handle(ActionEvent event) {
-				startButton.setDisable(true);
-				progressBar.setProgress(0);
-				cancelButton.setDisable(false);
-				mapTask = currentConfig.createMappingTask(results);
+		progressBar.progressProperty().unbind();
+		progressBar.progressProperty().bind(mapTask.progressProperty());
 
-				progressBar.progressProperty().unbind();
-				progressBar.progressProperty().bind(mapTask.progressProperty());
-
-				/*
-				 * called when Task is finished creates new ResultView with
-				 * results and closes the MappingProcess window
-				 */
-				mapTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-					@Override
-					public void handle(WorkerStateEvent t) {
-						stage.close();
-						ResultView resultView = new ResultView();
-						resultView.showResults(results, currentConfig);
-					}
-				});
-
-				new Thread(mapTask).start();
+		/*
+		 * called when Task is finished creates new ResultView with results and
+		 * closes the MappingProcess window
+		 */
+		mapTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent t) {
+				stage.close();
+				ResultView resultView = new ResultView();
+				resultView.showResults(results, currentConfig);
 			}
 		});
+
+		new Thread(mapTask).start();
 
 		// cancels the mapping and closes the window
 		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				startButton.setDisable(false);
 				cancelButton.setDisable(true);
 				mapTask.cancel(true);
 				progressBar.progressProperty().unbind();

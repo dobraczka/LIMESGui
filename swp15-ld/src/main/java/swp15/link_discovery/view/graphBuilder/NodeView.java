@@ -265,6 +265,17 @@ public class NodeView {
 		return true;
 	}
 
+	public boolean addParent(NodeView parent) {
+		boolean test = parent.nodeData.addChild(nodeData);
+		if (!test) {
+			return false;
+		}
+		parent.children.add(this);
+		this.parent = parent;
+		return true;
+
+	}
+
 	/**
 	 * Adds a Child without Linking the Data Models
 	 * 
@@ -292,7 +303,7 @@ public class NodeView {
 
 			double linkMidX = (x1 + x2) / 2.0;
 			double linkMidY = (y1 + y2) / 2.0;
-			double rotate = Math.toDegrees(Math.atan2(y2 - y1, x2 - x1)) + 45;
+			double rotate = Math.toDegrees(Math.atan2(y2 - y1, x2 - x1)) + 225;
 			gc.setTransform(new Affine(new Rotate(rotate, linkMidX, linkMidY)));
 			double arrowX = linkMidX - (arrow.getWidth() * 3 / 4);
 			double arrowY = linkMidY - (arrow.getWidth() / 4);

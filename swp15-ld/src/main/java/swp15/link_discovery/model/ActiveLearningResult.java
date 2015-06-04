@@ -12,7 +12,7 @@ public class ActiveLearningResult extends Result {
 	/**
 	 * Flag to set if source URI and target URI are indeed a match (or not)
 	 */
-	public boolean isMatch = false;
+	public boolean isMatch;
 
 	/**
 	 * Default constructor
@@ -26,5 +26,6 @@ public class ActiveLearningResult extends Result {
 	 */
 	public ActiveLearningResult(String sourceURI, String targetURI, Double value) {
 		super(sourceURI, targetURI, value);
+		this.isMatch = false;
 	}
 }
