@@ -9,15 +9,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import swp15.link_discovery.controller.ActiveLearningResultController;
 import swp15.link_discovery.model.ActiveLearningResult;
+import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.InstanceProperty;
 import swp15.link_discovery.model.Result;
 
@@ -28,7 +32,7 @@ import swp15.link_discovery.model.Result;
  * @author Felix Brei
  *
  */
-public class ActiveLearningResultView extends ResultView {
+public class ActiveLearningResultView {
 
 	/**
 	 * Table that contains the results of the learning process, extended by an
@@ -65,11 +69,15 @@ public class ActiveLearningResultView extends ResultView {
 	 */
 	private ObservableList<Result> results;
 
+	private Config config;
+
 	/**
 	 * Default constructor
 	 */
-	public ActiveLearningResultView() {
-		this.controller = new ActiveLearningResultController(this);
+	public ActiveLearningResultView(Config c) {
+
+		this.config = c;
+		this.controller = new ActiveLearningResultController(this, config);
 
 		Stage stage = new Stage();
 
@@ -149,9 +157,19 @@ public class ActiveLearningResultView extends ResultView {
 		table.getColumns().add(columnValue);
 
 		TableColumn<ActiveLearningResult, Boolean> columnIsMatch = new TableColumn<ActiveLearningResult, Boolean>(
-				"isMatch");
+				"Is Match?");
 		columnIsMatch
-				.setCellValueFactory(new PropertyValueFactory<>("isMatch"));
+				.setCellValueFactory(new PropertyValueFactory<ActiveLearningResult, Boolean>(
+						"isMatch"));
+		columnIsMatch
+				.setCellFactory(new Callback<TableColumn<ActiveLearningResult, Boolean>, TableCell<ActiveLearningResult, Boolean>>() {
+
+					public TableCell<ActiveLearningResult, Boolean> call(
+							TableColumn<ActiveLearningResult, Boolean> p) {
+						return new CheckBoxTableCell<ActiveLearningResult, Boolean>();
+					}
+				});
+
 		table.getColumns().add(columnIsMatch);
 
 		table.setOnMouseClicked(e -> {
@@ -197,6 +215,28 @@ public class ActiveLearningResultView extends ResultView {
 
 	public void showResults(ObservableList<ActiveLearningResult> results) {
 		table.setItems(results);
+	}
+
+	/**
+	 * Show the Items of instanceProperty in sourceInstanceTable
+	 * 
+	 * @param instanceProperty
+	 *            List of Source-InstanceProperties
+	 */
+	public void showSourceInstance(
+			ObservableList<InstanceProperty> instanceProperty) {
+		sourceInstanceTable.setItems(instanceProperty);
+	}
+
+	/**
+	 * Show the Items of instanceProperty in targetInstanceTable
+	 * 
+	 * @param instanceProperty
+	 *            List of Target-InstanceProperties
+	 */
+	public void showTargetInstance(
+			ObservableList<InstanceProperty> instanceProperty) {
+		targetInstanceTable.setItems(instanceProperty);
 	}
 
 }
