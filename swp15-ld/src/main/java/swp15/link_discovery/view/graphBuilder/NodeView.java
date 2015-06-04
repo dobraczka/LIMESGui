@@ -6,6 +6,8 @@ import java.util.Vector;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Affine;
+import javafx.scene.transform.Rotate;
 import swp15.link_discovery.model.metric.Node;
 
 public class NodeView {
@@ -282,26 +284,20 @@ public class NodeView {
 		GraphicsContext gc = gbv.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		children.forEach(nodeView -> {
-			int middleX = x
-					+ NodeView.WIDTH
-					/ 2
-					+ ((nodeView.x + NodeView.WIDTH / 2) - (this.x + NodeView.WIDTH / 2))
-					/ 2;
-			int middleY = y
-					+ NodeView.HEIGHT
-					/ 2
-					+ ((nodeView.y + NodeView.WIDTH / 2) - (this.y + NodeView.WIDTH / 2))
-					/ 2;
-			gc.strokeLine(x + NodeView.WIDTH / 2, y + NodeView.HEIGHT / 2,
-					nodeView.x + NodeView.WIDTH / 2, nodeView.y
-							+ NodeView.HEIGHT / 2);
-			gc.save();
-			double deg = ArrowHelper.getAngle(nodeView.x, nodeView.y, this.x,
-					this.y) + 180;
-			gc.rotate(deg);
-			int[] rot = ArrowHelper.rotate(middleX, middleY, -deg);
-			gc.drawImage(arrow, rot[0], rot[1]);
-			gc.restore();
+			int x1 = x + NodeView.WIDTH / 2;
+			int y1 = y + NodeView.HEIGHT / 2;
+			int x2 = nodeView.x + NodeView.WIDTH / 2;
+			int y2 = nodeView.y + NodeView.HEIGHT / 2;
+			gc.strokeLine(x1, y1, x2, y2);
+
+			double linkMidX = (x1 + x2) / 2.0;
+			double linkMidY = (y1 + y2) / 2.0;
+			double rotate = Math.toDegrees(Math.atan2(y2 - y1, x2 - x1)) + 45;
+			gc.setTransform(new Affine(new Rotate(rotate, linkMidX, linkMidY)));
+			double arrowX = linkMidX - (arrow.getWidth() * 3 / 4);
+			double arrowY = linkMidY - (arrow.getWidth() / 4);
+			gc.drawImage(arrow, arrowX, arrowY);
+			gc.setTransform(new Affine());
 		});
 	}
 
@@ -320,63 +316,5 @@ public class NodeView {
 		});
 		this.parent = null;
 		this.nodeData.removeParent();
-	}
-
-	/**
-	 * Helper Class for some Rotationsoperations to Draw the Arrows on the
-	 * Canvas
-	 * 
-	 * @author Sascha Hahne
-	 *
-	 */
-	private static class ArrowHelper {
-
-		/**
-		 * Rotate Coordinates from origin
-		 * 
-		 * @param x
-		 *            x-Position
-		 * @param y
-		 *            y-Position
-		 * @param degree
-		 *            Degree of Rotation
-		 * @return Rotated Position
-		 */
-		public static int[] rotate(int x, int y, double degree) {
-			int[] res = { 0, 0 };
-			double angle = Math.toRadians(degree);
-			res[0] = (int) ((x - 7) * Math.cos(angle) - y * Math.sin(angle));
-			res[1] = (int) ((x - 7) * Math.sin(angle) + y * Math.cos(angle));
-			return res;
-
-		}
-
-		/**
-		 * Angle between x-Axis and the Vector from the given Coordinates
-		 * 
-		 * @param startX
-		 *            x-Origin of Vector
-		 * @param startY
-		 *            y-Origin of Vector
-		 * @param endX
-		 *            x-End of Vector
-		 * @param endY
-		 *            y-End of Vector
-		 * @return Angle between x-Axis and Vector
-		 */
-		public static double getAngle(int startX, int startY, int endX, int endY) {
-			double res;
-			int degoff = 0;
-			int x = endX - startX;
-			int y = endY - startY;
-			if (x > 0) {
-				degoff = 180;
-			}
-			if (x == 0) {
-				return -225;
-			}
-			res = Math.toDegrees(Math.atan(y / x));
-			return res - degoff + 270 - 45;
-		}
 	}
 }
