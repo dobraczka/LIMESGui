@@ -57,6 +57,9 @@ public class Endpoint {
 	public void setCurrentClass(ClassMatchingNode currentClass) {
 		this.currentClass = currentClass;
 
+		if (currentClass == null) {
+			return;
+		}
 		String currentClassAsString = currentClass.getUri().toString();
 		PrefixHelper.generatePrefix(currentClassAsString);
 		String base = PrefixHelper.getBase(currentClassAsString);
