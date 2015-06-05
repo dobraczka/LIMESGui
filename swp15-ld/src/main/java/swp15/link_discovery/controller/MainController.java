@@ -3,16 +3,21 @@ package swp15.link_discovery.controller;
 import java.io.File;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import swp15.link_discovery.model.Config;
+import swp15.link_discovery.model.Result;
 import swp15.link_discovery.view.ActiveLearningView;
 import swp15.link_discovery.view.EditClassMatchingView;
 import swp15.link_discovery.view.EditEndpointsView;
 import swp15.link_discovery.view.EditPropertyMatchingView;
 import swp15.link_discovery.view.MainView;
-import swp15.link_discovery.view.MappingProcessView;
+import swp15.link_discovery.view.ResultView;
 import swp15.link_discovery.view.SelfConfigurationView;
+import swp15.link_discovery.view.TaskProgressView;
 import swp15.link_discovery.view.WizardView;
 
 /**
@@ -189,9 +194,23 @@ public class MainController {
 			return;
 		}
 		if (checkAndUpdateMetric()) {
-			MappingProcessView mapProcView = new MappingProcessView(
-					currentConfig);
-			mapProcView.showWindow();
+			ObservableList<Result> results = FXCollections
+					.observableArrayList();
+			Task<Void> mapTask = currentConfig.createMappingTask(results);
+
+			TaskProgressView taskProgressView = new TaskProgressView("Mapping");
+			TaskProgressController taskProgressController = new TaskProgressController(
+					taskProgressView);
+			taskProgressController.addTask(
+					mapTask,
+					items -> {
+						ResultView resultView = new ResultView();
+						resultView.showResults(results, currentConfig);
+					},
+					error -> {
+						view.showErrorDialog("Error during mapping",
+								error.getMessage());
+					});
 		}
 	}
 
