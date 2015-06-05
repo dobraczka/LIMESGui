@@ -1,11 +1,16 @@
 package swp15.link_discovery.controller;
 
+import static swp15.link_discovery.util.SourceOrTarget.SOURCE;
+import static swp15.link_discovery.util.SourceOrTarget.TARGET;
+
 import java.util.List;
 
 import swp15.link_discovery.model.Config;
+import swp15.link_discovery.model.GetPropertiesTask;
 import swp15.link_discovery.model.PropertyPair;
 import swp15.link_discovery.view.EditPropertyMatchingView;
 import swp15.link_discovery.view.IEditView;
+import swp15.link_discovery.view.TaskProgressView;
 
 /**
  * Controller class for property matching step in create wizard
@@ -25,9 +30,27 @@ public class EditPropertyMatchingController implements IEditController {
 
 	@Override
 	public void load() {
-		view.showAvailableProperties(config.getSourceEndpoint()
-				.getPossibleProperties(), config.getTargetEndpoint()
-				.getPossibleProperties());
+		GetPropertiesTask getSourcePropertiesTask = config.getSourceEndpoint()
+				.createGetPropertiesTask();
+		GetPropertiesTask getTargetPropertiesTask = config.getTargetEndpoint()
+				.createGetPropertiesTask();
+
+		TaskProgressView taskProgressView = new TaskProgressView(
+				"Get properties");
+		TaskProgressController taskProgressController = new TaskProgressController(
+				taskProgressView);
+		taskProgressController.addTask(getSourcePropertiesTask, properties -> {
+			view.showAvailableProperties(SOURCE, properties);
+		}, error -> {
+			view.showError("Error while loading source properties",
+					error.getMessage());
+		});
+		taskProgressController.addTask(getTargetPropertiesTask, properties -> {
+			view.showAvailableProperties(TARGET, properties);
+		}, error -> {
+			view.showError("Error while loading target properties",
+					error.getMessage());
+		});
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package swp15.link_discovery.view;
 
+import static swp15.link_discovery.util.SourceOrTarget.SOURCE;
+
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -7,6 +9,8 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -24,6 +28,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import swp15.link_discovery.controller.EditPropertyMatchingController;
 import swp15.link_discovery.model.PropertyPair;
+import swp15.link_discovery.util.SourceOrTarget;
 
 /**
  * View class for edit properties step in create wizard
@@ -130,9 +135,16 @@ public class EditPropertyMatchingView implements IEditView {
 		controller.save(table.getItems());
 	}
 
-	public void showAvailableProperties(List<String> sourceProperties,
-			List<String> targetProperties) {
-		this.sourceProperties.setAll(sourceProperties);
-		this.targetProperties.setAll(targetProperties);
+	public void showAvailableProperties(SourceOrTarget sourceOrTarget,
+			List<String> properties) {
+		(sourceOrTarget == SOURCE ? sourceProperties : targetProperties)
+				.setAll(properties);
+	}
+
+	public void showError(String header, String content) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setHeaderText(header);
+		alert.setContentText(content);
+		alert.showAndWait();
 	}
 }

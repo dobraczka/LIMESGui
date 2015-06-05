@@ -8,6 +8,8 @@ import java.util.function.Predicate;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
@@ -105,5 +107,12 @@ public class EditClassMatchingView implements IEditView {
 						.getValue(),
 				selectedTargetClass == null ? null : selectedTargetClass
 						.getValue());
+	}
+
+	public void showError(String header, String content) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setHeaderText(header);
+		alert.setContentText(content);
+		alert.showAndWait();
 	}
 }

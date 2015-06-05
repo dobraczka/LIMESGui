@@ -5,8 +5,10 @@ import static swp15.link_discovery.util.SourceOrTarget.TARGET;
 import swp15.link_discovery.model.ClassMatchingNode;
 import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.Endpoint;
+import swp15.link_discovery.model.GetClassesTask;
 import swp15.link_discovery.view.EditClassMatchingView;
 import swp15.link_discovery.view.IEditView;
+import swp15.link_discovery.view.TaskProgressView;
 
 /**
  * Controller class for class matching step in create wizard
@@ -26,11 +28,35 @@ public class EditClassMatchingController implements IEditController {
 	@Override
 	public void load() {
 		Endpoint sourceEndpoint = config.getSourceEndpoint();
-		view.showTree(SOURCE, sourceEndpoint.getClassesForMatching(),
-				sourceEndpoint.getCurrentClass());
+		GetClassesTask getSourceClassesTask = sourceEndpoint
+				.createGetClassesTask();
 		Endpoint targetEndpoint = config.getTargetEndpoint();
-		view.showTree(TARGET, targetEndpoint.getClassesForMatching(),
-				targetEndpoint.getCurrentClass());
+		GetClassesTask getTargetClassesTask = targetEndpoint
+				.createGetClassesTask();
+
+		TaskProgressView taskProgressView = new TaskProgressView("Get classes");
+		TaskProgressController taskProgressController = new TaskProgressController(
+				taskProgressView);
+		taskProgressController.addTask(
+				getSourceClassesTask,
+				items -> {
+					view.showTree(SOURCE, items,
+							sourceEndpoint.getCurrentClass());
+				},
+				error -> {
+					view.showError("Error while loading source classes",
+							error.getMessage());
+				});
+		taskProgressController.addTask(
+				getTargetClassesTask,
+				items -> {
+					view.showTree(TARGET, items,
+							targetEndpoint.getCurrentClass());
+				},
+				error -> {
+					view.showError("Error while loading target classes",
+							error.getMessage());
+				});
 	}
 
 	public void save(ClassMatchingNode sourceClass,

@@ -1,14 +1,8 @@
 package swp15.link_discovery.model;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import com.hp.hpl.jena.rdf.model.Model;
 
 import de.konrad.commons.sparql.PrefixHelper;
-import de.konrad.commons.sparql.SPARQLHelper;
 import de.uni_leipzig.simba.cache.Cache;
 import de.uni_leipzig.simba.cache.HybridCache;
 import de.uni_leipzig.simba.io.KBInfo;
@@ -52,6 +46,10 @@ public class Endpoint {
 		return cache;
 	}
 
+	public GetClassesTask createGetClassesTask() {
+		return new GetClassesTask(info, model);
+	}
+
 	public ClassMatchingNode getCurrentClass() {
 		return currentClass;
 	}
@@ -66,37 +64,7 @@ public class Endpoint {
 		info.prefixes.put(prefix, PrefixHelper.getURI(prefix));
 	}
 
-	/**
-	 * Get classes for matching.
-	 */
-	public List<ClassMatchingNode> getClassesForMatching() {
-		Set<String> rootClasses = SPARQLHelper.rootClasses(info.endpoint,
-				info.graph, model);
-		List<ClassMatchingNode> result = getClassMatchingNodes(rootClasses);
-		return result;
-	}
-
-	private List<ClassMatchingNode> getClassMatchingNodes(Set<String> classes) {
-		List<ClassMatchingNode> result = new ArrayList<ClassMatchingNode>();
-		for (String class_ : classes) {
-			try {
-				List<ClassMatchingNode> children = getClassMatchingNodes(SPARQLHelper
-						.subclassesOf(info.endpoint, info.graph, class_, model));
-				result.add(new ClassMatchingNode(new URI(class_), children));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return result;
-	}
-
-	public List<String> getPossibleProperties() {
-		List<String> result = new ArrayList<String>();
-		for (String property : SPARQLHelper.properties(info.endpoint,
-				info.graph, currentClass.getUri().toString(), model)) {
-			result.add(PrefixHelper.abbreviate(property));
-		}
-		return result;
+	public GetPropertiesTask createGetPropertiesTask() {
+		return new GetPropertiesTask(info, model, currentClass);
 	}
 }
