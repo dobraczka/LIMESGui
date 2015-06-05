@@ -6,10 +6,8 @@ import static swp15.link_discovery.util.SourceOrTarget.TARGET;
 import java.util.List;
 import java.util.function.Predicate;
 
-import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
@@ -17,7 +15,6 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.stage.Stage;
 import swp15.link_discovery.controller.EditClassMatchingController;
 import swp15.link_discovery.model.ClassMatchingNode;
 import swp15.link_discovery.util.SourceOrTarget;
@@ -27,7 +24,7 @@ import swp15.link_discovery.util.SourceOrTarget;
  * 
  * @author Manuel Jacob
  */
-public class EditClassMatchingView extends Application implements IEditView {
+public class EditClassMatchingView implements IEditView {
 	private EditClassMatchingController controller;
 	private ScrollPane rootPane;
 	private TreeView<ClassMatchingNode> sourceTreeView;
@@ -108,17 +105,5 @@ public class EditClassMatchingView extends Application implements IEditView {
 						.getValue(),
 				selectedTargetClass == null ? null : selectedTargetClass
 						.getValue());
-	}
-
-	@Override
-	public void start(Stage stage) throws Exception {
-		Scene scene = new Scene(new EditClassMatchingView().getPane(), 800, 600);
-		stage.setTitle("LIMES");
-		stage.setScene(scene);
-		stage.show();
-	}
-
-	public static void main(String[] args) {
-		launch();
 	}
 }
