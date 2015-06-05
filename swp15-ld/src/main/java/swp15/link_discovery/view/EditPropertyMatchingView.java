@@ -2,13 +2,11 @@ package swp15.link_discovery.view;
 
 import java.util.List;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -24,7 +22,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.stage.Stage;
 import swp15.link_discovery.controller.EditPropertyMatchingController;
 import swp15.link_discovery.model.PropertyPair;
 
@@ -33,7 +30,7 @@ import swp15.link_discovery.model.PropertyPair;
  * 
  * @author Manuel Jacob
  */
-public class EditPropertyMatchingView extends Application implements IEditView {
+public class EditPropertyMatchingView implements IEditView {
 	private EditPropertyMatchingController controller;
 	private ScrollPane rootPane;
 	private TableView<PropertyPair> table;
@@ -137,18 +134,5 @@ public class EditPropertyMatchingView extends Application implements IEditView {
 			List<String> targetProperties) {
 		this.sourceProperties.setAll(sourceProperties);
 		this.targetProperties.setAll(targetProperties);
-	}
-
-	@Override
-	public void start(Stage stage) throws Exception {
-		Scene scene = new Scene(new EditPropertyMatchingView().getPane(), 800,
-				600);
-		stage.setTitle("LIMES");
-		stage.setScene(scene);
-		stage.show();
-	}
-
-	public static void main(String[] args) {
-		launch();
 	}
 }
