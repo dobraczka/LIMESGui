@@ -263,6 +263,7 @@ public class Config {
 	 *            to be written to metric
 	 */
 	public void setMetricExpression(String metricExpression) {
+		reader.metricExpression = metricExpression;
 		if (metric != null) {
 			double param1 = 2.0d;
 			double param2 = 2.0d;
