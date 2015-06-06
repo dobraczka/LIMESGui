@@ -18,6 +18,7 @@ import swp15.link_discovery.model.metric.MetricParser;
 import swp15.link_discovery.model.metric.Output;
 import swp15.link_discovery.util.ConfigWriter;
 import swp15.link_discovery.util.SourceOrTarget;
+import de.konrad.commons.sparql.PrefixHelper;
 import de.uni_leipzig.simba.cache.Cache;
 import de.uni_leipzig.simba.data.Mapping;
 import de.uni_leipzig.simba.filter.LinearFilter;
@@ -337,6 +338,17 @@ public class Config {
 		for (PropertyPair propertyPair : propertyPairs) {
 			sourceProperties.add(propertyPair.getSourceProperty());
 			targetProperties.add(propertyPair.getTargetProperty());
+			addFunction(sourceEndpoint.getInfo(),
+					propertyPair.getSourceProperty());
+			addFunction(targetEndpoint.getInfo(),
+					propertyPair.getTargetProperty());
 		}
+	}
+
+	private void addFunction(KBInfo info, String property) {
+		String abbr = PrefixHelper.abbreviate(property);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(abbr, "nolang->lowercase");
+		info.functions.put(abbr, map);
 	}
 }

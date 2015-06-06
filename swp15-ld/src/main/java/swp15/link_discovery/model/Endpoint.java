@@ -56,15 +56,20 @@ public class Endpoint {
 
 	public void setCurrentClass(ClassMatchingNode currentClass) {
 		this.currentClass = currentClass;
+		info.prefixes.clear();
+		info.restrictions.clear();
 
 		if (currentClass == null) {
 			return;
 		}
+
 		String currentClassAsString = currentClass.getUri().toString();
-		PrefixHelper.generatePrefix(currentClassAsString);
-		String base = PrefixHelper.getBase(currentClassAsString);
-		String prefix = PrefixHelper.getPrefix(base);
-		info.prefixes.put(prefix, PrefixHelper.getURI(prefix));
+		String[] abbr = PrefixHelper.generatePrefix(currentClassAsString);
+		info.prefixes.put(abbr[0], abbr[1]);
+
+		info.prefixes.put("rdf", PrefixHelper.getURI("rdf"));
+		String classAbbr = PrefixHelper.abbreviate(currentClassAsString);
+		info.restrictions.add(info.var + " rdf:type " + classAbbr);
 	}
 
 	public GetPropertiesTask createGetPropertiesTask() {
