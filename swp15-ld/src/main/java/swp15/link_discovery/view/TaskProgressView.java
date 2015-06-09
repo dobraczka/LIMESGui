@@ -23,7 +23,7 @@ public class TaskProgressView {
 		this.controller = controller;
 	}
 
-	public void showWindow(String title) {
+	private void showWindow(String title) {
 		BorderPane mainPane = new BorderPane();
 
 		Label label = new Label(title);

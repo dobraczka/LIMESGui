@@ -50,43 +50,44 @@ public class NodeView {
 	/**
 	 * Image of Add-Node
 	 */
-	public final Image add = new Image("add.png", 50.0, 50.0, true, true);
+	private final Image add = new Image("add.png", 50.0, 50.0, true, true);
 	/**
 	 * Image of And-Node
 	 */
-	public final Image and = new Image("and.png", 50.0, 50.0, true, true);
+	private final Image and = new Image("and.png", 50.0, 50.0, true, true);
 	/**
 	 * Image of Diff-Node
 	 */
-	public final Image diff = new Image("diff.png", 50.0, 50.0, true, true);
+	private final Image diff = new Image("diff.png", 50.0, 50.0, true, true);
 	/**
 	 * Image of Metric-Node
 	 */
-	public final Image metric = new Image("Hexagon.png", 50.0, 50.0, true, true);
+	private final Image metric = new Image("Hexagon.png", 50.0, 50.0, true,
+			true);
 	/**
 	 * Image of Max-Node
 	 */
-	public final Image max = new Image("max.png", 50.0, 50.0, true, true);
+	private final Image max = new Image("max.png", 50.0, 50.0, true, true);
 	/**
 	 * Image of Min-Node
 	 */
-	public final Image min = new Image("min.png", 50.0, 50.0, true, true);
+	private final Image min = new Image("min.png", 50.0, 50.0, true, true);
 	/**
 	 * Image of Minus-Node
 	 */
-	public final Image minus = new Image("minus.png", 50.0, 50.0, true, true);
+	private final Image minus = new Image("minus.png", 50.0, 50.0, true, true);
 	/**
 	 * Image of Mult-Node
 	 */
-	public final Image mult = new Image("mult.png", 50.0, 50.0, true, true);
+	private final Image mult = new Image("mult.png", 50.0, 50.0, true, true);
 	/**
 	 * Image of Or-Node
 	 */
-	public final Image or = new Image("or.png", 50.0, 50.0, true, true);
+	private final Image or = new Image("or.png", 50.0, 50.0, true, true);
 	/**
 	 * Image of Linkarrow
 	 */
-	public final Image arrow = new Image("arrow.png", 10.0, 10.0, true, true);
+	private final Image arrow = new Image("arrow.png", 10.0, 10.0, true, true);
 
 	/**
 	 * Position on x-Axis
@@ -104,11 +105,7 @@ public class NodeView {
 	/**
 	 * Shape int of Node
 	 */
-	public int nodeShape;
-	/**
-	 * Label of Node
-	 */
-	String label;
+	private int nodeShape;
 
 	/**
 	 * Canvas to draw Node
@@ -123,7 +120,7 @@ public class NodeView {
 	/**
 	 * Children of Node
 	 */
-	public List<NodeView> children = new Vector<NodeView>();
+	private List<NodeView> children = new Vector<NodeView>();
 	/**
 	 * Parent of Node
 	 */
@@ -150,7 +147,6 @@ public class NodeView {
 		this.x = x;
 		this.y = y;
 		this.nodeShape = nodeShape;
-		this.label = label;
 		this.gbv = gbv;
 		this.nodeData = node;
 		this.xOffset = calculateOffset();
@@ -221,7 +217,7 @@ public class NodeView {
 	/**
 	 * Calculate the offset, to get the text centered
 	 */
-	public int calculateOffset() {
+	private int calculateOffset() {
 		Text label = new Text(nodeData.id);
 		double labelWidth = label.getLayoutBounds().getWidth();
 		return (int) (WIDTH / 2.0 - labelWidth / 2.0);
@@ -262,23 +258,6 @@ public class NodeView {
 			return false;
 		}
 		return false;
-	}
-
-	/**
-	 * Adds a Child to the NodeView, and links the Data Models
-	 * 
-	 * @param child
-	 *            Child to add
-	 * @return True if successful
-	 */
-	public boolean addChild(NodeView child) {
-		boolean test = nodeData.addChild(child.nodeData);
-		if (!test) {
-			return false;
-		}
-		children.add(child);
-		child.parent = this;
-		return true;
 	}
 
 	/**

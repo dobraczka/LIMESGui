@@ -74,7 +74,7 @@ public class ActiveLearningController {
 
 	};
 
-	public void onFinish(ActiveLearningResultView r,
+	private void onFinish(ActiveLearningResultView r,
 			ObservableList<ActiveLearningResult> results) {
 		view.learningProgress.setVisible(false);
 		r.showResults(results);

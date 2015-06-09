@@ -2,7 +2,6 @@ package swp15.link_discovery.view;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
-import swp15.link_discovery.model.SelfConfigurationModelInterface;
 
 /**
  * Interface to Import different Self Configuration Panels to the
@@ -12,11 +11,6 @@ import swp15.link_discovery.model.SelfConfigurationModelInterface;
  *
  */
 public class SelfConfigurationPanelInterface {
-	/**
-	 * Corresponding Model
-	 */
-	public SelfConfigurationModelInterface selfConfigurationModel;
-
 	/**
 	 * View of Panel
 	 */

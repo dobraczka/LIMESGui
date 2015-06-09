@@ -146,47 +146,6 @@ public class MainController {
 	}
 
 	/**
-	 * Starts the editEndpoint Dialog
-	 * 
-	 * @param editEndpointsView
-	 *            Corresponding View of the Dialog
-	 */
-	public void editEndpoints(EditEndpointsView editEndpointsView) {
-		if (currentConfig == null) {
-			return;
-		}
-		new EditEndpointsController(currentConfig, editEndpointsView);
-	}
-
-	/**
-	 * Show ClassMatching View
-	 * 
-	 * @param editClassMatchingView
-	 *            View
-	 */
-	public void editClassMatching(EditClassMatchingView editClassMatchingView) {
-		if (currentConfig == null) {
-			return;
-		}
-		new EditClassMatchingController(currentConfig, editClassMatchingView);
-	}
-
-	/**
-	 * Show PropertyMatching Window
-	 * 
-	 * @param editPropertyMatchingView
-	 *            View
-	 */
-	public void editPropertyMatching(
-			EditPropertyMatchingView editPropertyMatchingView) {
-		if (currentConfig == null) {
-			return;
-		}
-		new EditPropertyMatchingController(currentConfig,
-				editPropertyMatchingView);
-	}
-
-	/**
 	 * Starts the Limes-Query and shows the Results
 	 */
 	public void map() {

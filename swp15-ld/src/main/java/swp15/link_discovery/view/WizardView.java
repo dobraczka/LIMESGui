@@ -13,7 +13,7 @@ import swp15.link_discovery.controller.WizardController;
  * @author Manuel Jacob
  */
 public class WizardView {
-	WizardController controller;
+	private WizardController controller;
 	private Button buttonBack;
 	private Button buttonNext;
 	private BorderPane rootPane;

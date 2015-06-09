@@ -87,7 +87,7 @@ public class ToolBox extends VBox {
 	 * Sets the CLickListeners for the ListViews On each Click a Node will
 	 * appear in the GraphCanvas
 	 */
-	public void setListeners() {
+	private void setListeners() {
 		toolBoxSourceProperties.setOnMouseClicked(e -> {
 			generateProperty(toolBoxSourceProperties, 4, true);
 		});
@@ -146,7 +146,7 @@ public class ToolBox extends VBox {
 	 * @param origin
 	 *            True if source
 	 */
-	public void generateProperty(ListView<String> view, int shape,
+	private void generateProperty(ListView<String> view, int shape,
 			boolean origin) {
 		if (view.getSelectionModel().getSelectedItem() != null) {
 			Property gen = null;
@@ -171,7 +171,7 @@ public class ToolBox extends VBox {
 	 * @param e
 	 *            Node to be added
 	 */
-	public void setNodeToGraph(Node e, int shape) {
+	private void setNodeToGraph(Node e, int shape) {
 		view.graphBuild.addNode(200, 200, shape, e);
 	}
 
@@ -181,7 +181,7 @@ public class ToolBox extends VBox {
 	 * @param view
 	 *            ListView of the selected Item
 	 */
-	public void generateNode(ListView<String> view, int shape) {
+	private void generateNode(ListView<String> view, int shape) {
 		if (view.getSelectionModel().getSelectedItem() != null) {
 			Node node = Node.createNode(view.getSelectionModel()
 					.getSelectedItem());

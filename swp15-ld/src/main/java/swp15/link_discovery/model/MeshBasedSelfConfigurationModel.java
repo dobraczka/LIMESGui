@@ -24,12 +24,13 @@ public class MeshBasedSelfConfigurationModel implements
 
 	private Mapping learnedMapping;
 
-	ObservableList<ResultsList> savedResults = FXCollections
+	private ObservableList<ResultsList> savedResults = FXCollections
 			.observableArrayList();
-	MeshBasedSelfConfigurator selfConfigurator;
-	List<SimpleClassifier> classifiers;
-	ComplexClassifier cc;
-	ObservableList<String> metricList = FXCollections.observableArrayList();
+	private MeshBasedSelfConfigurator selfConfigurator;
+	private List<SimpleClassifier> classifiers;
+	private ComplexClassifier cc;
+	private ObservableList<String> metricList = FXCollections
+			.observableArrayList();
 
 	@Override
 	public void learn(Config currentConfig, SelfConfigurationPanelInterface view) {

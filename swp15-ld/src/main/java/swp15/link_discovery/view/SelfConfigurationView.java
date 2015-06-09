@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -34,16 +33,6 @@ public class SelfConfigurationView {
 	 */
 	protected VBox selfConfigWrapper;
 
-	/**
-	 * Button to start the mapping
-	 */
-	public Button mapButton;
-
-	/**
-	 * Button to start the learning
-	 */
-	public Button learnButton;
-
 	public MainView view;
 
 	public SelfConfigurationPanelInterface selfConfigPanel;
@@ -60,7 +49,7 @@ public class SelfConfigurationView {
 	/**
 	 * Create the window for User Input
 	 */
-	public void createWindow() {
+	private void createWindow() {
 		BorderPane root = new BorderPane();
 		HBox content = new HBox();
 		selfConfigChooser = new ChoiceBox<String>(

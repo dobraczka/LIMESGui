@@ -126,7 +126,7 @@ public class ActiveLearningResultController {
 		thread.start();
 	}
 
-	public void onFinish(ObservableList<ActiveLearningResult> results) {
+	private void onFinish(ObservableList<ActiveLearningResult> results) {
 		view.learnProgress.setVisible(false);
 		view.showResults(results);
 	}

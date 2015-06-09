@@ -188,18 +188,6 @@ public class MainView {
 	}
 
 	/**
-	 * Shows an Information Dialog with a messag
-	 * 
-	 * @param message
-	 *            Message To Show
-	 */
-	public void showInformationDialog(String message) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setContentText(message);
-		alert.showAndWait();
-	}
-
-	/**
 	 * Shows if an Error occurred
 	 * 
 	 * @param header

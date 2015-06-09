@@ -22,7 +22,7 @@ public class NodeContextMenu extends ContextMenu {
 	/**
 	 * MenutItem to delete Node
 	 */
-	public MenuItem delete;
+	private MenuItem delete;
 
 	/**
 	 * Clicked NodeView
@@ -45,24 +45,6 @@ public class NodeContextMenu extends ContextMenu {
 		addListeners();
 		this.getItems().addAll(linkTo, delete, close);
 		this.node = view.nodeList.get(nodeIndex);
-	}
-
-	/**
-	 * Constructor
-	 * 
-	 * @param view
-	 *            Corresponding View
-	 * @param node
-	 *            Clicked Node
-	 */
-	public NodeContextMenu(GraphBuildView view, NodeView node) {
-		this.graphBuildView = view;
-		this.node = node;
-		this.linkTo = new MenuItem("Link To");
-		this.delete = new MenuItem("Delete");
-		this.close = new MenuItem("Close");
-		addListeners();
-		this.getItems().addAll(linkTo, delete, close);
 	}
 
 	/**

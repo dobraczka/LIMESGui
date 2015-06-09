@@ -42,7 +42,7 @@ public class ActiveLearningView {
 	/**
 	 * Corresponding controller
 	 */
-	public ActiveLearningController controller;
+	private ActiveLearningController controller;
 
 	/**
 	 * Stores the crossover probability rate
