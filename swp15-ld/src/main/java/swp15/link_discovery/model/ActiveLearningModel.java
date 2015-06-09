@@ -5,7 +5,6 @@ import de.uni_leipzig.simba.data.Mapping;
 import de.uni_leipzig.simba.genetics.core.Metric;
 import de.uni_leipzig.simba.genetics.learner.GeneticActiveLearner;
 import de.uni_leipzig.simba.genetics.learner.SupervisedLearnerParameters;
-import de.uni_leipzig.simba.genetics.util.PropertyMapping;
 
 /**
  * Handles the data involved in the active learning process
@@ -31,19 +30,9 @@ public class ActiveLearningModel {
 	private ActiveLearningView view;
 
 	/**
-	 * Stores the properties
-	 */
-	private PropertyMapping props;
-
-	/**
 	 * Stores the parameters for the genetic learning process
 	 */
 	private SupervisedLearnerParameters params;
-
-	/**
-	 * The current configuration
-	 */
-	private Config currentConfig;
 
 	/**
 	 * Default constructor
@@ -54,7 +43,6 @@ public class ActiveLearningModel {
 	public ActiveLearningModel(ActiveLearningView v, Config c) {
 		this.learner = new GeneticActiveLearner();
 		view = v;
-		currentConfig = c;
 
 	}
 

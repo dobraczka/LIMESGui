@@ -21,7 +21,6 @@ import swp15.link_discovery.model.ActiveLearningModel;
 import swp15.link_discovery.model.ActiveLearningResult;
 import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.InstanceProperty;
-import swp15.link_discovery.model.Result;
 
 /**
  * Extends the original result view by adding the possibility to review matches
@@ -52,12 +51,6 @@ public class ActiveLearningResultView {
 	 * Lists the Instance Properties of the clicked target Instance
 	 */
 	private TableView<InstanceProperty> targetInstanceTable;
-
-	/**
-	 * List of Results from Mapping
-	 */
-
-	private ObservableList<Result> results;
 
 	private Config config;
 

@@ -243,7 +243,7 @@ public class MainController {
 	public void showActiveLearning() {
 		if (currentConfig == null)
 			return;
-		ActiveLearningView a = new ActiveLearningView(view, currentConfig);
+		new ActiveLearningView(view, currentConfig);
 	}
 
 	/**

@@ -24,8 +24,6 @@ public class ActiveLearningResultController {
 	 */
 	private ActiveLearningResultView view;
 
-	private ObservableList<ActiveLearningResult> matching;
-
 	/**
 	 * ResultView to manipulate
 	 */
@@ -131,10 +129,6 @@ public class ActiveLearningResultController {
 	public void onFinish(ObservableList<ActiveLearningResult> results) {
 		view.learnProgress.setVisible(false);
 		view.showResults(results);
-	}
-
-	public void setMatching(ObservableList<ActiveLearningResult> matching) {
-		this.matching = matching;
 	}
 
 	public Metric getMetric() {

@@ -85,11 +85,6 @@ public class ActiveLearningView {
 	public ProgressIndicator learningProgress;
 
 	/**
-	 * Config at the time of construction
-	 */
-	private Config currentConfig;
-
-	/**
 	 * Default constructor
 	 * 
 	 * @param view
@@ -99,7 +94,6 @@ public class ActiveLearningView {
 	 */
 	public ActiveLearningView(MainView view, Config currentConfig) {
 		createRootPane();
-		this.currentConfig = currentConfig;
 		this.view = view;
 		this.controller = new ActiveLearningController(this, currentConfig);
 	}

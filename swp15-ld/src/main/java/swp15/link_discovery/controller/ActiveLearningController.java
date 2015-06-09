@@ -77,7 +77,6 @@ public class ActiveLearningController {
 	public void onFinish(ActiveLearningResultView r,
 			ObservableList<ActiveLearningResult> results) {
 		view.learningProgress.setVisible(false);
-		r.getActiveLearningResultController().setMatching(results);
 		r.showResults(results);
 	}
 }
