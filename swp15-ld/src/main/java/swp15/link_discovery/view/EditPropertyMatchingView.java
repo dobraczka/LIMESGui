@@ -62,6 +62,7 @@ public class EditPropertyMatchingView implements IEditView {
 		columnSource
 				.setCellValueFactory(new PropertyValueFactory<PropertyPair, String>(
 						"sourceProperty"));
+		columnSource.prefWidthProperty().bind(table.widthProperty().divide(2));
 		table.getColumns().add(columnSource);
 
 		TableColumn<PropertyPair, String> columnTarget = new TableColumn<PropertyPair, String>(
@@ -70,6 +71,7 @@ public class EditPropertyMatchingView implements IEditView {
 		columnTarget
 				.setCellValueFactory(new PropertyValueFactory<PropertyPair, String>(
 						"targetProperty"));
+		columnTarget.prefWidthProperty().bind(table.widthProperty().divide(2));
 		table.getColumns().add(columnTarget);
 
 		ButtonBar buttonBar = new ButtonBar();
