@@ -121,8 +121,8 @@ public class GeneticSelfConfigurationModel implements
 					results.add(new Result(sourceURI, targetURI, value));
 				});
 			});
-			ResultView resultView = new ResultView();
-			resultView.showResults(results, currentConfig);
+			ResultView resultView = new ResultView(currentConfig);
+			resultView.showResults(results);
 		});
 		if (learnedMapping != null && learnedMapping.size() > 0) {
 			view.mapButton.setDisable(false);

@@ -36,21 +36,11 @@ public class ResultController {
 	 * 
 	 * @param view
 	 *            corresponding view
+	 * @param config
 	 */
-	public ResultController(ResultView view) {
+	public ResultController(ResultView view, Config config) {
 		this.view = view;
-	}
-
-	/**
-	 * Sets the Config
-	 * 
-	 * @param c
-	 *            Config of LIMES-query
-	 */
-	public void setCurrentConfig(Config c) {
-
-		this.currentConfig = c;
-
+		this.currentConfig = config;
 	}
 
 	/**

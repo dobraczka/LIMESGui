@@ -121,9 +121,8 @@ public class MeshBasedSelfConfigurationModel implements
 		view.mapButton.setOnAction(e -> {
 			int i = ((MeshBasedSelfConfigurationPanel) view).resultSelect
 					.getSelectionModel().getSelectedIndex();
-			ResultView resultView = new ResultView();
-			resultView.showResults(savedResults.get(i).getResults(),
-					currentConfig);
+			ResultView resultView = new ResultView(currentConfig);
+			resultView.showResults(savedResults.get(i).getResults());
 			currentConfig.setMetricExpression(metricList.get(i));
 			view.selfConfigurationView.view.graphBuild.graphBuildController
 					.setConfig(currentConfig);

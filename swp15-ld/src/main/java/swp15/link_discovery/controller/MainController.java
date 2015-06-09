@@ -163,8 +163,8 @@ public class MainController {
 			taskProgressController.addTask(
 					mapTask,
 					items -> {
-						ResultView resultView = new ResultView();
-						resultView.showResults(results, currentConfig);
+						ResultView resultView = new ResultView(currentConfig);
+						resultView.showResults(results);
 					},
 					error -> {
 						view.showErrorDialog("Error during mapping",

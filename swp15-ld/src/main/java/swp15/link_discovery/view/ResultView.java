@@ -63,9 +63,9 @@ public class ResultView {
 	/**
 	 * Constructor
 	 */
-	public ResultView() {
+	public ResultView(Config config) {
 		createWindow();
-		this.controller = new ResultController(this);
+		this.controller = new ResultController(this, config);
 	}
 
 	/**
@@ -196,22 +196,8 @@ public class ResultView {
 	 *            List of the Limes results following the Model of Results
 	 */
 	public void showResults(ObservableList<Result> results) {
-		table.setItems(results);
-	}
-
-	/**
-	 * Puts the Results of a LIMES-query in the Table table and transfers the
-	 * Config to the Controller
-	 * 
-	 * @param results
-	 *            List of the Limes results following the Model of Results
-	 * @param currentConfig
-	 *            Config of current LIMES-query
-	 */
-	public void showResults(ObservableList<Result> results, Config currentConfig) {
 		this.results = results;
 		table.setItems(results);
-		this.controller.setCurrentConfig(currentConfig);
 	}
 
 	/**
