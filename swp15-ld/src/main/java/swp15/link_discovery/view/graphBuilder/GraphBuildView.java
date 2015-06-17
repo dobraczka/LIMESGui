@@ -174,7 +174,6 @@ public class GraphBuildView extends Canvas {
 								ThresholdModifyView tmv = new ThresholdModifyView(
 										this);
 								edited = true;
-								draw();
 							}
 						}
 					}

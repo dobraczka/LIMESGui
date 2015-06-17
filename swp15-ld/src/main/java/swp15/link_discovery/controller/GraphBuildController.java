@@ -91,10 +91,6 @@ public class GraphBuildController {
 				graphBuildView.nodeList.get(0).nodeData.toString(),
 				currentConfig.getSourceInfo().var.replaceAll("\\?", ""))
 				.toString());
-		System.out.println(MetricParser.parse(
-				graphBuildView.nodeList.get(0).nodeData.toString(),
-				currentConfig.getSourceInfo().var.replaceAll("\\?", ""))
-				.toString());
 	}
 
 	/**
