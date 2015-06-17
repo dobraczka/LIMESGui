@@ -105,7 +105,7 @@ public class NodeView {
 	/**
 	 * Shape int of Node
 	 */
-	private int nodeShape;
+	public int nodeShape;
 
 	/**
 	 * Canvas to draw Node

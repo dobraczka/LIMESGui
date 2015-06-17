@@ -152,6 +152,34 @@ public class GraphBuildView extends Canvas {
 						}
 					}
 				});
+		this.addEventHandler(
+				MouseEvent.MOUSE_PRESSED,
+				e -> {
+					if (e.getButton().equals(MouseButton.PRIMARY)) {
+						if (e.getClickCount() == 2) {
+							int index = 0;
+							boolean clickedOutput = false;
+							for (NodeView node : nodeList) {
+								if (node.contains((int) e.getX(),
+										(int) e.getY())) {
+									nodeIndex = index;
+									if (node.nodeShape == 2) {
+										clickedOutput = true;
+									}
+									break;
+								}
+								index++;
+							}
+							if (clickedOutput) {
+								ThresholdModifyView tmv = new ThresholdModifyView(
+										this);
+								edited = true;
+								draw();
+							}
+						}
+					}
+				});
+
 		this.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			int index = 0;
 			for (NodeView node : nodeList) {
