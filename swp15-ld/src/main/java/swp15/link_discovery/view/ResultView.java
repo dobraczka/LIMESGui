@@ -85,7 +85,7 @@ public class ResultView {
 				.setOnAction(e -> {
 					FileChooser fileChooser = new FileChooser();
 					FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-							"TEXT files (*.txt)", "*.txt");
+							"N-Triples (*.nt)", "*.nt");
 					fileChooser.getExtensionFilters().add(extFilter);
 					File file = fileChooser.showSaveDialog(stage);
 					if (file != null) {

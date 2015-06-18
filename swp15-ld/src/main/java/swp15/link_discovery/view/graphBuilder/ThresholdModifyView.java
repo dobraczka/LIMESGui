@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 
 public class ThresholdModifyView {
 
+	// TODO let user choose relation of thresholds using
+	// ConfigReader.verificationRelation or ConfigReader.acceptanceRelation
 	public ThresholdModifyView(GraphBuildView gbv) {
 		Stage stage = new Stage();
 		VBox root = new VBox();
