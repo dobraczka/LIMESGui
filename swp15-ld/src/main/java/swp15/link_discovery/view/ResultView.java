@@ -81,13 +81,17 @@ public class ResultView {
 		// Build Menubar for saving of results
 		Menu menuFile = new Menu("File");
 		itemSaveResults = new MenuItem("Save Results");
-		itemSaveResults.setOnAction(e -> {
-			FileChooser fileChooser = new FileChooser();
-			File file = fileChooser.showSaveDialog(stage);
-			if (file != null) {
-				controller.saveResults(results, file);
-			}
-		});
+		itemSaveResults
+				.setOnAction(e -> {
+					FileChooser fileChooser = new FileChooser();
+					FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+							"TEXT files (*.txt)", "*.txt");
+					fileChooser.getExtensionFilters().add(extFilter);
+					File file = fileChooser.showSaveDialog(stage);
+					if (file != null) {
+						controller.saveResults(results, file);
+					}
+				});
 		menuFile.getItems().add(itemSaveResults);
 		root.getChildren().add(new MenuBar(menuFile));
 
