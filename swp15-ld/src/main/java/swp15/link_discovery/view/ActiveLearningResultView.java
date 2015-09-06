@@ -218,6 +218,7 @@ public class ActiveLearningResultView {
 		root.getChildren().add(metricLabel);
 
 		Scene scene = new Scene(root, 800, 600);
+		scene.getStylesheets().add("CSS/main.css");
 		sourceInstanceTable.setPrefWidth(scene.getWidth() / 2);
 		targetInstanceTable.setPrefWidth(scene.getWidth() / 2);
 

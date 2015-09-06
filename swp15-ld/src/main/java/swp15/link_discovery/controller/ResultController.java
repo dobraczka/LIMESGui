@@ -108,6 +108,7 @@ public class ResultController {
 				bufferedWriter.write(prefixToNT);
 				bufferedWriter.newLine();
 			}
+
 			// For now relation between instances is hardcoded as owl:sameAs
 			bufferedWriter
 					.write("@prefix owl: <http://www.w3.org/2002/07/owl#> .");

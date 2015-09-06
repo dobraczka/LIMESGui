@@ -82,6 +82,7 @@ public class SelfConfigurationView {
 		root.setTop(content);
 		root.setCenter(selfConfigWrapper);
 		Scene scene = new Scene(root, 300, 400);
+		scene.getStylesheets().add("CSS/main.css");
 
 		Stage stage = new Stage();
 		stage.setTitle("LIMES - Self Configuration");

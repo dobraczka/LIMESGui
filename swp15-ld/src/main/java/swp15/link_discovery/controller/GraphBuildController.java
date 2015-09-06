@@ -12,6 +12,7 @@ import swp15.link_discovery.model.metric.Node;
 import swp15.link_discovery.model.metric.Operator;
 import swp15.link_discovery.model.metric.Output;
 import swp15.link_discovery.model.metric.Property;
+import swp15.link_discovery.view.ToolBox;
 import swp15.link_discovery.view.graphBuilder.GraphBuildView;
 import swp15.link_discovery.view.graphBuilder.NodeView;
 
@@ -31,6 +32,10 @@ public class GraphBuildController {
 	 * Corresponding GraphBuildView
 	 */
 	private GraphBuildView graphBuildView;
+	/**
+	 * Toolbox to calculate offset of nodes
+	 */
+	private ToolBox toolbox;
 
 	/**
 	 * Constructor
@@ -40,9 +45,11 @@ public class GraphBuildController {
 	 * @param view
 	 *            Corresponding View
 	 */
-	public GraphBuildController(Config currentConfig, GraphBuildView view) {
+	public GraphBuildController(Config currentConfig, GraphBuildView view,
+			ToolBox toolbox) {
 		this.currentConfig = currentConfig;
 		this.graphBuildView = view;
+		this.toolbox = toolbox;
 	}
 
 	/**
@@ -51,9 +58,10 @@ public class GraphBuildController {
 	 * @param view
 	 *            Corresponding View
 	 */
-	public GraphBuildController(GraphBuildView view) {
+	public GraphBuildController(GraphBuildView view, ToolBox toolbox) {
 
 		this.graphBuildView = view;
+		this.toolbox = toolbox;
 	}
 
 	/**
@@ -141,8 +149,9 @@ public class GraphBuildController {
 				i++;
 			}
 			e.setXY((int) (w - ((w * stages2.get(i)) / stages.get(i))
-					+ (w / (2 * stages.get(i))) - NodeView.WIDTH), (int) (h
-					+ NodeView.HEIGHT - (((h * (i + 1)) / hInt))));
+					+ (w / (2 * stages.get(i))) - e.getWidth() + (toolbox
+					.getWidth() / 2)),
+					(int) (h + e.getHeight() - (((h * (i + 1)) / hInt))));
 			stages2.set(i, stages2.get(i) - 1);
 		});
 		graphBuildView.draw();

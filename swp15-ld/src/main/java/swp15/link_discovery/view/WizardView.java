@@ -43,7 +43,11 @@ public class WizardView {
 		rootPane.setBottom(buttonBar);
 
 		Scene scene = new Scene(rootPane, 800, 600);
+		scene.getStylesheets().add("CSS/main.css");
 		stage = new Stage();
+		buttonCancel.setOnAction(e -> {
+			stage.close();
+		});
 		stage.setTitle("LIMES");
 		stage.setScene(scene);
 		stage.show();

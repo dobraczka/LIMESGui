@@ -2,6 +2,8 @@ package swp15.link_discovery.view;
 
 import java.io.File;
 
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -9,7 +11,12 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -86,9 +93,17 @@ public class MainView {
 		BorderPane root = new BorderPane();
 
 		MenuBar menuBar = buildMenuBar(stage);
+		FlowPane flow = new FlowPane(Orientation.HORIZONTAL);
+		flow.setAlignment(Pos.CENTER_RIGHT);
+		flow.setStyle("-fx-background-color: linear-gradient(to top, -fx-base, derive(-fx-base,30%));");
+		flow.getChildren().add(new ImageView(new Image("limes.png")));
+		HBox menuBox = new HBox(0);
+		menuBox.setAlignment(Pos.CENTER_LEFT);
+		HBox.setHgrow(flow, Priority.ALWAYS);
+		menuBox.getChildren().addAll(menuBar, flow);
 		toolBox = new ToolBox(this);
-		graphBuild = new GraphBuildView();
-		root.setTop(menuBar);
+		graphBuild = new GraphBuildView(toolBox);
+		root.setTop(menuBox);
 		root.setLeft(toolBox);
 		root.setRight(graphBuild);
 		graphBuild.widthProperty().bind(
@@ -98,6 +113,7 @@ public class MainView {
 		graphBuild.start();
 
 		Scene scene = new Scene(root, 800, 600);
+		scene.getStylesheets().add("CSS/main.css");
 		stage.setMinHeight(600);
 		stage.setMinWidth(600);
 		stage.setTitle("LIMES");

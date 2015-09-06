@@ -6,7 +6,6 @@ import java.util.Vector;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import swp15.link_discovery.model.metric.Node;
@@ -41,49 +40,12 @@ public class NodeView {
 	/**
 	 * Width of Nodes
 	 */
-	public static final int WIDTH = 50;
+	private int width = 200;
 
 	/**
 	 * Height of Nodes
 	 */
-	public static final int HEIGHT = 50;
-	/**
-	 * Image of Add-Node
-	 */
-	private final Image add = new Image("add.png", 50.0, 50.0, true, true);
-	/**
-	 * Image of And-Node
-	 */
-	private final Image and = new Image("and.png", 50.0, 50.0, true, true);
-	/**
-	 * Image of Diff-Node
-	 */
-	private final Image diff = new Image("diff.png", 50.0, 50.0, true, true);
-	/**
-	 * Image of Metric-Node
-	 */
-	private final Image metric = new Image("Hexagon.png", 50.0, 50.0, true,
-			true);
-	/**
-	 * Image of Max-Node
-	 */
-	private final Image max = new Image("max.png", 50.0, 50.0, true, true);
-	/**
-	 * Image of Min-Node
-	 */
-	private final Image min = new Image("min.png", 50.0, 50.0, true, true);
-	/**
-	 * Image of Minus-Node
-	 */
-	private final Image minus = new Image("minus.png", 50.0, 50.0, true, true);
-	/**
-	 * Image of Mult-Node
-	 */
-	private final Image mult = new Image("mult.png", 50.0, 50.0, true, true);
-	/**
-	 * Image of Or-Node
-	 */
-	private final Image or = new Image("or.png", 50.0, 50.0, true, true);
+	private int height = 80;
 	/**
 	 * Image of Linkarrow
 	 */
@@ -98,10 +60,6 @@ public class NodeView {
 	 */
 	public int y;
 
-	/**
-	 * Offset to get the Text centered
-	 */
-	private int xOffset;
 	/**
 	 * Shape int of Node
 	 */
@@ -147,9 +105,14 @@ public class NodeView {
 		this.x = x;
 		this.y = y;
 		this.nodeShape = nodeShape;
+		this.width = 200;
+		if (nodeShape != NodeView.METRIC) {
+			this.height = 80;
+		} else {
+			this.height = 20;
+		}
 		this.gbv = gbv;
 		this.nodeData = node;
-		this.xOffset = calculateOffset();
 	}
 
 	/**
@@ -157,70 +120,9 @@ public class NodeView {
 	 */
 	public void displayNode() {
 		GraphicsContext gc = gbv.getGraphicsContext2D();
-		// gc.clearRect(0, 0, 500, 400);
-		switch (this.nodeShape) {
-		case METRIC:
-			gc.drawImage(metric, x, y);
-			gc.strokeText(nodeData.id, x + xOffset, y + HEIGHT / 2);
-			break;
-		case OUTPUT:
-			gc.setFill(Color.GREY);
-			gc.fillOval(x, y, WIDTH, HEIGHT);
-			gc.strokeText(nodeData.id, x + xOffset, y + HEIGHT / 2);
-			gc.strokeText("Acceptance Threshold: " + nodeData.param1, x - 50,
-					(y + HEIGHT / 2) - 20);
-			gc.strokeText("Verification Threshold: " + nodeData.param2, x - 50,
-					(y + HEIGHT / 2) - 40);
-			break;
-		case OPERATOR:
-			switch (nodeData.id) {
-			case "add":
-				gc.drawImage(add, x, y);
-				break;
-			case "and":
-				gc.drawImage(and, x, y);
-				break;
-			case "diff":
-				gc.drawImage(diff, x, y);
-				break;
-			case "max":
-				gc.drawImage(max, x, y);
-				break;
-			case "min":
-				gc.drawImage(min, x, y);
-				break;
-			case "minus":
-				gc.drawImage(minus, x, y);
-				break;
-			case "mult":
-				gc.drawImage(mult, x, y);
-				break;
-			case "or":
-				gc.drawImage(or, x, y);
-				break;
-			}
-			break;
-		case SOURCE:
-			gc.setFill(Color.RED);
-			gc.fillRect(x, y, WIDTH, HEIGHT);
-			gc.strokeText(nodeData.id, x + xOffset, y + HEIGHT / 2);
-			break;
-		case TARGET:
-			gc.setFill(Color.GREEN);
-			gc.fillRect(x, y, WIDTH, HEIGHT);
-			gc.strokeText(nodeData.id, x + xOffset, y + HEIGHT / 2);
-			break;
-		}
-
-	}
-
-	/**
-	 * Calculate the offset, to get the text centered
-	 */
-	private int calculateOffset() {
-		Text label = new Text(nodeData.id);
-		double labelWidth = label.getLayoutBounds().getWidth();
-		return (int) (WIDTH / 2.0 - labelWidth / 2.0);
+		NodeViewRectangle nvr = new NodeViewRectangle(this.x, this.y,
+				this.nodeShape, this, this.nodeData);
+		nvr.drawNodeViewRectangle(gc);
 	}
 
 	/**
@@ -247,9 +149,9 @@ public class NodeView {
 	 */
 	public boolean contains(int x, int y) {
 		int minX = this.x;
-		int maxX = this.x + NodeView.WIDTH;
+		int maxX = this.x + this.width;
 		int minY = this.y;
-		int maxY = this.y + NodeView.HEIGHT;
+		int maxY = this.y + this.height;
 		if (x >= minX && x <= maxX) {
 			if (y >= minY && y <= maxY) {
 				return true;
@@ -297,10 +199,10 @@ public class NodeView {
 		GraphicsContext gc = gbv.getGraphicsContext2D();
 		gc.setStroke(Color.BLACK);
 		children.forEach(nodeView -> {
-			int x1 = x + NodeView.WIDTH / 2;
-			int y1 = y + NodeView.HEIGHT / 2;
-			int x2 = nodeView.x + NodeView.WIDTH / 2;
-			int y2 = nodeView.y + NodeView.HEIGHT / 2;
+			int x1 = x + this.width / 2;
+			int y1 = y + this.height / 2;
+			int x2 = nodeView.x + nodeView.width / 2;
+			int y2 = nodeView.y + nodeView.height / 2;
 			gc.strokeLine(x1, y1, x2, y2);
 
 			double linkMidX = (x1 + x2) / 2.0;
@@ -329,5 +231,13 @@ public class NodeView {
 		});
 		this.parent = null;
 		this.nodeData.removeParent();
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 }

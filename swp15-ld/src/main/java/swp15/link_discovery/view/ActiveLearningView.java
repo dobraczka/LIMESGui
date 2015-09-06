@@ -211,6 +211,7 @@ public class ActiveLearningView {
 		border.setBottom(buttonBox);
 
 		Scene scene = new Scene(border, 800, 600);
+		scene.getStylesheets().add("CSS/main.css");
 		Stage stage = new Stage();
 		stage.setTitle("Active Learning Configuration");
 		stage.setScene(scene);

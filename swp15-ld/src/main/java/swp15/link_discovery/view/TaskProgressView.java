@@ -49,6 +49,7 @@ public class TaskProgressView {
 		});
 
 		Scene scene = new Scene(mainPane, 250, 60, Color.WHITE);
+		scene.getStylesheets().add("CSS/main.css");
 		stage = new Stage();
 		stage.setAlwaysOnTop(true);
 		stage.setTitle(title);

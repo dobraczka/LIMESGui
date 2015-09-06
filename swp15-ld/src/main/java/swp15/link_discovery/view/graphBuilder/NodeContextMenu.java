@@ -37,14 +37,14 @@ public class NodeContextMenu extends ContextMenu {
 	 * @param nodeIndex
 	 *            index in GraphBuildView.NodeViewList of clicked Node
 	 */
-	public NodeContextMenu(GraphBuildView view, int nodeIndex) {
+	public NodeContextMenu(GraphBuildView view, NodeView clickedNode) {
 		this.graphBuildView = view;
 		this.linkTo = new MenuItem("Link To");
 		this.delete = new MenuItem("Delete");
 		this.close = new MenuItem("Close");
 		addListeners();
 		this.getItems().addAll(linkTo, delete, close);
-		this.node = view.nodeList.get(nodeIndex);
+		this.node = clickedNode;
 	}
 
 	/**
