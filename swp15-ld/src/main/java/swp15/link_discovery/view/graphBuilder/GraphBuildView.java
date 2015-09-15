@@ -1,9 +1,8 @@
 package swp15.link_discovery.view.graphBuilder;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
@@ -26,12 +25,12 @@ public class GraphBuildView extends Canvas {
 	/**
 	 * List of nodes in the Canvas
 	 */
-	public ObservableList<NodeView> nodeList;
+	public ArrayList<NodeView> nodeList;
 
 	/**
 	 * Reversed List of nodes in Canvas to correctly display dragging
 	 */
-	public ObservableList<NodeView> reversedNodeList;
+	public ArrayList<NodeView> reversedNodeList;
 
 	/**
 	 * True if Node was clicked
@@ -77,7 +76,7 @@ public class GraphBuildView extends Canvas {
 	public GraphBuildView(Config currentConfig, ToolBox toolbox) {
 		widthProperty().addListener(evt -> draw());
 		heightProperty().addListener(evt -> draw());
-		this.nodeList = FXCollections.observableArrayList();
+		this.nodeList = new ArrayList<NodeView>();
 		this.reversedNodeList = nodeList;
 		Collections.reverse(reversedNodeList);
 		this.nodeClicked = false;
@@ -93,7 +92,7 @@ public class GraphBuildView extends Canvas {
 	public GraphBuildView(ToolBox toolbox) {
 		widthProperty().addListener(evt -> draw());
 		heightProperty().addListener(evt -> draw());
-		this.nodeList = FXCollections.observableArrayList();
+		this.nodeList = new ArrayList<NodeView>();
 		this.reversedNodeList = nodeList;
 		Collections.reverse(reversedNodeList);
 		this.nodeClicked = false;
@@ -143,30 +142,27 @@ public class GraphBuildView extends Canvas {
 	 * Add eventlisteners Begin drawing
 	 */
 	public void start() {
-		this.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-			this.reversedNodeList = nodeList;
-			Collections.reverse(reversedNodeList);
-			// System.out.println("\n ReversedListAfterClick: ");
-				for (NodeView node2 : reversedNodeList) {
-					// System.out.print(node2.nodeData.id + " ");
-			}
-			if (isLinking) {
-				for (NodeView node : nodeList) {
-					if (node.contains((int) e.getX(), (int) e.getY())) {
-						isLinking = false;
-						if (linkNode.addParent(node)) {
-						} else {
-							Alert alert = new Alert(AlertType.INFORMATION);
-							alert.setContentText("Clicked Node is no valid Parent!");
-							alert.showAndWait();
+		this.addEventHandler(
+				MouseEvent.MOUSE_CLICKED,
+				e -> {
+					if (isLinking) {
+						for (NodeView node : nodeList) {
+							if (node.contains((int) e.getX(), (int) e.getY())) {
+								isLinking = false;
+								if (linkNode.addParent(node)) {
+								} else {
+									Alert alert = new Alert(
+											AlertType.INFORMATION);
+									alert.setContentText("Clicked Node is no valid Parent!");
+									alert.showAndWait();
+								}
+								edited = true;
+								draw();
+								break;
+							}
 						}
-						edited = true;
-						draw();
-						break;
 					}
-				}
-			}
-		});
+				});
 		this.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			if (e.getButton().equals(MouseButton.PRIMARY)) {
 				if (e.getClickCount() == 2) {
@@ -194,17 +190,18 @@ public class GraphBuildView extends Canvas {
 			for (NodeView node : reversedNodeList) {
 				if (node.contains((int) e.getX(), (int) e.getY())) {
 					nodeClicked = true;
-					clickedNode = nodeList.get(index);
+					clickedNode = reversedNodeList.get(index);
 					this.nodeList.remove(clickedNode);
 					this.nodeList.add(clickedNode);
-					// System.out.println("Clicked Node: "
-					// + clickedNode.nodeData.id);
-				break;
+					this.reversedNodeList = this.nodeList;
+					break;
+				}
+				index++;
 			}
-			index++;
-		}
-	}	);
+
+		});
 		this.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
+
 			if (nodeClicked) {
 				clickedNode.setXY(
 						(int) e.getX() - (clickedNode.getWidth()) / 2,
@@ -212,6 +209,7 @@ public class GraphBuildView extends Canvas {
 
 				draw();
 			}
+
 		});
 		this.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
 			nodeClicked = false;
@@ -279,23 +277,10 @@ public class GraphBuildView extends Canvas {
 	 */
 	public void addNode(int x, int y, int shape, Node node) {
 		NodeView nv = new NodeView(x, y, shape, "test", this, node);
-		System.out.println("Added: " + node.id);
 		nv.displayNode();
 		nodeList.add(nv);
-		System.out.println("\n List: ");
-		for (NodeView node1 : nodeList) {
-			System.out.print(node1.nodeData.id + " ");
-		}
-		// System.out.println("\n ReversedList: ");
-		// for (NodeView node2 : reversedNodeList) {
-		// System.out.print(node2.nodeData.id + " ");
-		// }
 		this.reversedNodeList = nodeList;
 		Collections.reverse(reversedNodeList);
-		// System.out.println("\n ReversedListAfter: ");
-		// for (NodeView node2 : reversedNodeList) {
-		// System.out.print(node2.nodeData.id + " ");
-		// }
 	}
 
 	/**

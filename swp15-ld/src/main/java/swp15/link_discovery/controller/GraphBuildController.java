@@ -3,8 +3,6 @@ package swp15.link_discovery.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.metric.Measure;
 import swp15.link_discovery.model.metric.MetricParser;
@@ -80,8 +78,7 @@ public class GraphBuildController {
 	public void generateGraphFromConfig() {
 
 		Output out = currentConfig.getMetric();
-		ObservableList<NodeView> newNodeList = FXCollections
-				.observableArrayList();
+		ArrayList<NodeView> newNodeList = new ArrayList<NodeView>();
 		NodeView outView = new NodeView(200, 200, NodeView.OUTPUT, out.id,
 				graphBuildView, out);
 		newNodeList.add(outView);
@@ -189,8 +186,8 @@ public class GraphBuildController {
 	 *            NodeList to be modified
 	 * @return modified NodeList
 	 */
-	private ObservableList<NodeView> drawChildRek(NodeView parent, Node node,
-			ObservableList<NodeView> nodeList) {
+	private ArrayList<NodeView> drawChildRek(NodeView parent, Node node,
+			ArrayList<NodeView> nodeList) {
 		int nodeShape;
 		if (Measure.identifiers.contains(node.id)) {
 			nodeShape = NodeView.METRIC;
