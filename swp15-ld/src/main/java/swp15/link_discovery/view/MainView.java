@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -40,9 +41,9 @@ public class MainView {
 	private MenuItem itemSave;
 
 	/**
-	 * MenuItem to start Mapping
+	 * Button to run mapping
 	 */
-	private MenuItem itemMap;
+	private Button runButton;
 
 	/**
 	 * MenuItem to start the SelfConfiguration Dialog
@@ -103,13 +104,21 @@ public class MainView {
 		menuBox.getChildren().addAll(menuBar, flow);
 		toolBox = new ToolBox(this);
 		graphBuild = new GraphBuildView(toolBox);
+		HBox runBox = new HBox(0);
+		runBox.setAlignment(Pos.CENTER_RIGHT);
+		runButton = new Button("Run");
+		runButton.setOnAction(e -> {
+			controller.map();
+		});
+		runBox.getChildren().add(runButton);
 		root.setTop(menuBox);
 		root.setLeft(toolBox);
 		root.setRight(graphBuild);
+		root.setBottom(runBox);
 		graphBuild.widthProperty().bind(
 				root.widthProperty().subtract(toolBox.widthProperty()));
-		graphBuild.heightProperty().bind(
-				root.heightProperty().subtract(menuBar.heightProperty()));
+		graphBuild.heightProperty().bind(toolBox.heightProperty());
+
 		graphBuild.start();
 
 		Scene scene = new Scene(root, 800, 600);
@@ -170,12 +179,7 @@ public class MainView {
 		});
 		menuLayout.getItems().addAll(layoutGraph, deleteGraph);
 
-		Menu menuRun = new Menu("Run");
-		itemMap = new MenuItem("Start Mapping");
-		itemMap.setOnAction(e -> {
-			controller.map();
-		});
-		menuRun.getItems().add(itemMap);
+		Menu menuLearn = new Menu("Learn");
 
 		itemSelfConfiguration = new MenuItem("Self Configuration");
 		itemSelfConfiguration.setOnAction(e -> {
@@ -185,9 +189,9 @@ public class MainView {
 		itemActiveLearning.setOnAction(e -> {
 			controller.showActiveLearning();
 		});
-		menuRun.getItems().add(itemActiveLearning);
-		menuRun.getItems().add(itemSelfConfiguration);
-		return new MenuBar(menuFile, menuLayout, menuRun);
+		menuLearn.getItems().add(itemActiveLearning);
+		menuLearn.getItems().add(itemSelfConfiguration);
+		return new MenuBar(menuFile, menuLayout, menuLearn);
 	}
 
 	/**
@@ -198,7 +202,7 @@ public class MainView {
 	 */
 	public void showLoadedConfig(boolean isLoaded) {
 		itemSave.setDisable(!isLoaded);
-		itemMap.setDisable(!isLoaded);
+		runButton.setDisable(!isLoaded);
 		itemSelfConfiguration.setDisable(!isLoaded);
 		itemActiveLearning.setDisable(!isLoaded);
 	}
