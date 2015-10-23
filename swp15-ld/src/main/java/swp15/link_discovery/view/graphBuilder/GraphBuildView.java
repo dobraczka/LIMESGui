@@ -63,6 +63,11 @@ public class GraphBuildView extends Canvas {
 	public boolean edited = false;
 
 	/**
+	 * Boolean to check if another ContextMenu is open
+	 */
+	public boolean contextMenuIsShown = false;
+
+	/**
 	 * Mouseposition on Canvas
 	 */
 	private double[] mousePosition = { 0, 0 };
@@ -179,11 +184,11 @@ public class GraphBuildView extends Canvas {
 						|| clickedNode.nodeShape == NodeView.OUTPUT) {
 					ThresholdModifyView tmv = new ThresholdModifyView(this,
 							clickedNode);
-					edited = true;
-				}
+					// edited = true;
 			}
 		}
-	}	);
+	}
+}		);
 
 		this.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			int index = 0;
@@ -227,8 +232,10 @@ public class GraphBuildView extends Canvas {
 					index++;
 				}
 				if (NodeClickedBySecondary) {
-					contextMenu = new NodeContextMenu(this, clickedNode);
-					contextMenu.show(this, e.getScreenX(), e.getScreenY());
+					if (!contextMenuIsShown) {
+						contextMenu = new NodeContextMenu(this, clickedNode);
+						contextMenu.show(this, e.getScreenX(), e.getScreenY());
+					}
 				}
 			}
 		});

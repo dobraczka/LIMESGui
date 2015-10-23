@@ -45,6 +45,7 @@ public class NodeContextMenu extends ContextMenu {
 		addListeners();
 		this.getItems().addAll(linkTo, delete, close);
 		this.node = clickedNode;
+		this.graphBuildView.contextMenuIsShown = true;
 	}
 
 	/**
@@ -62,6 +63,10 @@ public class NodeContextMenu extends ContextMenu {
 			graphBuildView.isLinking = true;
 			graphBuildView.linkNode = this.node;
 
+		});
+
+		this.close.setOnAction(e -> {
+			this.graphBuildView.contextMenuIsShown = false;
 		});
 	}
 
