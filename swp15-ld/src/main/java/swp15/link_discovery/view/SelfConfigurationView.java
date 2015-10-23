@@ -41,9 +41,9 @@ public class SelfConfigurationView {
 	 * Constructor initializes controller
 	 */
 	public SelfConfigurationView(MainView view) {
-		createWindow();
 		this.view = view;
 		this.controller = new SelfConfigurationController(this);
+		createWindow();
 	}
 
 	/**
@@ -88,6 +88,9 @@ public class SelfConfigurationView {
 		stage.setTitle("LIMES - Self Configuration");
 		stage.setScene(scene);
 		stage.show();
+
+								this.selfConfigPanel = new MeshBasedSelfConfigurationPanel(
+										this);
 	}
 
 	public void createErrorWindow() {

@@ -158,8 +158,14 @@ public class MeshBasedSelfConfigurationModel implements
 					.setVisible(true);
 			((MeshBasedSelfConfigurationPanel) view).resultSelect.getItems()
 					.add(c);
-			((MeshBasedSelfConfigurationPanel) view).resultSelect
-					.getSelectionModel().select(c);
+			//avoid manipulating FX application Thread from another Thread
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					((MeshBasedSelfConfigurationPanel) view).resultSelect
+							.getSelectionModel().select(c);
+				}
+			});
 			// if(c.measure.equalsIgnoreCase("euclidean"){
 			// currentConfig.propertyMapping.a
 			// }
