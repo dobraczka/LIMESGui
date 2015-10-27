@@ -92,8 +92,26 @@ public class GraphBuildController {
 	 * Takes the Graph and writes the Information to the Config
 	 */
 	public void setConfigFromGraph() {
+		System.out.println("NodeList");
+		for(NodeView node : graphBuildView.nodeList){
+			System.out.println(node.nodeData);
+		}
+		NodeView output = null;
+		for(int i = 0; i < graphBuildView.nodeList.size();i++ ){
+           if(graphBuildView.nodeList.get(i).nodeShape == NodeView.OUTPUT){
+        	   output = graphBuildView.nodeList.get(i);
+        	   break;
+           }
+		}
+		System.out.println("output" + output.nodeData);
+		System.out.println("SetConfigFromGraph");
+//		currentConfig.setMetricExpression(MetricParser.parse(
+//				graphBuildView.nodeList.get(graphBuildView.nodeList.size()-1).nodeData.toString(),
+//				currentConfig.getSourceInfo().var.replaceAll("\\?", ""))
+//				.toString());
+
 		currentConfig.setMetricExpression(MetricParser.parse(
-				graphBuildView.nodeList.get(0).nodeData.toString(),
+				output.nodeData.toString(),
 				currentConfig.getSourceInfo().var.replaceAll("\\?", ""))
 				.toString());
 	}

@@ -159,9 +159,9 @@ public class MetricParser {
 	 */
 	public static Output parse(String s, String sourceVar)
 			throws MetricFormatException {
+		System.out.println("String to be parsed: "+s);
 		if (s.isEmpty())
 			throw new MetricFormatException();
-
 		Output output = new Output();
 		s = setParametersFromString(output, s, 0);
 		output.param1 = null;
