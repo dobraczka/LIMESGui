@@ -56,13 +56,14 @@ public class NodeContextMenu extends ContextMenu {
 		this.delete.setOnAction(e -> {
 			if (!node.nodeData.id.equals("output")) {
 				graphBuildView.removeNodeView(node);
+			this.graphBuildView.contextMenuIsShown = false;
 			}
 
 		});
 		this.linkTo.setOnAction(e -> {
 			graphBuildView.isLinking = true;
 			graphBuildView.linkNode = this.node;
-
+			this.graphBuildView.contextMenuIsShown = false;
 		});
 
 		this.close.setOnAction(e -> {

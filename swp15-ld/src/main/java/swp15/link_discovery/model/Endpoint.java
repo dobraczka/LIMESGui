@@ -70,6 +70,10 @@ public class Endpoint {
 		info.prefixes.put("rdf", PrefixHelper.getURI("rdf"));
 		String classAbbr = PrefixHelper.abbreviate(currentClassAsString);
 		info.restrictions.add(info.var + " rdf:type " + classAbbr);
+		
+		
+		info.prefixes.put("rdfs", PrefixHelper.getURI("rdfs"));
+		info.restrictions.add(info.var + " rdfs:label " + classAbbr);
 	}
 
 	public GetPropertiesTask createGetPropertiesTask() {
