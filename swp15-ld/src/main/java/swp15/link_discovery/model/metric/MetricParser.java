@@ -159,7 +159,6 @@ public class MetricParser {
 	 */
 	public static Output parse(String s, String sourceVar)
 			throws MetricFormatException {
-		System.out.println("String to be parsed: "+s);
 		if (s.isEmpty())
 			throw new MetricFormatException();
 		Output output = new Output();

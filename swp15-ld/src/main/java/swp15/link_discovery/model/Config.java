@@ -328,7 +328,8 @@ public class Config {
 	 * Setter PropertyMatching
 	 * 
 	 * @param propertyPairs
-	 *            Pairs of Properties
+	 *            Pairs of
+	 *            Properties
 	 */
 	public void setPropertiesMatching(List<PropertyPair> propertyPairs) {
 		List<String> sourceProperties = sourceEndpoint.getInfo().properties;
@@ -338,17 +339,24 @@ public class Config {
 		for (PropertyPair propertyPair : propertyPairs) {
 			sourceProperties.add(propertyPair.getSourceProperty());
 			targetProperties.add(propertyPair.getTargetProperty());
-			addFunction(sourceEndpoint.getInfo(),
+			addFunction(sourceEndpoint,
 					propertyPair.getSourceProperty());
-			addFunction(targetEndpoint.getInfo(),
+			addFunction(targetEndpoint,
 					propertyPair.getTargetProperty());
 		}
 	}
 
-	private void addFunction(KBInfo info, String property) {
+	private void addFunction(Endpoint endpoint, String property) {
+		KBInfo info = endpoint.getInfo();
 		String abbr = PrefixHelper.abbreviate(property);
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(abbr, "nolang->lowercase");
 		info.functions.put(abbr, map);
+		
+		String[] parts = property.split(":");
+		String prefixToAdd = parts[0];
+		String classAbbr = PrefixHelper.abbreviate(endpoint.getCurrentClass().getUri().toString());
+		info.prefixes.put(prefixToAdd, PrefixHelper.getURI(prefixToAdd));
+		info.restrictions.add(info.var + " " + property + " " + classAbbr);
 	}
 }

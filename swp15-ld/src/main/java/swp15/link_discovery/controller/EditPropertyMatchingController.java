@@ -60,5 +60,6 @@ public class EditPropertyMatchingController implements IEditController {
 
 	public void save(List<PropertyPair> propertyPairs) {
 		config.setPropertiesMatching(propertyPairs);
+		
 	}
 }
