@@ -178,7 +178,7 @@ public class MainController {
 	 */
 	private boolean checkAndUpdateMetric() {
 		if (view.graphBuild.edited
-				&& !view.graphBuild.nodeList.get(0).nodeData.isComplete()) {
+				&& !view.graphBuild.graphBuildController.getOutputNode().nodeData.isComplete()) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setContentText("Metric is not complete!");
 			alert.showAndWait();

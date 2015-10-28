@@ -94,19 +94,25 @@ public class GraphBuildController {
 	public void setConfigFromGraph() {
 		// Get the output node manually, since it is not guaranteed to be the
 		// first in the list
-		NodeView output = null;
-		for (int i = 0; i < graphBuildView.nodeList.size(); i++) {
-			if (graphBuildView.nodeList.get(i).nodeShape == NodeView.OUTPUT) {
-				output = graphBuildView.nodeList.get(i);
-				break;
-			}
-		}
+		NodeView output = getOutputNode();
 		currentConfig.setMetricExpression(MetricParser.parse(
 				output.nodeData.toString(),
 				currentConfig.getSourceInfo().var.replaceAll("\\?", ""))
 				.toString());
 	}
 
+	/**
+	 * Get Output Node of the Graph
+	 */
+	public NodeView getOutputNode(){
+		for (int i = 0; i < graphBuildView.nodeList.size(); i++) {
+			if (graphBuildView.nodeList.get(i).nodeShape == NodeView.OUTPUT) {
+				return graphBuildView.nodeList.get(i);
+			}
+		}
+		System.err.println("Could not find output node!");
+		return null;
+	}
 	/**
 	 * Delete CurrentGraph
 	 */
