@@ -133,7 +133,7 @@ public class ToolBox extends VBox {
 		nodeIdentifiers.forEach((identifier) -> {
 			listItems.add(identifier);
 		});
-
+		java.util.Collections.sort(listItems);
 		return new ListView<String>(listItems);
 
 	}
