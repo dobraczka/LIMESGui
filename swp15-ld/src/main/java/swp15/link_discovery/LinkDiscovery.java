@@ -1,5 +1,7 @@
 package swp15.link_discovery;
 
+import java.util.Locale;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -35,6 +37,7 @@ public class LinkDiscovery extends Application {
 	 *            optional arguments on StartUp, No Options implemented yet
 	 */
 	public static void main(String[] args) {
+		Locale.setDefault(new Locale("en", "US"));
 		BasicConfigurator.configure();
 		launch(args);
 	}

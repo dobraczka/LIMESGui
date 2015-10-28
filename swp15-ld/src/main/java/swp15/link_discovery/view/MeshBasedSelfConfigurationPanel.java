@@ -1,5 +1,7 @@
 package swp15.link_discovery.view;
 
+import java.util.Locale;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
