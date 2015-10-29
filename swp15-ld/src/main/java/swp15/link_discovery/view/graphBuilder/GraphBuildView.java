@@ -150,6 +150,8 @@ public class GraphBuildView extends Canvas {
 		this.addEventHandler(
 				MouseEvent.MOUSE_CLICKED,
 				e -> {
+					for(NodeView node : this.nodeList){
+					}
 					if (isLinking) {
 						for (NodeView node : nodeList) {
 							if (node.contains((int) e.getX(), (int) e.getY())) {
@@ -228,6 +230,10 @@ public class GraphBuildView extends Canvas {
 						clickedNode = nodeList.get(index);
 						NodeClickedBySecondary = true;
 						break;
+					}
+					if (node.containsLinkMid((int) e.getX(), (int) e.getY())){
+						node.deleteParent(node.parent);
+						draw();
 					}
 					index++;
 				}

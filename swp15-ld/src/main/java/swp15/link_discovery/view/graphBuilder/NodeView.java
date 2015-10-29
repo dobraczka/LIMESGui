@@ -85,6 +85,16 @@ public class NodeView {
 	public NodeView parent = null;
 
 	/**
+	 * X Position of middle of link
+	 */
+	private int midLinkX;
+
+	/**
+	 * Y Position of middle of link
+	 */
+	private int midLinkY;
+
+	/**
 	 * Constructor
 	 * 
 	 * @param x
@@ -163,6 +173,30 @@ public class NodeView {
 	}
 
 	/**
+	 * Proof if Point is in the LinkMid
+	 * 
+	 * @param x
+	 *            Position on x-Axis to proof
+	 * @param y
+	 *            Position on y-Axis to proof
+	 * @return True it Position is in drawed sector
+	 */
+	public boolean containsLinkMid(int x, int y) {
+		int minX = this.midLinkX - 10;
+		int maxX = this.midLinkX + 10;
+		int minY = this.midLinkY - 10;
+		int maxY = this.midLinkY + 10;
+		if (x >= minX && x <= maxX) {
+			if (y >= minY && y <= maxY) {
+				return true;
+			}
+		} else {
+			return false;
+		}
+		return false;
+	}
+
+	/**
 	 * Adds a Parent to the NodeView, and links the Data Models
 	 * 
 	 * @param parent
@@ -177,9 +211,17 @@ public class NodeView {
 		parent.children.add(this);
 		this.parent = parent;
 		return true;
-
 	}
 
+	/**
+	 * Deletes Parent from NodeView and unlinks data models
+	 * @param parent
+	 */
+	public void deleteParent(NodeView parent){
+		parent.nodeData.removeChild(nodeData);
+		parent.children.remove(this);
+		this.parent = null;
+	}
 	/**
 	 * Adds a Child without Linking the Data Models
 	 * 
@@ -206,7 +248,9 @@ public class NodeView {
 			gc.strokeLine(x1, y1, x2, y2);
 
 			double linkMidX = (x1 + x2) / 2.0;
+			nodeView.midLinkX = (int) linkMidX;
 			double linkMidY = (y1 + y2) / 2.0;
+			nodeView.midLinkY = (int) linkMidY;
 			double rotate = Math.toDegrees(Math.atan2(y2 - y1, x2 - x1)) + 225;
 			gc.setTransform(new Affine(new Rotate(rotate, linkMidX, linkMidY)));
 			double arrowX = linkMidX - (arrow.getWidth() * 3 / 4);
@@ -239,5 +283,13 @@ public class NodeView {
 
 	public int getHeight() {
 		return height;
+	}
+
+	public int getMidLinkX() {
+		return midLinkX;
+	}
+
+	public int getMidLinkY() {
+		return midLinkY;
 	}
 }
