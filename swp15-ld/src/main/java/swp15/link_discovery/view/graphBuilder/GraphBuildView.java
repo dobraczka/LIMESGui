@@ -283,11 +283,44 @@ public class GraphBuildView extends Canvas {
 	 *            Node Data Model
 	 */
 	public void addNode(int x, int y, int shape, Node node) {
-		NodeView nv = new NodeView(x, y, shape, "test", this, node);
-		nv.displayNode();
-		nodeList.add(nv);
-		this.reversedNodeList = nodeList;
-		Collections.reverse(reversedNodeList);
+		int[] xy = findFreePlace(x, y);
+		if (xy != null) {
+			int new_x = xy[0];
+			int new_y = xy[1];
+			NodeView nv = new NodeView(new_x, new_y, shape, "test", this, node);
+			nv.displayNode();
+			nodeList.add(nv);
+			this.reversedNodeList = nodeList;
+			Collections.reverse(reversedNodeList);
+		}
+	}
+
+	/**
+	 * Calculates a place for the new node, which is not already taken
+	 * 
+	 * @param x
+	 *            Proposed position on x-Axis
+	 * @param y
+	 *            Proposed position on y-Axis
+	 * @return int[] containing a free coordinate
+	 */
+	private int[] findFreePlace(int x, int y) {
+		for (int i = 0; i < nodeList.size(); i++) {
+			if (nodeList.get(i).x == x || nodeList.get(i).y == y) {
+				x += 10;
+				y += 10;
+				i = -1; // Because it needs to start from 0 and the for-loop
+						// does i++
+				if (x >= (int) this.widthProperty().doubleValue()
+						|| y >= (int) this.heightProperty().doubleValue()) {
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText("Cannot add more nodes! Please move or delete some nodes!");
+					alert.showAndWait();
+					return null;
+				}
+			}
+		}
+		return new int[] { x, y };
 	}
 
 	/**
