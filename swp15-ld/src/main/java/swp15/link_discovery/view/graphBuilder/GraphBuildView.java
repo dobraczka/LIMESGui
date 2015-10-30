@@ -150,7 +150,7 @@ public class GraphBuildView extends Canvas {
 		this.addEventHandler(
 				MouseEvent.MOUSE_CLICKED,
 				e -> {
-					for(NodeView node : this.nodeList){
+					for (NodeView node : this.nodeList) {
 					}
 					if (isLinking) {
 						for (NodeView node : nodeList) {
@@ -221,30 +221,36 @@ public class GraphBuildView extends Canvas {
 		this.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
 			nodeClicked = false;
 		});
-		this.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-			if (e.getButton() == MouseButton.SECONDARY) {
-				int index = 0;
-				boolean NodeClickedBySecondary = false;
-				for (NodeView node : nodeList) {
-					if (node.contains((int) e.getX(), (int) e.getY())) {
-						clickedNode = nodeList.get(index);
-						NodeClickedBySecondary = true;
-						break;
+		this.addEventHandler(MouseEvent.MOUSE_CLICKED,
+				e -> {
+					if (e.getButton() == MouseButton.SECONDARY) {
+						int index = 0;
+						boolean NodeClickedBySecondary = false;
+						for (NodeView node : nodeList) {
+							if (node.contains((int) e.getX(), (int) e.getY())) {
+								clickedNode = nodeList.get(index);
+								NodeClickedBySecondary = true;
+								break;
+							}
+							if (node.containsLinkMid((int) e.getX(),
+									(int) e.getY())) {
+								node.deleteParent(node.parent);
+								draw();
+							}
+							index++;
+						}
+						if (NodeClickedBySecondary) {
+							if (clickedNode.nodeShape != NodeView.OUTPUT) {
+								if (!contextMenuIsShown) {
+									contextMenu = new NodeContextMenu(this,
+											clickedNode);
+									contextMenu.show(this, e.getScreenX(),
+											e.getScreenY());
+								}
+							}
+						}
 					}
-					if (node.containsLinkMid((int) e.getX(), (int) e.getY())){
-						node.deleteParent(node.parent);
-						draw();
-					}
-					index++;
-				}
-				if (NodeClickedBySecondary) {
-					if (!contextMenuIsShown) {
-						contextMenu = new NodeContextMenu(this, clickedNode);
-						contextMenu.show(this, e.getScreenX(), e.getScreenY());
-					}
-				}
-			}
-		});
+				});
 		this.addEventHandler(MouseEvent.MOUSE_MOVED, e -> {
 			if (isLinking) {
 				mousePosition[0] = e.getX();
