@@ -53,4 +53,8 @@ public class TaskProgressController {
 		}
 		view.close();
 	}
+
+	public static ExecutorService getExecutorservice() {
+		return executorService;
+	}
 }

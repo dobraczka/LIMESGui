@@ -4,6 +4,7 @@ import static swp15.link_discovery.util.SourceOrTarget.SOURCE;
 import static swp15.link_discovery.util.SourceOrTarget.TARGET;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.GetPropertiesTask;
@@ -34,7 +35,6 @@ public class EditPropertyMatchingController implements IEditController {
 				.createGetPropertiesTask();
 		GetPropertiesTask getTargetPropertiesTask = config.getTargetEndpoint()
 				.createGetPropertiesTask();
-
 		TaskProgressView taskProgressView = new TaskProgressView(
 				"Get properties");
 		TaskProgressController taskProgressController = new TaskProgressController(
@@ -60,6 +60,6 @@ public class EditPropertyMatchingController implements IEditController {
 
 	public void save(List<PropertyPair> propertyPairs) {
 		config.setPropertiesMatching(propertyPairs);
-		
+
 	}
 }
