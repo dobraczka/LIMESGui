@@ -2,13 +2,9 @@ package swp15.link_discovery.controller;
 
 import static swp15.link_discovery.util.SourceOrTarget.SOURCE;
 import static swp15.link_discovery.util.SourceOrTarget.TARGET;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
+import javafx.scene.control.ListView;
 import swp15.link_discovery.model.Config;
 import swp15.link_discovery.model.GetPropertiesTask;
-import swp15.link_discovery.model.PropertyPair;
 import swp15.link_discovery.view.EditPropertyMatchingView;
 import swp15.link_discovery.view.IEditView;
 import swp15.link_discovery.view.TaskProgressView;
@@ -58,8 +54,8 @@ public class EditPropertyMatchingController implements IEditController {
 		return view;
 	}
 
-	public void save(List<PropertyPair> propertyPairs) {
-		config.setPropertiesMatching(propertyPairs);
+	public void save(ListView<String> sourceProperties, ListView<String> targetProperties) {
+		config.setPropertiesMatching(sourceProperties, targetProperties);
 
 	}
 }

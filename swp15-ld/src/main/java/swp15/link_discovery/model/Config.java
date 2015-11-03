@@ -13,6 +13,7 @@ import java.util.List;
 
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.scene.control.ListView;
 import swp15.link_discovery.model.metric.MetricFormatException;
 import swp15.link_discovery.model.metric.MetricParser;
 import swp15.link_discovery.model.metric.Output;
@@ -331,18 +332,18 @@ public class Config {
 	 *            Pairs of
 	 *            Properties
 	 */
-	public void setPropertiesMatching(List<PropertyPair> propertyPairs) {
+	public void setPropertiesMatching(ListView<String> sourcePropertiesToAdd, ListView<String> targetPropertiesToAdd) {
 		List<String> sourceProperties = sourceEndpoint.getInfo().properties;
 		List<String> targetProperties = targetEndpoint.getInfo().properties;
 		sourceProperties.clear();
 		targetProperties.clear();
-		for (PropertyPair propertyPair : propertyPairs) {
-			sourceProperties.add(propertyPair.getSourceProperty());
-			targetProperties.add(propertyPair.getTargetProperty());
-			addFunction(sourceEndpoint,
-					propertyPair.getSourceProperty());
-			addFunction(targetEndpoint,
-					propertyPair.getTargetProperty());
+		for(String sourceProp : sourcePropertiesToAdd.getItems()){
+			sourceProperties.add(sourceProp);
+			addFunction(sourceEndpoint, sourceProp);
+		}
+		for(String targetProp : targetPropertiesToAdd.getItems()){
+			targetProperties.add(targetProp);
+			addFunction(targetEndpoint, targetProp);
 		}
 	}
 
