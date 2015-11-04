@@ -37,6 +37,7 @@ public class EditPropertyMatchingView implements IEditView {
 	private ListView<String> addedSourcePropsList;
 	private ListView<String> addedTargetPropsList;
 	private Button addAllButton;
+	private Button removeAllButton;
 	private ObservableList<String> sourceProperties = FXCollections
 			.observableArrayList();
 	private ObservableList<String> targetProperties = FXCollections
@@ -71,13 +72,16 @@ public class EditPropertyMatchingView implements IEditView {
 		sourceColumn.getChildren().addAll(sourceLabel, sourcePropList, addedSourceLabel, addedSourcePropsList);
 		targetColumn.getChildren().addAll(targetLabel, targetPropList, addedTargetLabel, addedTargetPropsList);
 		addAllButton = new Button("Add all");
+		removeAllButton = new Button("Remove all");
+		HBox buttons = new HBox();
+		buttons.getChildren().addAll(addAllButton, removeAllButton);
 		BorderPane root = new BorderPane();
 		HBox hb = new HBox();
 		hb.getChildren().addAll(sourceColumn, targetColumn);
 		HBox.setHgrow(sourceColumn, Priority.ALWAYS);
 		HBox.setHgrow(targetColumn, Priority.ALWAYS);
 		root.setCenter(hb);
-		root.setBottom(addAllButton);
+		root.setBottom(buttons);
 		rootPane = new ScrollPane(root);
 		rootPane.setFitToHeight(true);
 		rootPane.setFitToWidth(true);
@@ -146,6 +150,16 @@ public class EditPropertyMatchingView implements IEditView {
 				targetPropList.getItems().clear();
 			}
 		});
+
+		removeAllButton.setOnAction(new EventHandler<ActionEvent>(){
+			@Override
+			public void handle(ActionEvent e){
+				sourcePropList.getItems().addAll(addedSourcePropsList.getItems());
+				targetPropList.getItems().addAll(addedTargetPropsList.getItems());
+				addedSourcePropsList.getItems().clear();
+				addedTargetPropsList.getItems().clear();
+			}
+		});
 	}
 
 	/**
@@ -174,6 +188,8 @@ public class EditPropertyMatchingView implements IEditView {
 	 */
 	public void showAvailableProperties(SourceOrTarget sourceOrTarget,
 			List<String> properties) {
+		addedSourcePropsList.getItems().clear();
+		addedTargetPropsList.getItems().clear();
 		(sourceOrTarget == SOURCE ? sourceProperties : targetProperties)
 				.setAll(properties);
 	}
