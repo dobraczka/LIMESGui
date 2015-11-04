@@ -80,6 +80,7 @@ public class MainController {
 		Config newConfig = new Config();
 		new WizardController(() -> {
 			setCurrentConfig(newConfig);
+			view.graphBuild.graphBuildController.deleteGraph();
 		}, () -> {
 		}, createWizardView, new EditEndpointsController(newConfig,
 				editEndpointsView), new EditClassMatchingController(newConfig,
