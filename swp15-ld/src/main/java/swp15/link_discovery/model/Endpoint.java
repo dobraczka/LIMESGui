@@ -1,5 +1,7 @@
 package swp15.link_discovery.model;
 
+import swp15.link_discovery.view.TaskProgressView;
+
 import com.hp.hpl.jena.rdf.model.Model;
 
 import de.konrad.commons.sparql.PrefixHelper;
@@ -46,8 +48,8 @@ public class Endpoint {
 		return cache;
 	}
 
-	public GetClassesTask createGetClassesTask() {
-		return new GetClassesTask(info, model);
+	public GetClassesTask createGetClassesTask(TaskProgressView view) {
+		return new GetClassesTask(info, model, view);
 	}
 
 	public ClassMatchingNode getCurrentClass() {

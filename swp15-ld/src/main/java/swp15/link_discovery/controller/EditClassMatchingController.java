@@ -27,14 +27,14 @@ public class EditClassMatchingController implements IEditController {
 
 	@Override
 	public void load() {
+		TaskProgressView taskProgressView = new TaskProgressView("Get classes");
 		Endpoint sourceEndpoint = config.getSourceEndpoint();
 		GetClassesTask getSourceClassesTask = sourceEndpoint
-				.createGetClassesTask();
+				.createGetClassesTask(taskProgressView);
 		Endpoint targetEndpoint = config.getTargetEndpoint();
 		GetClassesTask getTargetClassesTask = targetEndpoint
-				.createGetClassesTask();
+				.createGetClassesTask(taskProgressView);
 
-		TaskProgressView taskProgressView = new TaskProgressView("Get classes");
 		TaskProgressController taskProgressController = new TaskProgressController(
 				taskProgressView);
 		taskProgressController.addTask(

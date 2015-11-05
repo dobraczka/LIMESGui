@@ -1,5 +1,7 @@
 package swp15.link_discovery.view;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -7,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import swp15.link_discovery.controller.TaskProgressController;
@@ -14,6 +17,8 @@ import swp15.link_discovery.controller.TaskProgressController;
 public class TaskProgressView {
 	private Stage stage;
 	private TaskProgressController controller;
+	private StringProperty informationLabel;
+	private ProgressBar progressBar;
 
 	public TaskProgressView(String title) {
 		showWindow(title);
@@ -27,13 +32,20 @@ public class TaskProgressView {
 		BorderPane mainPane = new BorderPane();
 
 		Label label = new Label(title);
-		ProgressBar progressBar = new ProgressBar();
+		Label information = new Label("");
+		informationLabel = new SimpleStringProperty(" ");
+		information.textProperty().bind(informationLabel);
+		
+		progressBar = new ProgressBar();
 
 		HBox hb = new HBox();
 		hb.setSpacing(5);
 		hb.setAlignment(Pos.CENTER);
 		hb.getChildren().addAll(label, progressBar);
-		mainPane.setTop(hb);
+		VBox vb = new VBox();
+		vb.getChildren().addAll(hb, information);
+		vb.setAlignment(Pos.CENTER);
+		mainPane.setTop(vb);
 
 		Button cancelButton = new Button("Cancel");
 
@@ -59,5 +71,13 @@ public class TaskProgressView {
 
 	public void close() {
 		stage.close();
+	}
+
+	public StringProperty getInformationLabel() {
+		return informationLabel;
+	}
+
+	public ProgressBar getProgressBar() {
+		return progressBar;
 	}
 }
