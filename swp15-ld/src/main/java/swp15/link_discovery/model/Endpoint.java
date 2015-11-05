@@ -66,6 +66,10 @@ public class Endpoint {
 		String currentClassAsString = currentClass.getUri().toString();
 		String[] abbr = PrefixHelper.generatePrefix(currentClassAsString);
 		info.prefixes.put(abbr[0], abbr[1]);
+
+		info.prefixes.put("rdf", PrefixHelper.getURI("rdf"));
+		String classAbbr = PrefixHelper.abbreviate(currentClassAsString);
+		info.restrictions.add(info.var + " rdf:type " + classAbbr);
 	}
 
 	public GetPropertiesTask createGetPropertiesTask() {

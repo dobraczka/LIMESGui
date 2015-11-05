@@ -190,7 +190,6 @@ public class Config {
 		return new Task<Void>() {
 			@Override
 			protected Void call() {
-				// Kopiert aus LIMES und angepasst
 				Cache sourceCache = sourceEndpoint.getCache();
 				Cache targetCache = targetEndpoint.getCache();
 				SetConstraintsMapper mapper = SetConstraintsMapperFactory
@@ -199,7 +198,6 @@ public class Config {
 								new LinearFilter(), reader.granularity);
 				Mapping mapping = mapper.getLinks(reader.metricExpression,
 						reader.verificationThreshold);
-				// get Writer ready
 				mapping = mapper.getLinks(reader.metricExpression,
 						getAcceptanceThreshold());
 				mapping.map.forEach((sourceURI, map2) -> {
@@ -356,8 +354,6 @@ public class Config {
 		
 		String[] parts = property.split(":");
 		String prefixToAdd = parts[0];
-		String classAbbr = PrefixHelper.abbreviate(endpoint.getCurrentClass().getUri().toString());
 		info.prefixes.put(prefixToAdd, PrefixHelper.getURI(prefixToAdd));
-		info.restrictions.add(info.var + " " + property + " " + classAbbr);
 	}
 }
