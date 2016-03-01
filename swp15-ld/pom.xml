@@ -93,7 +93,27 @@
     	<artifactId>SSJoinJava.AKSW</artifactId>
     	<version>1.0</version>
     </dependency>
-	  </dependencies>
+
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>javafx</artifactId>
+      <version>2.2.3</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/jfxrt.jar</systemPath>
+    </dependency>
+
+    <dependency>
+        <groupId>com.hp.hpl.jena</groupId>
+        <artifactId>arq</artifactId>
+        <version>2.8.3</version>
+    </dependency>
+
+    <dependency>
+        <groupId>com.hp.hpl.jena</groupId>
+        <artifactId>jena</artifactId>
+        <version>2.5.5</version>
+    </dependency>
+  </dependencies>
  
 
   <build>
