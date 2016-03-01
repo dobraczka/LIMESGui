@@ -11,3 +11,6 @@ Run the following commands to start the desktop GUI for LIMES
     cd swp15-ld-0.0.1-SNAPSHOT
     java -jar swp15-ld-0.0.1-SNAPSHOT.jar
 ```
+
+## Notes
+Works on Java8 from Oracle
