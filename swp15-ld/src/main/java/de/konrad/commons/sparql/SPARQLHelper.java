@@ -306,7 +306,7 @@ public class SPARQLHelper
 		String query = PrefixHelper.addPrefixes("select ?p where {?p rdfs:domain "+wrapIfNecessary(clazz)+"}");
 		Set<String> properties = resultSetToList(querySelect(query, endpoint, graph, model));
 		long end = System.currentTimeMillis();
-		logger.trace(properties.size()+" properties with domain "+clazz+" from endpoint "+endpoint+" in "+(end-start)+" ms.");
+		//logger.trace(properties.size()+" properties with domain "+clazz+" from endpoint "+endpoint+" in "+(end-start)+" ms.");
 		return properties;
 	}
 

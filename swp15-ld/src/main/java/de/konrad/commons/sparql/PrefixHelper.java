@@ -5,7 +5,7 @@ import static de.konrad.commons.sparql.PrefixHelper.LazyLoaded.uriToPrefix;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-/** @author Konrad Höffner */
+/** @author Konrad Hoeffner */
 public class PrefixHelper
 {
 	protected static class LazyLoaded
